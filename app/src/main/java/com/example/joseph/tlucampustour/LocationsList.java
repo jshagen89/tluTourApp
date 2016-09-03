@@ -16,7 +16,12 @@ public class LocationsList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations_list);
-        setTitle("Locations");
+        ActionBar myActionBar = getSupportActionBar();
+        if (myActionBar != null)
+        {
+            myActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        setTitle("Tour Stops");
     }
 
     // Called if user presses the back button

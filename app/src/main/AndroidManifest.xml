@@ -17,9 +17,9 @@
         </activity>
         <activity
             android:name=".LocationsList"
-            android:label="@string/title_activity_locations_list"
+            android:label="@string/tour_stops"
             android:parentActivityName=".TourInfo"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.joseph.tlucampustour.TourInfo" />

@@ -4,4 +4,5 @@
     <string name="start_tour">Start Tour</string>
     <string name="tour_instructions">This app is designed to take you on a tour of the Texas Lutheran University campus. As you walk around the campus, you will see a variety of buildings and monuments. When you approach certain locations on campus, you will be able to hear about its history.</string>
     <string name="title_activity_locations_list">LocationsList</string>
+    <string name="tour_stops">Tour Stops</string>
 </resources>
