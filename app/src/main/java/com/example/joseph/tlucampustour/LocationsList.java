@@ -47,6 +47,19 @@ public class LocationsList extends AppCompatActivity
 
     }
 
+    private Location getCurrentLocation()
+    {
+        try
+        {
+            Location myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
+            return myLocation;
+        }
+        catch (SecurityException e)
+        {
+            return null;
+        }
+    }
+
     // Called if user presses the back button
     @Override
     public void onBackPressed () {
@@ -79,7 +92,7 @@ public class LocationsList extends AppCompatActivity
         {
             if (results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED)
             {
-
+                getCurrentLocation();
             }
         }
     }
@@ -95,7 +108,7 @@ public class LocationsList extends AppCompatActivity
         }
         else
         {
-            // Get user's current location
+            getCurrentLocation();
         }
     }
 
