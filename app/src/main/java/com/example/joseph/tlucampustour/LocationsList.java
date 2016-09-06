@@ -15,10 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-public class LocationsList extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+public class LocationsList extends AppCompatActivity {
 
     private CursorAdapter myCursorAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,6 @@ public class LocationsList extends AppCompatActivity
 
         ListView list = (ListView) findViewById(R.id.locationList);
         list.setAdapter(myCursorAdapter);
-        getLoaderManager().initLoader(0,null,this);
     }
 
     // Called if user presses the back button
@@ -44,20 +43,5 @@ public class LocationsList extends AppCompatActivity
     public void onBackPressed () {
         setResult(RESULT_OK);
         finish();
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 }
