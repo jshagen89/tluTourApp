@@ -13,10 +13,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -56,6 +60,12 @@ public class LocationsList extends AppCompatActivity
         }
         catch (SecurityException e)
         {
+            Log.d("location", "location is null");
+            return null;
+        }
+        catch (Exception e)
+        {
+            Log.d("location", "ERROR " + e);
             return null;
         }
     }
@@ -92,7 +102,7 @@ public class LocationsList extends AppCompatActivity
         {
             if (results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED)
             {
-                getCurrentLocation();
+
             }
         }
     }
@@ -108,7 +118,25 @@ public class LocationsList extends AppCompatActivity
         }
         else
         {
-            getCurrentLocation();
+            updateUILocation();
+        }
+    }
+
+    private void updateUILocation()
+    {
+        String nullStr = "Null Location w/ Google";
+        TextView locationTV = (TextView) findViewById(R.id.locationText);
+        Location myLoc = getCurrentLocation();
+        if (myLoc != null)
+        {
+            locationTV.setText(String.valueOf(myLoc.getLatitude()));
+        }
+        else
+        {
+            GoogleApiAvailability avail = GoogleApiAvailability.getInstance();
+            int code = avail.isGooglePlayServicesAvailable(this);
+            if (code == ConnectionResult.SUCCESS)
+                locationTV.setText(nullStr);
         }
     }
 
