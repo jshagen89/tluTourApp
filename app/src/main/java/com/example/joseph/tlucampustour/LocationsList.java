@@ -56,6 +56,7 @@ public class LocationsList extends AppCompatActivity
         try
         {
             Location myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
+            Log.d("location", "location is good");
             return myLocation;
         }
         catch (SecurityException e)
