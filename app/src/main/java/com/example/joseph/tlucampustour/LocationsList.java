@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,6 +33,7 @@ public class LocationsList extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient myGoogleClient;
+    private Location myLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +43,21 @@ public class LocationsList extends AppCompatActivity
 
         // Create the Play Services client object
         buildGoogleApiClient();
+
+        // Create sample tour stops
+        TourStop[] myTourStops = new TourStop[3];
+        myTourStops[0] = new TourStop("Martin Luther Statue");
+        myTourStops[1] = new TourStop("Tschope Hall");
+        myTourStops[2] = new TourStop("Emma Frey");
+
+        // Create ArrayAdapter to populate list items in location list
+        ArrayAdapter<TourStop> tourListAdapter = new ArrayAdapter<TourStop>(this,
+                android.R.layout.simple_list_item_1, myTourStops);
+        ListView locationListLV = (ListView) findViewById(R.id.tourStopLV);
+        locationListLV.setAdapter(tourListAdapter);
     }
 
+    // Creates the Google API Client with Location Services
     protected synchronized void buildGoogleApiClient() {
         myGoogleClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -51,22 +67,18 @@ public class LocationsList extends AppCompatActivity
 
     }
 
+    // Gets the users current location
     private Location getCurrentLocation()
     {
         try
         {
-            Location myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
+            myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
             Log.d("location", "location is good");
             return myLocation;
         }
         catch (SecurityException e)
         {
             Log.d("location", "location is null");
-            return null;
-        }
-        catch (Exception e)
-        {
-            Log.d("location", "ERROR " + e);
             return null;
         }
     }
@@ -97,19 +109,20 @@ public class LocationsList extends AppCompatActivity
 
     // Called when the user has been prompted at runtime to grant permissions
     @Override
-    public void onRequestPermissionsResult(int reqCode, String[] perms, int[] results)
+    public void onRequestPermissionsResult(int reqCode, @NonNull String[] perms, @NonNull int[] results)
     {
         if (reqCode == 1)
         {
             if (results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED)
             {
-
+                getCurrentLocation();
             }
         }
     }
 
+    // Called once the connection to Location Service has been established
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public void onConnected(Bundle bundle) {
 
         // Need to set permissions if not done in manifest file by some versions of Android
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -123,24 +136,26 @@ public class LocationsList extends AppCompatActivity
         }
     }
 
+    // Updates the UI...this is only temporary for testing
     private void updateUILocation()
     {
-        String nullStr = "Null Location w/ Google";
-        TextView locationTV = (TextView) findViewById(R.id.locationText);
-        Location myLoc = getCurrentLocation();
-        if (myLoc != null)
-        {
-            locationTV.setText(String.valueOf(myLoc.getLatitude()));
+        //TextView locationTV = (TextView) findViewById(R.id.locationText);
+        try {
+            myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
+
         }
-        else
+        catch (SecurityException e)
         {
-            GoogleApiAvailability avail = GoogleApiAvailability.getInstance();
-            int code = avail.isGooglePlayServicesAvailable(this);
-            if (code == ConnectionResult.SUCCESS)
-                locationTV.setText(nullStr);
+            Log.d("location", "Location Security Exception");
+        }
+
+        if (myLocation != null)
+        {
+            //locationTV.setText(String.valueOf(myLocation.getLatitude()));
         }
     }
 
+    // If connection is suspended, attempt to reconnect
     @Override
     public void onConnectionSuspended(int i) {
         myGoogleClient.connect();
@@ -148,6 +163,6 @@ public class LocationsList extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.i("Location", "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 }
