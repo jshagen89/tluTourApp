@@ -10,8 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/dark_grey"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.joseph.tlucampustour.LocationsList"
-    tools:showIn="@layout/activity_locations_list">
+    tools:context=".TourStopList"
+    tools:showIn="@layout/activity_tour_stop_list">
 
     <ListView
         android:layout_width="wrap_content"
@@ -24,12 +24,13 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="End Tour"
+        android:text="@string/end_tour"
         android:id="@+id/endTourButton"
         android:background="@android:color/holo_red_light"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="endTour"/>
 
 
 </RelativeLayout>

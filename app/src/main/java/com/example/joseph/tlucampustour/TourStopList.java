@@ -5,31 +5,19 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 
-public class LocationsList extends AppCompatActivity
+public class TourStopList extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient myGoogleClient;
@@ -38,7 +26,7 @@ public class LocationsList extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_locations_list);
+        setContentView(R.layout.activity_tour_stop_list);
         setTitle("Locations");
 
         // Create the Play Services client object
@@ -78,7 +66,6 @@ public class LocationsList extends AppCompatActivity
         }
         catch (SecurityException e)
         {
-            Log.d("location", "location is null");
             return null;
         }
     }
@@ -130,29 +117,6 @@ public class LocationsList extends AppCompatActivity
         {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         }
-        else
-        {
-            updateUILocation();
-        }
-    }
-
-    // Updates the UI...this is only temporary for testing
-    private void updateUILocation()
-    {
-        //TextView locationTV = (TextView) findViewById(R.id.locationText);
-        try {
-            myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
-
-        }
-        catch (SecurityException e)
-        {
-            Log.d("location", "Location Security Exception");
-        }
-
-        if (myLocation != null)
-        {
-            //locationTV.setText(String.valueOf(myLocation.getLatitude()));
-        }
     }
 
     // If connection is suspended, attempt to reconnect
@@ -164,5 +128,12 @@ public class LocationsList extends AppCompatActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.i("Location", "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+    }
+
+    // Called by End Tour button on tour stop list view
+    public void endTour(View view)
+    {
+        myGoogleClient.disconnect();
+        finish();
     }
 }
