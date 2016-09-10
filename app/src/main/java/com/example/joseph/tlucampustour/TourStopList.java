@@ -20,8 +20,11 @@ import com.google.android.gms.location.LocationServices;
 public class TourStopList extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
+    private final static int NUM_TOUR_STOPS = 20;
+
     private GoogleApiClient myGoogleClient;
     private Location myLocation;
+    private TourStop[] myTourStops = new TourStop[NUM_TOUR_STOPS];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +35,11 @@ public class TourStopList extends AppCompatActivity
         // Create the Play Services client object
         buildGoogleApiClient();
 
-        // Create sample tour stops
-        TourStop[] myTourStops = new TourStop[3];
-        myTourStops[0] = new TourStop("Martin Luther Statue");
-        myTourStops[1] = new TourStop("Tschope Hall");
-        myTourStops[2] = new TourStop("Emma Frey");
+        getTourStops();
 
         // Create ArrayAdapter to populate list items in location list
         ArrayAdapter<TourStop> tourListAdapter = new ArrayAdapter<TourStop>(this,
-                android.R.layout.simple_list_item_1, myTourStops);
+                R.layout.tour_stop_list_item, myTourStops);
         ListView locationListLV = (ListView) findViewById(R.id.tourStopLV);
         locationListLV.setAdapter(tourListAdapter);
     }
@@ -52,6 +51,32 @@ public class TourStopList extends AppCompatActivity
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+
+    }
+
+    // Retrieves all tour stops and populates list
+    private void getTourStops()
+    {
+        myTourStops[0] = new TourStop("Martin Luther Statue");
+        myTourStops[1] = new TourStop("AT&T & Moody Science Complex");
+        myTourStops[2] = new TourStop("Emma Frey");
+        myTourStops[3] = new TourStop("Tschope Hall");
+        myTourStops[4] = new TourStop("Baldus, Clifton, Trinity Housing");
+        myTourStops[5] = new TourStop("Krost and Health Sciences");
+        myTourStops[6] = new TourStop("Weston Ranch");
+        myTourStops[7] = new TourStop("Chapel of the Abiding Presence");
+        myTourStops[8] = new TourStop("Campus Ministry/Servant Leadership");
+        myTourStops[9] = new TourStop("Hein Dining Hall");
+        myTourStops[10] = new TourStop("Centennial Hall Courtyard");
+        myTourStops[11] = new TourStop("Jackson Auditorium");
+        myTourStops[12] = new TourStop("Sports Complex/Athletic Training");
+        myTourStops[13] = new TourStop("Fitness Center");
+        myTourStops[14] = new TourStop("Graduation Walk");
+        myTourStops[15] = new TourStop("Alumni Student Center");
+        myTourStops[16] = new TourStop("Blumburg Memorial Library");
+        myTourStops[17] = new TourStop("Schuech Fine Arts");
+        myTourStops[18] = new TourStop("Langner Hall");
+        myTourStops[19] = new TourStop("Alumni Plaza");
 
     }
 
