@@ -3,6 +3,7 @@
     <color name="colorPrimary">#ffc400</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="lightYellow">#fff176</color>
     <color name="dark_grey">#424242</color>
     <color name="tlu_gold">#ffc400</color>
 </resources>

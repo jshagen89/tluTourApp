@@ -1,6 +1,7 @@
 package com.example.joseph.tlucampustour;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,12 +11,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+
+import java.io.Serializable;
 
 public class TourStopList extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
@@ -24,13 +28,18 @@ public class TourStopList extends AppCompatActivity
 
     private GoogleApiClient myGoogleClient;
     private Location myLocation;
+    private ListView locationListLV;
     private TourStop[] myTourStops = new TourStop[NUM_TOUR_STOPS];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_stop_list);
-        setTitle("Locations");
+        setTitle("Tour Stops");
+
+        // disable back button...user should end tour to go back to begining screen
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         // Create the Play Services client object
         buildGoogleApiClient();
@@ -40,8 +49,20 @@ public class TourStopList extends AppCompatActivity
         // Create ArrayAdapter to populate list items in location list
         ArrayAdapter<TourStop> tourListAdapter = new ArrayAdapter<TourStop>(this,
                 R.layout.tour_stop_list_item, myTourStops);
-        ListView locationListLV = (ListView) findViewById(R.id.tourStopLV);
+
+        // layout list of tour stops and listen for user click events
+        locationListLV = (ListView) findViewById(R.id.tourStopLV);
         locationListLV.setAdapter(tourListAdapter);
+        locationListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // pass selected tour stop info to new intent
+                TourStop selectedStop = (TourStop) locationListLV.getAdapter().getItem(i);
+                Intent myIntent = new Intent(TourStopList.this, Directions.class);
+                myIntent.putExtra("Selected Stop", selectedStop.getName());
+                startActivity(myIntent);
+            }
+        });
     }
 
     // Creates the Google API Client with Location Services
@@ -93,6 +114,11 @@ public class TourStopList extends AppCompatActivity
         {
             return null;
         }
+    }
+
+    public void onListItemClick(ListView l, View v, int position, long id)
+    {
+
     }
 
     // Called if user presses the back button

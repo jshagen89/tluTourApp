@@ -12,7 +12,7 @@ public class TourStop {
         this.name = name;
     }
 
-    private String getName()
+    public String getName()
     {
         return this.name;
     }

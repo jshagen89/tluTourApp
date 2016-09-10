@@ -7,4 +7,4 @@
     android:text="Large Text"
     android:id="@+id/tour_stop_item"
     android:layout_gravity="center_horizontal"
-    android:background="@color/colorPrimary" />
+    android:background="@color/lightYellow" />
