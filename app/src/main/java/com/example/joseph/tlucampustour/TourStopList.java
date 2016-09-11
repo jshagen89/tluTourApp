@@ -59,7 +59,7 @@ public class TourStopList extends AppCompatActivity
                 // pass selected tour stop info to new intent
                 TourStop selectedStop = (TourStop) locationListLV.getAdapter().getItem(i);
                 Intent myIntent = new Intent(TourStopList.this, Directions.class);
-                myIntent.putExtra("Selected Stop", selectedStop.getName());
+                myIntent.putExtra("Selected Stop", selectedStop);
                 startActivity(myIntent);
             }
         });
@@ -114,11 +114,6 @@ public class TourStopList extends AppCompatActivity
         {
             return null;
         }
-    }
-
-    public void onListItemClick(ListView l, View v, int position, long id)
-    {
-
     }
 
     // Called if user presses the back button
