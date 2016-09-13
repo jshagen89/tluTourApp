@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 public class TourStopInfo extends AppCompatActivity {
 
+    private AudioPlayer myAudioPlayer;
     private TourStop currStop;
     private String currName;
 
@@ -33,13 +34,34 @@ public class TourStopInfo extends AppCompatActivity {
 
         TextView nameTV = (TextView) findViewById(R.id.tourStopName);
         nameTV.setText(currName);
+
+        int audioID = R.raw.att_science;
+        myAudioPlayer = new AudioPlayer(audioID);
+    }
+
+    public void playAudio(View view)
+    {
+        myAudioPlayer.play(this);
+    }
+
+    public void stopAudio(View view)
+    {
+        myAudioPlayer.stop();
     }
 
     // Called if user presses the back button
     @Override
     public void onBackPressed () {
         setResult(RESULT_OK);
+        myAudioPlayer.stop();
         finish();
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        myAudioPlayer.stop();
     }
 
 }
