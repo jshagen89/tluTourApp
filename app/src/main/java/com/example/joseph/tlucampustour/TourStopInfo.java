@@ -11,6 +11,7 @@ import android.widget.TextView;
 public class TourStopInfo extends AppCompatActivity {
 
     private AudioPlayer myAudioPlayer;
+    private boolean isAudioPlaying;
     private TourStop currStop;
     private String currName;
 
@@ -42,11 +43,29 @@ public class TourStopInfo extends AppCompatActivity {
     public void playAudio(View view)
     {
         myAudioPlayer.play(this);
+        isAudioPlaying = true;
+    }
+
+    public void pauseAudio(View view)
+    {
+        // Need to handle if audio is in stopped state and pause is pressed
+
+        if (isAudioPlaying)
+        {
+            myAudioPlayer.pause();
+            isAudioPlaying = false;
+        }
+        else
+        {
+            myAudioPlayer.resume();
+            isAudioPlaying = true;
+        }
     }
 
     public void stopAudio(View view)
     {
         myAudioPlayer.stop();
+        isAudioPlaying = false;
     }
 
     // Called if user presses the back button

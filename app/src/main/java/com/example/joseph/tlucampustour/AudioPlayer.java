@@ -28,6 +28,16 @@ public class AudioPlayer {
         myMediaPlayer.start();
     }
 
+    public void pause()
+    {
+        myMediaPlayer.pause();
+    }
+
+    public void resume()
+    {
+        myMediaPlayer.start();
+    }
+
     public void stop()
     {
         if (myMediaPlayer != null)
