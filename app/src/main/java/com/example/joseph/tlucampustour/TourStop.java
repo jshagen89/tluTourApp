@@ -11,19 +11,50 @@ import java.io.Serializable;
 public class TourStop implements Parcelable{
 
     private String name;
+    private float latitude;
+    private float longitude;
+    private String audioFile;
+    private String image;
 
-    public TourStop(String name)
+    public TourStop(String name, float lat, float lon, String img, String audio)
+
     {
         this.name = name;
+        this.latitude = lat;
+        this.longitude = lon;
+        this.image = img;
+        this.audioFile = audio;
     }
 
     public String getName()
+
     {
         return this.name;
     }
 
+    public float getLatitude()
+    {
+        return this.latitude;
+    }
+
+    public float getLongitude()
+    {
+        return this.longitude;
+    }
+
+    public String getAudioFile()
+    {
+        return this.audioFile;
+    }
+
+    public String getImage()
+    {
+        return this.image;
+    }
+
     @Override
     public String toString()
+
     {
         return this.name;
     }
