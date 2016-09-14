@@ -3,6 +3,7 @@ package com.example.joseph.tlucampustour;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,9 @@ public class TourCursorAdapter extends CursorAdapter {
     // Sets fields in the list of tour stops appropriately
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        String tourStopNmae = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_NAME));
+        String tourStopName = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_NAME));
+        Log.d("DB_TEST", tourStopName);
         TextView tourStopNameTV = (TextView) view.findViewById(R.id.tour_stop_item);
-        tourStopNameTV.setText(tourStopNmae);
+        tourStopNameTV.setText(tourStopName);
     }
 }

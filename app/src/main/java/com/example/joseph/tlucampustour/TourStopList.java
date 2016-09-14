@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -29,12 +30,13 @@ public class TourStopList extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final int EDITOR_REQUEST_CODE = 1001;
     private final static int NUM_TOUR_STOPS = 20;
 
     private GoogleApiClient myGoogleClient;
     private Location myLocation;
     private ListView locationListLV;
-    private TourCursorAdapter myCursorAdapter;
+    private CursorAdapter myCursorAdapter;
     private TourStop[] myTourStops = new TourStop[NUM_TOUR_STOPS];
 
     @Override
@@ -190,5 +192,13 @@ public class TourStopList extends AppCompatActivity
     @Override
     public void onLoaderReset(android.content.Loader<Cursor> loader) {
         myCursorAdapter.swapCursor(null);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EDITOR_REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            restartLoader();
+        }
     }
 }

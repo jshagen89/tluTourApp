@@ -18,49 +18,36 @@ public class TourContentProvider extends ContentProvider{
 
     private static final String AUTHORITY = "com.example.joseph.tlucampustour.TourContentProvider";
     public static final String TABLE_TOUR_STOPS = "tourstops";
-    public static final Uri CONTENT_URI = Uri.parse("context//" + AUTHORITY + "/" + TABLE_TOUR_STOPS);
+    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_TOUR_STOPS);
     public static final int TABLE_REF = 1;
     public static final int ID_REF = 2;
 
     private static final UriMatcher myUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
         myUriMatcher.addURI(AUTHORITY, TABLE_TOUR_STOPS, TABLE_REF);
-        myUriMatcher.addURI(AUTHORITY, TABLE_TOUR_STOPS, ID_REF);
+        myUriMatcher.addURI(AUTHORITY, TABLE_TOUR_STOPS + "/#", ID_REF);
     }
 
-    private DBOpenHelper db;
+    private SQLiteDatabase db;
 
     @Override
     public boolean onCreate() {
-        db = new DBOpenHelper(this.getContext(), null, null, 1);
-        return false;
+        DBOpenHelper myDBHelper = new DBOpenHelper(getContext());
+        db = myDBHelper.getReadableDatabase();
+        return true;
     }
 
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] args, String sortOrder) {
-        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(TABLE_TOUR_STOPS);
-        int uriType = myUriMatcher.match(uri);
-
-        switch (uriType)
+        // Only return one row from db if user selects an existing note
+        if (myUriMatcher.match(uri) == ID_REF)
         {
-            case TABLE_REF:
-                queryBuilder.appendWhere(DBOpenHelper.ID_COL_POSITION + "=" + uri.getLastPathSegment());
-                break;
-            case ID_REF:
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown URI");
-        }
-        Cursor myCursor = queryBuilder.query(db.getReadableDatabase(), projection, selection, args, null, null, sortOrder);
-
-        if (this.getContext() != null)
-        {
-            myCursor.setNotificationUri(this.getContext().getContentResolver(), uri);
+            selection = DBOpenHelper.COLUMN_ID + "=" + uri.getLastPathSegment();
         }
 
-        return myCursor;
+        return db.query(DBOpenHelper.TABLE_TOUR_STOPS,DBOpenHelper.TOUR_STOP_COLUMNS,selection,null,null,null,
+                DBOpenHelper.COLUMN_NAME + " DESC");
     }
 
     @Nullable
@@ -72,23 +59,7 @@ public class TourContentProvider extends ContentProvider{
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
-        int uriType = myUriMatcher.match(uri);
-        SQLiteDatabase sqlDB = db.getWritableDatabase();
-        long id;
-
-        switch (uriType)
-        {
-            case TABLE_REF:
-                id = sqlDB.insert(TABLE_TOUR_STOPS, null, values);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown URI");
-        }
-        if (this.getContext()!= null)
-        {
-            this.getContext().getContentResolver().notifyChange(uri, null);
-        }
-
+        long id = db.insert(DBOpenHelper.TABLE_TOUR_STOPS,null,values);
         return Uri.parse(TABLE_TOUR_STOPS + "/" + id);
     }
 

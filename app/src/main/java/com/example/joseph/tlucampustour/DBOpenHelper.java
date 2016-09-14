@@ -22,6 +22,16 @@ public class DBOpenHelper extends SQLiteOpenHelper
     public static final String COLUMN_LONGITUDE = "longitude";
     public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_AUDIO_FILE = "audiofile";
+    public static final String[] TOUR_STOP_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
+                                                        COLUMN_IMAGE, COLUMN_AUDIO_FILE};
+    private static final String TABLE_CREATE =
+            "CREATE TABLE " + TABLE_TOUR_STOPS + " (" +
+                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_NAME + " TEXT, " +
+                    COLUMN_LATITUDE + " REAL, " +
+                    COLUMN_LONGITUDE + " REAL, " +
+                    COLUMN_IMAGE + " TEXT, " +
+                    COLUMN_AUDIO_FILE + " TEXT" + ")";
     public static final int ID_COL_POSITION = 0;
     public static final int NAME_COL_POSITION = 1;
     public static final int LAT_COL_POSITION = 2;
@@ -32,23 +42,21 @@ public class DBOpenHelper extends SQLiteOpenHelper
 
     private ContentResolver myResolver;
 
-    public DBOpenHelper(Context context, String name, CursorFactory factory, int version)
+    public DBOpenHelper(Context context)
     {
-        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         myResolver = context.getContentResolver();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create new db if none exists
-        String CREATE_TOUR_STOPS_TABLE = "CREATE TABLE " + TABLE_TOUR_STOPS + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT," + COLUMN_LATITUDE + " REAL, "
-                + COLUMN_LONGITUDE + " REAL, " + COLUMN_IMAGE + " TEXT, " + COLUMN_AUDIO_FILE + " TEXT" + ")";
-        db.execSQL(CREATE_TOUR_STOPS_TABLE);
+        db.execSQL(TABLE_CREATE);
 
         //Add all tour stops to new db
         TourStop[] myTourStops = new TourStop[NUM_TOUR_STOPS];
         myTourStops[0] = new TourStop("Martin Luther Statue", 0, 0, "none", "none");
+        addTourStop(myTourStops[0]);
         myTourStops[1] = new TourStop("AT&T & Moody Science Complex", 0, 0, "none", "none");
         myTourStops[2] = new TourStop("Emma Frey", 0, 0, "none", "none");
         myTourStops[3] = new TourStop("Tschope Hall", 0, 0, "none", "none");
@@ -68,7 +76,7 @@ public class DBOpenHelper extends SQLiteOpenHelper
         myTourStops[17] = new TourStop("Schuech Fine Arts", 0, 0, "none", "none");
         myTourStops[18] = new TourStop("Langner Hall", 0, 0, "none", "none");
         myTourStops[19] = new TourStop("Alumni Plaza", 0, 0, "none", "none");
-        for (TourStop myTourStop : myTourStops) addTourStop(myTourStop);
+        //for (TourStop myTourStop : myTourStops) addTourStop(myTourStop);
     }
 
     @Override
