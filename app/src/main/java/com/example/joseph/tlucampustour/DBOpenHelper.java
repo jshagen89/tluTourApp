@@ -1,5 +1,6 @@
 package com.example.joseph.tlucampustour;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -29,9 +30,12 @@ public class DBOpenHelper extends SQLiteOpenHelper
     public static final int AUDIO_COL_POSITION = 5;
     public static final int NUM_TOUR_STOPS = 20;
 
+    private ContentResolver myResolver;
+
     public DBOpenHelper(Context context, String name, CursorFactory factory, int version)
     {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+        myResolver = context.getContentResolver();
     }
 
     @Override
@@ -83,9 +87,7 @@ public class DBOpenHelper extends SQLiteOpenHelper
         values.put(COLUMN_IMAGE, newStop.getImage());
         values.put(COLUMN_AUDIO_FILE, newStop.getAudioFile());
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(TABLE_TOUR_STOPS, null, values);
-        db.close();
+        myResolver.insert(TourContentProvider.CONTENT_URI, values);
     }
 
     // Returns tour stop from db that matches the given name
@@ -99,10 +101,10 @@ public class DBOpenHelper extends SQLiteOpenHelper
         String newAudio;
 
         String selectQuery = "Select * FROM " + TABLE_TOUR_STOPS + " WHERE " + COLUMN_NAME + " = \"" + name + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor myCursor = db.rawQuery(selectQuery, null);
+        String[] projection = {COLUMN_ID, COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE, COLUMN_IMAGE, COLUMN_AUDIO_FILE};
+        Cursor myCursor = myResolver.query(TourContentProvider.CONTENT_URI, projection, selectQuery, null, null);
 
-        if (myCursor.moveToFirst())
+        if (myCursor != null && myCursor.moveToFirst())
         {
             myCursor.moveToFirst();
             newName = myCursor.getString(NAME_COL_POSITION);
@@ -116,7 +118,9 @@ public class DBOpenHelper extends SQLiteOpenHelper
         {
             foundTourStop = null;
         }
-        db.close();
+        if (myCursor != null)
+            myCursor.close();
+
         return foundTourStop;
     }
 }

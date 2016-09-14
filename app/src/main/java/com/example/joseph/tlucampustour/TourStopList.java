@@ -1,13 +1,17 @@
 package com.example.joseph.tlucampustour;
 
 import android.Manifest;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,13 +26,15 @@ import com.google.android.gms.location.LocationServices;
 import java.io.Serializable;
 
 public class TourStopList extends AppCompatActivity
-        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private final static int NUM_TOUR_STOPS = 20;
 
     private GoogleApiClient myGoogleClient;
     private Location myLocation;
     private ListView locationListLV;
+    private TourCursorAdapter myCursorAdapter;
     private TourStop[] myTourStops = new TourStop[NUM_TOUR_STOPS];
 
     @Override
@@ -46,13 +52,12 @@ public class TourStopList extends AppCompatActivity
 
         getTourStops();
 
-        // Create ArrayAdapter to populate list items in location list
-        ArrayAdapter<TourStop> tourListAdapter = new ArrayAdapter<TourStop>(this,
-                R.layout.tour_stop_list_item, myTourStops);
+        // Create CursorAdapter to populate list items in location list
+        myCursorAdapter = new TourCursorAdapter(this,null,0);
 
         // layout list of tour stops and listen for user click events
         locationListLV = (ListView) findViewById(R.id.tourStopLV);
-        locationListLV.setAdapter(tourListAdapter);
+        locationListLV.setAdapter(myCursorAdapter);
         locationListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -63,6 +68,8 @@ public class TourStopList extends AppCompatActivity
                 startActivity(myIntent);
             }
         });
+
+        getLoaderManager().initLoader(0,null,this);
     }
 
     // Creates the Google API Client with Location Services
@@ -161,5 +168,27 @@ public class TourStopList extends AppCompatActivity
     {
         myGoogleClient.disconnect();
         finish();
+    }
+
+    // Reloads data from database each time data is added or deleted
+    private void restartLoader() {
+        getLoaderManager().restartLoader(0,null,this);
+    }
+
+    // Creates Loader and specifies where the data is coming from
+    @Override
+    public android.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this,TourContentProvider.CONTENT_URI,null,null,null,null);
+    }
+
+    // Pass the returned data to the cursorAdapter when data is finished loading
+    @Override
+    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
+        myCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(android.content.Loader<Cursor> loader) {
+        myCursorAdapter.swapCursor(null);
     }
 }
