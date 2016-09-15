@@ -57,8 +57,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="This is the narration text of teh audio that is playing..."
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/att_science_info"
             android:textColor="@android:color/white"
             android:id="@+id/tourInstructions" />
     </ScrollView>

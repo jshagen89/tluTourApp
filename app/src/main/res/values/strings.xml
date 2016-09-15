@@ -11,5 +11,6 @@
     <string name="title_activity_tour_stop_info">TourStopInfo</string>
     <string name="pause_text">Pause Audio</string>
     <string name="att_science_info">The AT&amp;T and Moody Science Complex houses our biology, chemistry, and physics departments, and contains a variety of classrooms and labs. Students work side-by-side with professors to do research throughout the year and into the summer. Adjacent to the AT&amp;T building is the TLU Greenhouse where our greenhouse manager works with science professors and students to identify and grow native plants, and also conduct experiments.</string>
+    <string name="tschoepe_info">Tschoepe Hall is one of the primary classroom buildings, with classes ranging from Theater to Philosophy. Tschoepe also houses our Business, Education, Kinesiology, Athletic Training, and Dramatic Media departments. If you're in Tschoepe Hall talking to friends or having a Starbucks coffee at the coffee shop, you may also want to stop by and talk to our Director of International Education about Study Abroad. We have programs with over 200 universities in 54 countries, including our most popular Study Abroad program at Harlaxton College in England. Each semester, we have a TLU professor who travels with students and teaches a class at Harlaxton.</string>
     <string name="play_text">Play Audio</string>
 </resources>
