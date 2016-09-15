@@ -66,7 +66,12 @@ public class TourStop implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+
         parcel.writeString(name);
+        parcel.writeFloat(latitude);
+        parcel.writeFloat(longitude);
+        parcel.writeString(image);
+        parcel.writeString(audioFile);
     }
 
     public static final Parcelable.Creator<TourStop> CREATOR
@@ -81,6 +86,11 @@ public class TourStop implements Parcelable{
     };
 
     private TourStop(Parcel in) {
+
         name = in.readString();
+        latitude = in.readFloat();
+        longitude = in.readFloat();
+        image = in.readString();
+        audioFile = in.readString();
     }
 }

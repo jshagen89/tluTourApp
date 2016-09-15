@@ -13,6 +13,7 @@ import android.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -52,10 +53,9 @@ public class TourStopList extends AppCompatActivity
         // Create the Play Services client object
         buildGoogleApiClient();
 
-        getTourStops();
-
         // Create CursorAdapter to populate list items in location list
         myCursorAdapter = new TourCursorAdapter(this,null,0);
+        //myCursorAdapter = new TourCursorAdapter(this,null,0);
 
         // layout list of tour stops and listen for user click events
         locationListLV = (ListView) findViewById(R.id.tourStopLV);
@@ -64,7 +64,8 @@ public class TourStopList extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // pass selected tour stop info to new intent
-                TourStop selectedStop = (TourStop) locationListLV.getAdapter().getItem(i);
+                TourCursorAdapter myAdapter = (TourCursorAdapter) locationListLV.getAdapter();
+                TourStop selectedStop = myAdapter.getTourStop(i);
                 Intent myIntent = new Intent(TourStopList.this, Directions.class);
                 myIntent.putExtra("Selected Stop", selectedStop);
                 startActivity(myIntent);
@@ -84,19 +85,12 @@ public class TourStopList extends AppCompatActivity
 
     }
 
-    // Retrieves all tour stops and populates list
-    private void getTourStops()
-    {
-
-    }
-
     // Gets the users current location
     private Location getCurrentLocation()
     {
         try
         {
             myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
-            Log.d("location", "location is good");
             return myLocation;
         }
         catch (SecurityException e)

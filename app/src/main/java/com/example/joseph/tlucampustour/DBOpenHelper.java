@@ -3,9 +3,7 @@ package com.example.joseph.tlucampustour;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
@@ -45,7 +43,6 @@ public class DBOpenHelper extends SQLiteOpenHelper
     public DBOpenHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        myResolver = context.getContentResolver();
     }
 
     @Override
@@ -55,28 +52,27 @@ public class DBOpenHelper extends SQLiteOpenHelper
 
         //Add all tour stops to new db
         TourStop[] myTourStops = new TourStop[NUM_TOUR_STOPS];
-        myTourStops[0] = new TourStop("Martin Luther Statue", 0, 0, "none", "none");
-        addTourStop(myTourStops[0]);
-        myTourStops[1] = new TourStop("AT&T & Moody Science Complex", 0, 0, "none", "none");
-        myTourStops[2] = new TourStop("Emma Frey", 0, 0, "none", "none");
-        myTourStops[3] = new TourStop("Tschope Hall", 0, 0, "none", "none");
-        myTourStops[4] = new TourStop("Baldus, Clifton, Trinity Housing", 0, 0, "none", "none");
-        myTourStops[5] = new TourStop("Krost and Health Sciences", 0, 0, "none", "none");
-        myTourStops[6] = new TourStop("Weston Ranch", 0, 0, "none", "none");
-        myTourStops[7] = new TourStop("Chapel of the Abiding Presence", 0, 0, "none", "none");
-        myTourStops[8] = new TourStop("Campus Ministry/Servant Leadership", 0, 0, "none", "none");
-        myTourStops[9] = new TourStop("Hein Dining Hall", 0, 0, "none", "none");
-        myTourStops[10] = new TourStop("Centennial Hall Courtyard", 0, 0, "none", "none");
-        myTourStops[11] = new TourStop("Jackson Auditorium", 0, 0, "none", "none");
-        myTourStops[12] = new TourStop("Sports Complex/Athletic Training", 0, 0, "none", "none");
-        myTourStops[13] = new TourStop("Fitness Center", 0, 0, "none", "none");
-        myTourStops[14] = new TourStop("Graduation Walk", 0, 0, "none", "none");
-        myTourStops[15] = new TourStop("Alumni Student Center", 0, 0, "none", "none");
-        myTourStops[16] = new TourStop("Blumburg Memorial Library", 0, 0, "none", "none");
-        myTourStops[17] = new TourStop("Schuech Fine Arts", 0, 0, "none", "none");
-        myTourStops[18] = new TourStop("Langner Hall", 0, 0, "none", "none");
-        myTourStops[19] = new TourStop("Alumni Plaza", 0, 0, "none", "none");
-        //for (TourStop myTourStop : myTourStops) addTourStop(myTourStop);
+        myTourStops[0] = new TourStop("Martin Luther Statue", 0, 0, "tschope", "tschope");
+        myTourStops[1] = new TourStop("AT&T & Moody Science Complex", 0, 0, "att_science", "att_science");
+        myTourStops[2] = new TourStop("Emma Frey", 0, 0, "tschope", "tschope");
+        myTourStops[3] = new TourStop("Tschope Hall", 0, 0, "tschope", "tschope");
+        myTourStops[4] = new TourStop("Baldus, Clifton, Trinity Housing", 0, 0, "tschope", "tschope");
+        myTourStops[5] = new TourStop("Krost and Health Sciences", 0, 0, "tschope", "tschope");
+        myTourStops[6] = new TourStop("Weston Ranch", 0, 0, "tschope", "tschope");
+        myTourStops[7] = new TourStop("Chapel of the Abiding Presence", 0, 0, "tschope", "tschope");
+        myTourStops[8] = new TourStop("Campus Ministry/Servant Leadership", 0, 0, "tschope", "tschope");
+        myTourStops[9] = new TourStop("Hein Dining Hall", 0, 0, "tschope", "tschope");
+        myTourStops[10] = new TourStop("Centennial Hall Courtyard", 0, 0, "tschope", "tschope");
+        myTourStops[11] = new TourStop("Jackson Auditorium", 0, 0, "tschope", "tschope");
+        myTourStops[12] = new TourStop("Sports Complex/Athletic Training", 0, 0, "tschope", "tschope");
+        myTourStops[13] = new TourStop("Fitness Center", 0, 0, "tschope", "tschope");
+        myTourStops[14] = new TourStop("Graduation Walk", 0, 0, "tschope", "tschope");
+        myTourStops[15] = new TourStop("Alumni Student Center", 0, 0, "tschope", "tschope");
+        myTourStops[16] = new TourStop("Blumburg Memorial Library", 0, 0, "tschope", "tschope");
+        myTourStops[17] = new TourStop("Schuech Fine Arts", 0, 0, "tschope", "tschope");
+        myTourStops[18] = new TourStop("Langner Hall", 0, 0, "tschope", "tschope");
+        myTourStops[19] = new TourStop("Alumni Plaza", 0, 0, "tschope", "tschope");
+        for (TourStop myTourStop : myTourStops) addTourStop(db, myTourStop);
     }
 
     @Override
@@ -86,7 +82,7 @@ public class DBOpenHelper extends SQLiteOpenHelper
     }
 
     // Add a new TourStop to the db
-    public void addTourStop(TourStop newStop)
+    public void addTourStop(SQLiteDatabase db, TourStop newStop)
     {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, newStop.getName());
@@ -94,41 +90,6 @@ public class DBOpenHelper extends SQLiteOpenHelper
         values.put(COLUMN_LONGITUDE, newStop.getLongitude());
         values.put(COLUMN_IMAGE, newStop.getImage());
         values.put(COLUMN_AUDIO_FILE, newStop.getAudioFile());
-
-        myResolver.insert(TourContentProvider.CONTENT_URI, values);
-    }
-
-    // Returns tour stop from db that matches the given name
-    public TourStop getTourStop(String name)
-    {
-        TourStop foundTourStop;
-        String newName;
-        float newLat;
-        float newLong;
-        String newImg;
-        String newAudio;
-
-        String selectQuery = "Select * FROM " + TABLE_TOUR_STOPS + " WHERE " + COLUMN_NAME + " = \"" + name + "\"";
-        String[] projection = {COLUMN_ID, COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE, COLUMN_IMAGE, COLUMN_AUDIO_FILE};
-        Cursor myCursor = myResolver.query(TourContentProvider.CONTENT_URI, projection, selectQuery, null, null);
-
-        if (myCursor != null && myCursor.moveToFirst())
-        {
-            myCursor.moveToFirst();
-            newName = myCursor.getString(NAME_COL_POSITION);
-            newLat = Float.parseFloat(myCursor.getString(LAT_COL_POSITION));
-            newLong = Float.parseFloat(myCursor.getString(LONG_COL_POSITION));
-            newImg = myCursor.getString(IMG_COL_POSITION);
-            newAudio = myCursor.getString(AUDIO_COL_POSITION);
-            foundTourStop = new TourStop(newName, newLat, newLong, newImg, newAudio);
-        }
-        else
-        {
-            foundTourStop = null;
-        }
-        if (myCursor != null)
-            myCursor.close();
-
-        return foundTourStop;
+        db.insert(TABLE_TOUR_STOPS, null, values);
     }
 }

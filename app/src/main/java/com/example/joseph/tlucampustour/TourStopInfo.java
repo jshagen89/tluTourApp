@@ -1,10 +1,12 @@
 package com.example.joseph.tlucampustour;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,6 +16,8 @@ public class TourStopInfo extends AppCompatActivity {
     private boolean isAudioPlaying;
     private TourStop currStop;
     private String currName;
+    private String audioPath;
+    private String imgPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +30,25 @@ public class TourStopInfo extends AppCompatActivity {
         }
 
         currStop = getIntent().getExtras().getParcelable("TourStop");
-        currName = "";
         if (currStop != null)
         {
             currName = currStop.getName();
+            imgPath = currStop.getImage();
+            audioPath = currStop.getAudioFile();
+        }
+
+        if (audioPath == null)
+        {
+            audioPath = "It is Null";
         }
         setTitle(currName);
 
         TextView nameTV = (TextView) findViewById(R.id.tourStopName);
         nameTV.setText(currName);
 
-        int audioID = R.raw.att_science;
-        myAudioPlayer = new AudioPlayer(audioID);
+        Uri audioUri = Uri.parse("R.raw." + audioPath);
+        Log.d("AudioTest", audioUri.toString());
+        myAudioPlayer = new AudioPlayer(0);
     }
 
     public void playAudio(View view)

@@ -16,7 +16,7 @@ import android.support.annotation.Nullable;
  */
 public class TourContentProvider extends ContentProvider{
 
-    private static final String AUTHORITY = "com.example.joseph.tlucampustour.TourContentProvider";
+    private static final String AUTHORITY = "com.example.joseph.tlucampustour.tourcontentprovider";
     public static final String TABLE_TOUR_STOPS = "tourstops";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_TOUR_STOPS);
     public static final int TABLE_REF = 1;
@@ -40,12 +40,6 @@ public class TourContentProvider extends ContentProvider{
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] args, String sortOrder) {
-        // Only return one row from db if user selects an existing note
-        if (myUriMatcher.match(uri) == ID_REF)
-        {
-            selection = DBOpenHelper.COLUMN_ID + "=" + uri.getLastPathSegment();
-        }
-
         return db.query(DBOpenHelper.TABLE_TOUR_STOPS,DBOpenHelper.TOUR_STOP_COLUMNS,selection,null,null,null,
                 DBOpenHelper.COLUMN_NAME + " DESC");
     }

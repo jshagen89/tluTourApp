@@ -40,9 +40,9 @@
                 android:value="com.example.joseph.tlucampustour.TourStopList" />
         </activity>
         <provider
-            android:authorities="com.example.joseph.tlucampustour.TourContentProvider"
-            android:name="com.example.joseph.tlucampustour.TourContentProvider"
-        />
+            android:authorities="com.example.joseph.tlucampustour.tourcontentprovider"
+            android:name=".TourContentProvider"
+            android:exported="false" />
     </application>
 
 </manifest>
