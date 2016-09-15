@@ -8,16 +8,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TourStopInfo extends AppCompatActivity {
 
     private AudioPlayer myAudioPlayer;
     private boolean isAudioPlaying;
+    private boolean isAudioPaused;
     private TourStop currStop;
     private String currName;
-    private String audioPath;
-    private String imgPath;
+    private int audioID;
+    private int imgID;
+    private Button playPauseButton;
+    private Button stopButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,43 +38,56 @@ public class TourStopInfo extends AppCompatActivity {
         if (currStop != null)
         {
             currName = currStop.getName();
-            imgPath = currStop.getImage();
-            audioPath = currStop.getAudioFile();
+            imgID = currStop.getImage();
+            audioID = currStop.getAudioFile();
         }
 
-        if (audioPath == null)
-        {
-            audioPath = "It is Null";
-        }
         setTitle(currName);
 
         TextView nameTV = (TextView) findViewById(R.id.tourStopName);
+        ImageView tourStopIV = (ImageView) findViewById(R.id.tourStopImg);
+        playPauseButton = (Button) findViewById(R.id.playPauseButton);
+        stopButton = (Button) findViewById(R.id.stopButton);
         nameTV.setText(currName);
-
-        Uri audioUri = Uri.parse("R.raw." + audioPath);
-        Log.d("AudioTest", audioUri.toString());
-        myAudioPlayer = new AudioPlayer(0);
+        tourStopIV.setImageResource(imgID);
+        myAudioPlayer = new AudioPlayer(audioID);
     }
 
-    public void playAudio(View view)
+    private void playAudio()
     {
         myAudioPlayer.play(this);
         isAudioPlaying = true;
+        playPauseButton.setText(R.string.pause_text);
     }
 
-    public void pauseAudio(View view)
+    private void togglePauseAudio()
     {
-        // Need to handle if audio is in stopped state and pause is pressed
-
-        if (isAudioPlaying)
+        if (isAudioPaused)
         {
-            myAudioPlayer.pause();
-            isAudioPlaying = false;
+            myAudioPlayer.resume();
+            isAudioPaused = false;
+            playPauseButton.setText(R.string.pause_text);
         }
         else
         {
-            myAudioPlayer.resume();
-            isAudioPlaying = true;
+            myAudioPlayer.pause();
+            isAudioPaused = true;
+            playPauseButton.setText(R.string.play_text);
+        }
+    }
+
+    // Called by play/pause button for audio controls
+    public void playPauseAudio(View view)
+    {
+        // Need to add on completed listener to button to handle completion of audio clip
+
+        if (isAudioPlaying)
+        {
+            togglePauseAudio();
+        }
+        else
+        {
+            playAudio();
         }
     }
 
@@ -77,6 +95,7 @@ public class TourStopInfo extends AppCompatActivity {
     {
         myAudioPlayer.stop();
         isAudioPlaying = false;
+        playPauseButton.setText(R.string.play_text);
     }
 
     // Called if user presses the back button

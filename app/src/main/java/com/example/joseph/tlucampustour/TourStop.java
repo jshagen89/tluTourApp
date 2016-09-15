@@ -13,17 +13,17 @@ public class TourStop implements Parcelable{
     private String name;
     private float latitude;
     private float longitude;
-    private String audioFile;
-    private String image;
+    private int audioID;
+    private int imageID;
 
-    public TourStop(String name, float lat, float lon, String img, String audio)
+    public TourStop(String name, float lat, float lon, int img, int audio)
 
     {
         this.name = name;
         this.latitude = lat;
         this.longitude = lon;
-        this.image = img;
-        this.audioFile = audio;
+        this.imageID = img;
+        this.audioID = audio;
     }
 
     public String getName()
@@ -42,14 +42,14 @@ public class TourStop implements Parcelable{
         return this.longitude;
     }
 
-    public String getAudioFile()
+    public int getAudioFile()
     {
-        return this.audioFile;
+        return this.audioID;
     }
 
-    public String getImage()
+    public int getImage()
     {
-        return this.image;
+        return this.imageID;
     }
 
     @Override
@@ -70,8 +70,8 @@ public class TourStop implements Parcelable{
         parcel.writeString(name);
         parcel.writeFloat(latitude);
         parcel.writeFloat(longitude);
-        parcel.writeString(image);
-        parcel.writeString(audioFile);
+        parcel.writeInt(imageID);
+        parcel.writeInt(audioID);
     }
 
     public static final Parcelable.Creator<TourStop> CREATOR
@@ -90,7 +90,7 @@ public class TourStop implements Parcelable{
         name = in.readString();
         latitude = in.readFloat();
         longitude = in.readFloat();
-        image = in.readString();
-        audioFile = in.readString();
+        imageID = in.readInt();
+        audioID = in.readInt();
     }
 }

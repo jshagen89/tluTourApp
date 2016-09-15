@@ -1,6 +1,5 @@
 package com.example.joseph.tlucampustour;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,8 +27,8 @@ public class DBOpenHelper extends SQLiteOpenHelper
                     COLUMN_NAME + " TEXT, " +
                     COLUMN_LATITUDE + " REAL, " +
                     COLUMN_LONGITUDE + " REAL, " +
-                    COLUMN_IMAGE + " TEXT, " +
-                    COLUMN_AUDIO_FILE + " TEXT" + ")";
+                    COLUMN_IMAGE + " INTEGER, " +
+                    COLUMN_AUDIO_FILE + " INTEGER" + ")";
     public static final int ID_COL_POSITION = 0;
     public static final int NAME_COL_POSITION = 1;
     public static final int LAT_COL_POSITION = 2;
@@ -37,8 +36,6 @@ public class DBOpenHelper extends SQLiteOpenHelper
     public static final int IMG_COL_POSITION = 4;
     public static final int AUDIO_COL_POSITION = 5;
     public static final int NUM_TOUR_STOPS = 20;
-
-    private ContentResolver myResolver;
 
     public DBOpenHelper(Context context)
     {
@@ -52,26 +49,26 @@ public class DBOpenHelper extends SQLiteOpenHelper
 
         //Add all tour stops to new db
         TourStop[] myTourStops = new TourStop[NUM_TOUR_STOPS];
-        myTourStops[0] = new TourStop("Martin Luther Statue", 0, 0, "tschope", "tschope");
-        myTourStops[1] = new TourStop("AT&T & Moody Science Complex", 0, 0, "att_science", "att_science");
-        myTourStops[2] = new TourStop("Emma Frey", 0, 0, "tschope", "tschope");
-        myTourStops[3] = new TourStop("Tschope Hall", 0, 0, "tschope", "tschope");
-        myTourStops[4] = new TourStop("Baldus, Clifton, Trinity Housing", 0, 0, "tschope", "tschope");
-        myTourStops[5] = new TourStop("Krost and Health Sciences", 0, 0, "tschope", "tschope");
-        myTourStops[6] = new TourStop("Weston Ranch", 0, 0, "tschope", "tschope");
-        myTourStops[7] = new TourStop("Chapel of the Abiding Presence", 0, 0, "tschope", "tschope");
-        myTourStops[8] = new TourStop("Campus Ministry/Servant Leadership", 0, 0, "tschope", "tschope");
-        myTourStops[9] = new TourStop("Hein Dining Hall", 0, 0, "tschope", "tschope");
-        myTourStops[10] = new TourStop("Centennial Hall Courtyard", 0, 0, "tschope", "tschope");
-        myTourStops[11] = new TourStop("Jackson Auditorium", 0, 0, "tschope", "tschope");
-        myTourStops[12] = new TourStop("Sports Complex/Athletic Training", 0, 0, "tschope", "tschope");
-        myTourStops[13] = new TourStop("Fitness Center", 0, 0, "tschope", "tschope");
-        myTourStops[14] = new TourStop("Graduation Walk", 0, 0, "tschope", "tschope");
-        myTourStops[15] = new TourStop("Alumni Student Center", 0, 0, "tschope", "tschope");
-        myTourStops[16] = new TourStop("Blumburg Memorial Library", 0, 0, "tschope", "tschope");
-        myTourStops[17] = new TourStop("Schuech Fine Arts", 0, 0, "tschope", "tschope");
-        myTourStops[18] = new TourStop("Langner Hall", 0, 0, "tschope", "tschope");
-        myTourStops[19] = new TourStop("Alumni Plaza", 0, 0, "tschope", "tschope");
+        myTourStops[0] = new TourStop("Martin Luther Statue", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[1] = new TourStop("AT&T & Moody Science Complex", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[2] = new TourStop("Emma Frey", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[3] = new TourStop("Tschope Hall", 0, 0, R.drawable.tschoepe, R.raw.tschope);
+        myTourStops[4] = new TourStop("Baldus, Clifton, Trinity Housing", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[5] = new TourStop("Krost and Health Sciences", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[6] = new TourStop("Weston Ranch", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[7] = new TourStop("Chapel of the Abiding Presence", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[8] = new TourStop("Campus Ministry/Servant Leadership", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[9] = new TourStop("Hein Dining Hall", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[10] = new TourStop("Centennial Hall Courtyard", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[11] = new TourStop("Jackson Auditorium", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[12] = new TourStop("Sports Complex/Athletic Training", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[13] = new TourStop("Fitness Center", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[14] = new TourStop("Graduation Walk", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[15] = new TourStop("Alumni Student Center", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[16] = new TourStop("Blumburg Memorial Library", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[17] = new TourStop("Schuech Fine Arts", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[18] = new TourStop("Langner Hall", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[19] = new TourStop("Alumni Plaza", 0, 0, R.drawable.att_science, R.raw.att_science);
         for (TourStop myTourStop : myTourStops) addTourStop(db, myTourStop);
     }
 

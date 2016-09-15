@@ -41,7 +41,7 @@ public class TourContentProvider extends ContentProvider{
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] args, String sortOrder) {
         return db.query(DBOpenHelper.TABLE_TOUR_STOPS,DBOpenHelper.TOUR_STOP_COLUMNS,selection,null,null,null,
-                DBOpenHelper.COLUMN_NAME + " DESC");
+                DBOpenHelper.COLUMN_NAME + " ASC");
     }
 
     @Nullable
