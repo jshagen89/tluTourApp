@@ -17,24 +17,27 @@ public class DBOpenHelper extends SQLiteOpenHelper
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_LATITUDE = "latitude";
     public static final String COLUMN_LONGITUDE = "longitude";
-    public static final String COLUMN_IMAGE = "image";
-    public static final String COLUMN_AUDIO_FILE = "audiofile";
+    public static final String COLUMN_INFO_TEXT = "infotextID";
+    public static final String COLUMN_IMAGE = "imageID";
+    public static final String COLUMN_AUDIO_FILE = "audiofileID";
     public static final String[] TOUR_STOP_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-                                                        COLUMN_IMAGE, COLUMN_AUDIO_FILE};
+            COLUMN_INFO_TEXT, COLUMN_IMAGE, COLUMN_AUDIO_FILE};
     private static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_TOUR_STOPS + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_NAME + " TEXT, " +
                     COLUMN_LATITUDE + " REAL, " +
                     COLUMN_LONGITUDE + " REAL, " +
+                    COLUMN_INFO_TEXT + " INTEGER, " +
                     COLUMN_IMAGE + " INTEGER, " +
                     COLUMN_AUDIO_FILE + " INTEGER" + ")";
     public static final int ID_COL_POSITION = 0;
     public static final int NAME_COL_POSITION = 1;
     public static final int LAT_COL_POSITION = 2;
     public static final int LONG_COL_POSITION = 3;
-    public static final int IMG_COL_POSITION = 4;
-    public static final int AUDIO_COL_POSITION = 5;
+    public static final int INFO_COL_POSITION = 4;
+    public static final int IMG_COL_POSITION = 5;
+    public static final int AUDIO_COL_POSITION = 6;
     public static final int NUM_TOUR_STOPS = 20;
 
     public DBOpenHelper(Context context)
@@ -49,26 +52,26 @@ public class DBOpenHelper extends SQLiteOpenHelper
 
         //Add all tour stops to new db
         TourStop[] myTourStops = new TourStop[NUM_TOUR_STOPS];
-        myTourStops[0] = new TourStop("Martin Luther Statue", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[1] = new TourStop("AT&T & Moody Science Complex", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[2] = new TourStop("Emma Frey", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[3] = new TourStop("Tschope Hall", 0, 0, R.drawable.tschoepe, R.raw.tschope);
-        myTourStops[4] = new TourStop("Baldus, Clifton, Trinity Housing", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[5] = new TourStop("Krost and Health Sciences", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[6] = new TourStop("Weston Ranch", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[7] = new TourStop("Chapel of the Abiding Presence", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[8] = new TourStop("Campus Ministry/Servant Leadership", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[9] = new TourStop("Hein Dining Hall", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[10] = new TourStop("Centennial Hall Courtyard", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[11] = new TourStop("Jackson Auditorium", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[12] = new TourStop("Sports Complex/Athletic Training", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[13] = new TourStop("Fitness Center", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[14] = new TourStop("Graduation Walk", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[15] = new TourStop("Alumni Student Center", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[16] = new TourStop("Blumburg Memorial Library", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[17] = new TourStop("Schuech Fine Arts", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[18] = new TourStop("Langner Hall", 0, 0, R.drawable.att_science, R.raw.att_science);
-        myTourStops[19] = new TourStop("Alumni Plaza", 0, 0, R.drawable.att_science, R.raw.att_science);
+        myTourStops[0] = new TourStop("Martin Luther Statue", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[1] = new TourStop("AT&T & Moody Science Complex", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[2] = new TourStop("Emma Frey", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[3] = new TourStop("Tschope Hall", 0, 0, R.string.tschoepe_info, R.drawable.tschoepe, R.raw.tschope);
+        myTourStops[4] = new TourStop("Baldus, Clifton, Trinity Housing", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[5] = new TourStop("Krost and Health Sciences", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[6] = new TourStop("Weston Ranch", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[7] = new TourStop("Chapel of the Abiding Presence", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[8] = new TourStop("Campus Ministry/Servant Leadership", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[9] = new TourStop("Hein Dining Hall", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[10] = new TourStop("Centennial Hall Courtyard", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[11] = new TourStop("Jackson Auditorium", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[12] = new TourStop("Sports Complex/Athletic Training", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[13] = new TourStop("Fitness Center", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[14] = new TourStop("Graduation Walk", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[15] = new TourStop("Alumni Student Center", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[16] = new TourStop("Blumburg Memorial Library", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[17] = new TourStop("Schuech Fine Arts", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[18] = new TourStop("Langner Hall", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[19] = new TourStop("Alumni Plaza", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
         for (TourStop myTourStop : myTourStops) addTourStop(db, myTourStop);
     }
 
@@ -85,6 +88,7 @@ public class DBOpenHelper extends SQLiteOpenHelper
         values.put(COLUMN_NAME, newStop.getName());
         values.put(COLUMN_LATITUDE, newStop.getLatitude());
         values.put(COLUMN_LONGITUDE, newStop.getLongitude());
+        values.put(COLUMN_INFO_TEXT, newStop.getInfoTextID());
         values.put(COLUMN_IMAGE, newStop.getImage());
         values.put(COLUMN_AUDIO_FILE, newStop.getAudioFile());
         db.insert(TABLE_TOUR_STOPS, null, values);

@@ -7,7 +7,7 @@ import android.provider.MediaStore;
 /**
  * Created by Joseph on 9/12/2016.
  */
-public class AudioPlayer {
+public class AudioPlayer extends MediaPlayer{
 
     private MediaPlayer myMediaPlayer;
     private int audioID;
@@ -24,7 +24,6 @@ public class AudioPlayer {
 
         myMediaPlayer = MediaPlayer.create(c, audioID);
         AudioCompletionListener myCompletionListener = new AudioCompletionListener();
-        myMediaPlayer.setOnCompletionListener(myCompletionListener);
         myMediaPlayer.start();
     }
 

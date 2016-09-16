@@ -36,8 +36,9 @@ public class TourCursorAdapter extends CursorAdapter {
         String name = myCursor.getString(DBOpenHelper.NAME_COL_POSITION);
         float lat = myCursor.getFloat(DBOpenHelper.LAT_COL_POSITION);
         float lon = myCursor.getFloat(DBOpenHelper.LONG_COL_POSITION);
+        int info = myCursor.getInt(DBOpenHelper.INFO_COL_POSITION);
         int img = myCursor.getInt(DBOpenHelper.IMG_COL_POSITION);
         int audio = myCursor.getInt(DBOpenHelper.AUDIO_COL_POSITION);
-        return new TourStop(name,lat,lon,img,audio);
+        return new TourStop(name,lat,lon,info,img,audio);
     }
 }
