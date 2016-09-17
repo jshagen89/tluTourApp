@@ -1,6 +1,7 @@
 package com.example.joseph.tlucampustour;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.provider.MediaStore;
 
@@ -24,6 +25,7 @@ public class AudioPlayer extends MediaPlayer{
         // Ensures that only one audio track is playing at any given time
         stop();
         myMediaPlayer = MediaPlayer.create(c, audioID);
+        myMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         myMediaPlayer.setOnCompletionListener(myCompletionListener);
         myMediaPlayer.start();
     }

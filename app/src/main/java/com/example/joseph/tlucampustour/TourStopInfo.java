@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -114,6 +115,12 @@ public class TourStopInfo extends AppCompatActivity {
         }
     }
 
+    // Called by skip previous button
+    public void restartTrack(View view)
+    {
+        playAudio();
+    }
+
     // Needed for Stop button with view component needed
     public void stopAudio(View view)
     {
@@ -128,6 +135,17 @@ public class TourStopInfo extends AppCompatActivity {
         playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
         myAudioPlayer.stop();
         isAudioPlaying = false;
+    }
+
+    // Used to determine if user adjusted volume with device volume controls
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // if one of the volume keys were pressed
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP)
+        {
+            volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     // Called if user presses the back button
