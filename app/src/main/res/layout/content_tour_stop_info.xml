@@ -73,10 +73,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" >
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stop Audio"
+            android:src="@drawable/ic_stop_black_48dp"
             android:id="@+id/stopButton"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
@@ -84,10 +84,10 @@
             android:background="@android:color/transparent"
             android:onClick="stopAudio" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Play Audio"
+            android:src="@drawable/ic_play_arrow_black_48dp"
             android:id="@+id/playPauseButton"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"

@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +26,8 @@ public class TourStopInfo extends AppCompatActivity {
     private int infoTextID;
     private int audioID;
     private int imgID;
-    private Button playPauseButton;
-    private Button stopButton;
+    private ImageButton playPauseButton;
+    private ImageButton stopButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,8 @@ public class TourStopInfo extends AppCompatActivity {
         ImageView tourStopIV = (ImageView) findViewById(R.id.tourStopImg);
         tourStopIV.setImageResource(imgID);
 
-        playPauseButton = (Button) findViewById(R.id.playPauseButton);
-        stopButton = (Button) findViewById(R.id.stopButton);
+        playPauseButton = (ImageButton) findViewById(R.id.playPauseButton);
+        stopButton = (ImageButton) findViewById(R.id.stopButton);
         myAudioPlayer = new AudioPlayer(audioID);
         NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
         myAudioPlayer.setAudioCompletionListener(myCompletionListener);
@@ -75,7 +76,7 @@ public class TourStopInfo extends AppCompatActivity {
     {
         myAudioPlayer.play(this);
         isAudioPlaying = true;
-        playPauseButton.setText(R.string.pause_text);
+        playPauseButton.setImageResource(R.drawable.ic_pause_black_48dp);
     }
 
     private void togglePauseAudio()
@@ -84,13 +85,13 @@ public class TourStopInfo extends AppCompatActivity {
         {
             myAudioPlayer.resume();
             isAudioPaused = false;
-            playPauseButton.setText(R.string.pause_text);
+            playPauseButton.setImageResource(R.drawable.ic_pause_black_48dp);
         }
         else
         {
             myAudioPlayer.pause();
             isAudioPaused = true;
-            playPauseButton.setText(R.string.play_text);
+            playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
         }
     }
 
@@ -114,13 +115,13 @@ public class TourStopInfo extends AppCompatActivity {
     {
         myAudioPlayer.stop();
         isAudioPlaying = false;
-        playPauseButton.setText(R.string.play_text);
+        playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
     }
 
     // Needed for audio completion listener..since no view is available
     public void audioFinished()
     {
-        playPauseButton.setText(R.string.play_text);
+        playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
         myAudioPlayer.stop();
         isAudioPlaying = false;
     }
