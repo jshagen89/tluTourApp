@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.joseph.tlucampustour">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,11 +13,12 @@
         <activity android:name=".TourInfo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".LocationsList"
+            android:name=".TourStopList"
             android:label="@string/title_activity_locations_list"
             android:parentActivityName=".TourInfo"
             android:theme="@style/AppTheme">
@@ -23,6 +26,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.joseph.tlucampustour.TourInfo" />
         </activity>
+        <activity
+            android:name=".Directions"
+            android:label="@string/title_activity_directions"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".TourStopInfo"
+            android:label="@string/title_activity_tour_stop_info"
+            android:parentActivityName=".TourStopList"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.joseph.tlucampustour.TourStopList" />
+        </activity>
+        <provider
+            android:authorities="com.example.joseph.tlucampustour.tourcontentprovider"
+            android:name=".TourContentProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

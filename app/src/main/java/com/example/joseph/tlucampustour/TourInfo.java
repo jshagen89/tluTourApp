@@ -2,11 +2,7 @@ package com.example.joseph.tlucampustour;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,9 +40,9 @@ public class TourInfo extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Opens the editor to create a new note
+    // Opens the location list
     public void startTour(View view) {
-        Intent myIntent = new Intent(this,LocationsList.class);
+        Intent myIntent = new Intent(this,TourStopList.class);
         startActivityForResult(myIntent,EDITOR_REQUEST_CODE);
     }
 }
