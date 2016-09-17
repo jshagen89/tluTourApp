@@ -52,7 +52,7 @@ public class DBOpenHelper extends SQLiteOpenHelper
 
         //Add all tour stops to new db
         TourStop[] myTourStops = new TourStop[NUM_TOUR_STOPS];
-        myTourStops[0] = new TourStop("Martin Luther Statue", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
+        myTourStops[0] = new TourStop("Martin Luther Statue", 0, 0, R.string.martin_luther_statue_info, R.drawable.att_science, R.raw.att_science);
         myTourStops[1] = new TourStop("AT&T & Moody Science Complex", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
         myTourStops[2] = new TourStop("Emma Frey", 0, 0, R.string.att_science_info, R.drawable.att_science, R.raw.att_science);
         myTourStops[3] = new TourStop("Tschope Hall", 0, 0, R.string.tschoepe_info, R.drawable.tschoepe, R.raw.tschope);
