@@ -73,27 +73,37 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" >
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_stop_black_48dp"
-            android:id="@+id/stopButton"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:onClick="stopAudio" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_stop_black_48dp"
+                android:id="@+id/stopButton"
+                android:background="@android:color/transparent"
+                android:onClick="stopAudio"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
-        <ImageButton
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_play_arrow_black_48dp"
+                android:id="@+id/playPauseButton"
+                android:background="@android:color/transparent"
+                android:onClick="playPauseAudio"
+                android:layout_marginRight="97dp"
+                android:layout_marginEnd="97dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/stopButton"
+                android:layout_toEndOf="@+id/stopButton" />
+
+        <SeekBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_play_arrow_black_48dp"
-            android:id="@+id/playPauseButton"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
+            android:id="@+id/volumeControl"
             android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:onClick="playPauseAudio" />
+            android:layout_toRightOf="@+id/playPauseButton"
+            android:layout_toEndOf="@+id/playPauseButton" />
+
     </RelativeLayout>
 
 </RelativeLayout>

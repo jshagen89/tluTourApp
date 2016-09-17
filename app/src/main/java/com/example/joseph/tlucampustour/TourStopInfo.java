@@ -1,33 +1,31 @@
 package com.example.joseph.tlucampustour;
 
-import android.content.res.Configuration;
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class TourStopInfo extends AppCompatActivity {
 
     private AudioPlayer myAudioPlayer;
     private boolean isAudioPlaying;
     private boolean isAudioPaused;
+    private ImageButton playPauseButton;
+    private AudioManager myAudioManager;
+    private SeekBar volumeControl;
+
+
     private TourStop currStop;
     private String currName;
     private int infoTextID;
     private int audioID;
     private int imgID;
-    private ImageButton playPauseButton;
-    private ImageButton stopButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,13 @@ public class TourStopInfo extends AppCompatActivity {
         tourStopIV.setImageResource(imgID);
 
         playPauseButton = (ImageButton) findViewById(R.id.playPauseButton);
-        stopButton = (ImageButton) findViewById(R.id.stopButton);
+        volumeControl = (SeekBar) findViewById(R.id.volumeControl);
+        VolumeChangeListener myVolumeListener = new VolumeChangeListener();
+        volumeControl.setOnSeekBarChangeListener(myVolumeListener);
+        myAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        volumeControl.setMax(myAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+
         myAudioPlayer = new AudioPlayer(audioID);
         NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
         myAudioPlayer.setAudioCompletionListener(myCompletionListener);
@@ -147,5 +151,19 @@ public class TourStopInfo extends AppCompatActivity {
         public void onCompletion(MediaPlayer mediaPlayer) {
             audioFinished();
         }
+    }
+
+    private class VolumeChangeListener implements SeekBar.OnSeekBarChangeListener {
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+            myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
     }
 }
