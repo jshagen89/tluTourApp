@@ -14,16 +14,16 @@ public class AudioPlayer extends MediaPlayer{
 
     public AudioPlayer(int audioFileID)
     {
+
         audioID = audioFileID;
     }
 
-    public void play(Context c)
+    public void play(Context c, OnCompletionListener listener)
     {
         // Ensures that only one audio track is playing at any given time
         stop();
-
         myMediaPlayer = MediaPlayer.create(c, audioID);
-        AudioCompletionListener myCompletionListener = new AudioCompletionListener();
+        myMediaPlayer.setOnCompletionListener(listener);
         myMediaPlayer.start();
     }
 
@@ -43,17 +43,6 @@ public class AudioPlayer extends MediaPlayer{
         {
             myMediaPlayer.release();
             myMediaPlayer = null;
-        }
-    }
-
-    // Listens for audio track to complete
-    private class AudioCompletionListener implements MediaPlayer.OnCompletionListener
-    {
-
-        @Override
-        public void onCompletion(MediaPlayer mediaPlayer)
-        {
-            stop();
         }
     }
 }

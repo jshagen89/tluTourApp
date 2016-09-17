@@ -25,6 +25,7 @@ public class TourStopInfo extends AppCompatActivity {
     private int imgID;
     private Button playPauseButton;
     private Button stopButton;
+    private NarrationCompletionListener myCompletionListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +60,18 @@ public class TourStopInfo extends AppCompatActivity {
         playPauseButton = (Button) findViewById(R.id.playPauseButton);
         stopButton = (Button) findViewById(R.id.stopButton);
         myAudioPlayer = new AudioPlayer(audioID);
+        myCompletionListener = new NarrationCompletionListener();
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
     }
 
     private void playAudio()
     {
-        myAudioPlayer.play(this);
+        myAudioPlayer.play(this, myCompletionListener);
         isAudioPlaying = true;
         playPauseButton.setText(R.string.pause_text);
     }
@@ -128,5 +136,13 @@ public class TourStopInfo extends AppCompatActivity {
     {
         super.onStop();
         myAudioPlayer.stop();
+    }
+
+    private class NarrationCompletionListener implements MediaPlayer.OnCompletionListener {
+
+        @Override
+        public void onCompletion(MediaPlayer mediaPlayer) {
+            audioFinished();
+        }
     }
 }
