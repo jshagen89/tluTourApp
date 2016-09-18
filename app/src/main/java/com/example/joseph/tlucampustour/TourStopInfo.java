@@ -1,16 +1,15 @@
 package com.example.joseph.tlucampustour;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class TourStopInfo extends AppCompatActivity {
@@ -18,14 +17,16 @@ public class TourStopInfo extends AppCompatActivity {
     private AudioPlayer myAudioPlayer;
     private boolean isAudioPlaying;
     private boolean isAudioPaused;
+    private ImageButton playPauseButton;
+    private AudioManager myAudioManager;
+    private SeekBar volumeControl;
+
+
     private TourStop currStop;
     private String currName;
     private int infoTextID;
     private int audioID;
     private int imgID;
-    private Button playPauseButton;
-    private Button stopButton;
-    private NarrationCompletionListener myCompletionListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +58,17 @@ public class TourStopInfo extends AppCompatActivity {
         ImageView tourStopIV = (ImageView) findViewById(R.id.tourStopImg);
         tourStopIV.setImageResource(imgID);
 
-        playPauseButton = (Button) findViewById(R.id.playPauseButton);
-        stopButton = (Button) findViewById(R.id.stopButton);
+        playPauseButton = (ImageButton) findViewById(R.id.playPauseButton);
+        volumeControl = (SeekBar) findViewById(R.id.volumeControl);
+        VolumeChangeListener myVolumeListener = new VolumeChangeListener();
+        volumeControl.setOnSeekBarChangeListener(myVolumeListener);
+        myAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        volumeControl.setMax(myAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+
         myAudioPlayer = new AudioPlayer(audioID);
-        myCompletionListener = new NarrationCompletionListener();
+        NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
+        myAudioPlayer.setAudioCompletionListener(myCompletionListener);
     }
 
     @Override
@@ -71,9 +79,9 @@ public class TourStopInfo extends AppCompatActivity {
 
     private void playAudio()
     {
-        myAudioPlayer.play(this, myCompletionListener);
+        myAudioPlayer.play(this);
         isAudioPlaying = true;
-        playPauseButton.setText(R.string.pause_text);
+        playPauseButton.setImageResource(R.drawable.ic_pause_black_48dp);
     }
 
     private void togglePauseAudio()
@@ -82,13 +90,13 @@ public class TourStopInfo extends AppCompatActivity {
         {
             myAudioPlayer.resume();
             isAudioPaused = false;
-            playPauseButton.setText(R.string.pause_text);
+            playPauseButton.setImageResource(R.drawable.ic_pause_black_48dp);
         }
         else
         {
             myAudioPlayer.pause();
             isAudioPaused = true;
-            playPauseButton.setText(R.string.play_text);
+            playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
         }
     }
 
@@ -107,20 +115,37 @@ public class TourStopInfo extends AppCompatActivity {
         }
     }
 
+    // Called by skip previous button
+    public void restartTrack(View view)
+    {
+        playAudio();
+    }
+
     // Needed for Stop button with view component needed
     public void stopAudio(View view)
     {
         myAudioPlayer.stop();
         isAudioPlaying = false;
-        playPauseButton.setText(R.string.play_text);
+        playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
     }
 
     // Needed for audio completion listener..since no view is available
     public void audioFinished()
     {
-        playPauseButton.setText(R.string.play_text);
+        playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
         myAudioPlayer.stop();
         isAudioPlaying = false;
+    }
+
+    // Used to determine if user adjusted volume with device volume controls
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // if one of the volume keys were pressed
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP)
+        {
+            volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     // Called if user presses the back button
@@ -144,5 +169,19 @@ public class TourStopInfo extends AppCompatActivity {
         public void onCompletion(MediaPlayer mediaPlayer) {
             audioFinished();
         }
+    }
+
+    private class VolumeChangeListener implements SeekBar.OnSeekBarChangeListener {
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+            myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {}
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {}
     }
 }
