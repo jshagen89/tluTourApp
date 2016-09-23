@@ -16,7 +16,7 @@ public class Directions extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
-        destination = (TourStop) getIntent().getExtras().getParcelable("Selected Stop");
+        destination = getIntent().getExtras().getParcelable("Selected Stop");
         String destName = "";
         if (destination != null)
         {
