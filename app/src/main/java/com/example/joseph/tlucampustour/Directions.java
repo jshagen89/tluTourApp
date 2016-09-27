@@ -22,13 +22,14 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback 
 
     private TourStop destination;
     private GoogleMap mMap;
+    private MapView myMV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
         ///*
-        MapView myMV = (MapView) findViewById(R.id.mapview);
+        myMV = (MapView) findViewById(R.id.mapview);
         myMV.onCreate(savedInstanceState);
         myMV.getMapAsync(this);
 

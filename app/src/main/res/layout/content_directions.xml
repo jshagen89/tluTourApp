@@ -29,13 +29,16 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/mapFrame"
-        android:layout_below="@+id/tourStopName">
+        android:layout_below="@+id/tourStopName"
+        android:layout_above="@+id/backToList" >
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapview"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </FrameLayout>
 

@@ -2,6 +2,9 @@
 package="com.example.joseph.tlucampustour">
 
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+<uses-permission android:name="android.permission.INTERNET" />
 
 <application android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
@@ -38,7 +41,7 @@ package="com.example.joseph.tlucampustour">
     <meta-data android:name="com.google.android.gms.version"
         android:value="@integer/google_play_services_version" />
     <meta-data android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyD78vygq0hrTS29w7CsXe6pXcAKL6mUqmU" />
+        android:value="@string/google_maps_key" />
 </application>
 
 </manifest>

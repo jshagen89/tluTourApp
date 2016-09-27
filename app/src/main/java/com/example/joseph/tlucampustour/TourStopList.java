@@ -58,17 +58,8 @@ public class TourStopList extends AppCompatActivity
         // layout list of tour stops and listen for user click events
         locationListLV = (ListView) findViewById(R.id.tourStopLV);
         locationListLV.setAdapter(myCursorAdapter);
-        locationListLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // pass selected tour stop info to new intent
-                TourCursorAdapter myAdapter = (TourCursorAdapter) locationListLV.getAdapter();
-                TourStop selectedStop = myAdapter.getTourStop(i);
-                Intent myIntent = new Intent(TourStopList.this, Directions.class);
-                myIntent.putExtra("Selected Stop", selectedStop);
-                startActivity(myIntent);
-            }
-        });
+        ListClickListener myClickListener = new ListClickListener();
+        locationListLV.setOnItemClickListener(myClickListener);
 
         getLoaderManager().initLoader(0, null, this);
     }
@@ -195,6 +186,7 @@ public class TourStopList extends AppCompatActivity
         myLocation = location;
         double latitude = myLocation.getLatitude();
         double longitude = myLocation.getLongitude();
+        /*
         if (latitude < 30 && latitude > 29)
         {
             TourStop selectedStop = new TourStop("Library",(float)29.57,(float)-97.98,R.string.library_info,R.drawable.blumberg_library,R.raw.blumburg_library);
@@ -202,6 +194,7 @@ public class TourStopList extends AppCompatActivity
             myIntent.putExtra("Selected Stop", selectedStop);
             startActivity(myIntent);
         }
+        */
     }
 
     // If connection is suspended, attempt to reconnect
@@ -253,6 +246,19 @@ public class TourStopList extends AppCompatActivity
         if (requestCode == EDITOR_REQUEST_CODE && resultCode == RESULT_OK)
         {
             restartLoader();
+        }
+    }
+
+    private class ListClickListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            // pass selected tour stop info to new intent
+            TourCursorAdapter myAdapter = (TourCursorAdapter) locationListLV.getAdapter();
+            TourStop selectedStop = myAdapter.getTourStop(i);
+            Intent myIntent = new Intent(TourStopList.this, Directions.class);
+            myIntent.putExtra("Selected Stop", selectedStop);
+            startActivity(myIntent);
         }
     }
 }
