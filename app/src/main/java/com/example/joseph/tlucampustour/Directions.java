@@ -8,14 +8,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class Directions extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.Map;
+
+public class Directions extends AppCompatActivity implements OnMapReadyCallback {
 
     private TourStop destination;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
+        ///*
+        MapView myMV = (MapView) findViewById(R.id.mapview);
+        myMV.onCreate(savedInstanceState);
+        myMV.getMapAsync(this);
+
+        //*/
         destination = getIntent().getExtras().getParcelable("Selected Stop");
         String destName = "";
         if (destination != null)
@@ -27,8 +44,8 @@ public class Directions extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView myTV = (TextView) findViewById(R.id.tourStopName);
-        myTV.setText(destName);
+        //TextView myTV = (TextView) findViewById(R.id.tourStopName);
+        //myTV.setText(destName);
     }
 
 
@@ -63,6 +80,17 @@ public class Directions extends AppCompatActivity {
         Intent myIntent = new Intent(Directions.this, TourStopInfo.class);
         myIntent.putExtra("TourStop", destination);
         startActivity(myIntent);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
 }

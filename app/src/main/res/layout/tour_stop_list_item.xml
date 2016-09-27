@@ -5,6 +5,9 @@
     android:padding="10dp"
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:text="Large Text"
+    android:textStyle="bold"
+    android:maxLines="1"
+    android:ellipsize="end"
     android:id="@+id/tour_stop_item"
     android:layout_gravity="center_horizontal"
     android:background="@color/lightYellow" />
