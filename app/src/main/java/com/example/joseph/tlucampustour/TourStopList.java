@@ -34,6 +34,8 @@ public class TourStopList extends AppCompatActivity
 
     private GoogleApiClient myGoogleClient;
     private Location myLocation;
+    private double myLat;
+    private double myLon;
     private ListView locationListLV;
     private CursorAdapter myCursorAdapter;
     private LocationRequest myLocationRequest;
@@ -184,8 +186,8 @@ public class TourStopList extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location) {
         myLocation = location;
-        double latitude = myLocation.getLatitude();
-        double longitude = myLocation.getLongitude();
+        myLat = myLocation.getLatitude();
+        myLon = myLocation.getLongitude();
         /*
         if (latitude < 30 && latitude > 29)
         {
@@ -258,6 +260,8 @@ public class TourStopList extends AppCompatActivity
             TourStop selectedStop = myAdapter.getTourStop(i);
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
             myIntent.putExtra("Selected Stop", selectedStop);
+            myIntent.putExtra("Latitude", myLat);
+            myIntent.putExtra("Longitude", myLon);
             startActivity(myIntent);
         }
     }
