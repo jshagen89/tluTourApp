@@ -3,10 +3,10 @@ package com.example.joseph.tlucampustour;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.TextView;
+
+import static com.example.joseph.tlucampustour.Constants.*;
 
 /**
  * Created by Joseph on 9/14/2016.
@@ -25,7 +25,7 @@ public class TourCursorAdapter extends CursorAdapter {
     // Sets fields in the list of tour stops appropriately
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        String tourStopName = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_NAME));
+        String tourStopName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
         TextView tourStopNameTV = (TextView) view.findViewById(R.id.tour_stop_item);
         tourStopNameTV.setText(tourStopName);
     }
@@ -33,12 +33,12 @@ public class TourCursorAdapter extends CursorAdapter {
     public TourStop getTourStop(int position)
     {
         Cursor myCursor = getCursor();
-        String name = myCursor.getString(DBOpenHelper.NAME_COL_POSITION);
-        float lat = myCursor.getFloat(DBOpenHelper.LAT_COL_POSITION);
-        float lon = myCursor.getFloat(DBOpenHelper.LONG_COL_POSITION);
-        int info = myCursor.getInt(DBOpenHelper.INFO_COL_POSITION);
-        int img = myCursor.getInt(DBOpenHelper.IMG_COL_POSITION);
-        int audio = myCursor.getInt(DBOpenHelper.AUDIO_COL_POSITION);
+        String name = myCursor.getString(NAME_COL_POSITION);
+        float lat = myCursor.getFloat(LAT_COL_POSITION);
+        float lon = myCursor.getFloat(LONG_COL_POSITION);
+        int info = myCursor.getInt(INFO_COL_POSITION);
+        int img = myCursor.getInt(IMG_COL_POSITION);
+        int audio = myCursor.getInt(AUDIO_COL_POSITION);
         return new TourStop(name,lat,lon,info,img,audio);
     }
 }

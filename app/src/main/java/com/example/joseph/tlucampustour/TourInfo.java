@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class TourInfo extends AppCompatActivity {
+import static com.example.joseph.tlucampustour.Constants.*;
 
-    private static final int EDITOR_REQUEST_CODE = 1001;
+public class TourInfo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

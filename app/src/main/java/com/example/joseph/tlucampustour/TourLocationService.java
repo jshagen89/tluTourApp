@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ public class TourLocationService extends IntentService
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient myGoogleClient;
+    private Location myLocation;
 
     public TourLocationService(String name) {
         super(name);

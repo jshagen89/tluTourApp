@@ -24,13 +24,12 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationListener;
 
+import static com.example.joseph.tlucampustour.Constants.*;
+
 public class TourStopList extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener, LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int EDITOR_REQUEST_CODE = 1001;
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
-    private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
     private GoogleApiClient myGoogleClient;
     private Location myLocation;
@@ -189,7 +188,7 @@ public class TourStopList extends AppCompatActivity
         myLat = myLocation.getLatitude();
         myLon = myLocation.getLongitude();
         /*
-        if (latitude < 30 && latitude > 29)
+        if (myLat < 30 && myLat > 29)
         {
             TourStop selectedStop = new TourStop("Library",(float)29.57,(float)-97.98,R.string.library_info,R.drawable.blumberg_library,R.raw.blumburg_library);
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
@@ -229,7 +228,7 @@ public class TourStopList extends AppCompatActivity
     // Creates Loader and specifies where the data is coming from
     @Override
     public android.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this,TourContentProvider.CONTENT_URI,null,null,null,null);
+        return new CursorLoader(this,CONTENT_URI,null,null,null,null);
     }
 
     // Pass the returned data to the cursorAdapter when data is finished loading
@@ -260,8 +259,6 @@ public class TourStopList extends AppCompatActivity
             TourStop selectedStop = myAdapter.getTourStop(i);
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
             myIntent.putExtra("Selected Stop", selectedStop);
-            myIntent.putExtra("Latitude", myLat);
-            myIntent.putExtra("Longitude", myLon);
             startActivity(myIntent);
         }
     }
