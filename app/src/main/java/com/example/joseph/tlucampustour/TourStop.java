@@ -13,16 +13,18 @@ public class TourStop implements Parcelable{
     private String name;
     private double latitude;
     private double longitude;
+    private double radius;
     private int infoTextID;
     private int imageID;
     private int audioID;
 
-    public TourStop(String name, double lat, double lon, int infoText, int img, int audio)
+    public TourStop(String name, double lat, double lon, double rad, int infoText, int img, int audio)
 
     {
         this.name = name;
         this.latitude = lat;
         this.longitude = lon;
+        this.radius = rad;
         this.infoTextID = infoText;
         this.imageID = img;
         this.audioID = audio;
@@ -42,6 +44,11 @@ public class TourStop implements Parcelable{
     public double getLongitude()
     {
         return this.longitude;
+    }
+
+    public double getRadius()
+    {
+        return this.radius;
     }
 
     public int getInfoTextID() {
@@ -76,6 +83,7 @@ public class TourStop implements Parcelable{
         parcel.writeString(name);
         parcel.writeDouble(latitude);
         parcel.writeDouble(longitude);
+        parcel.writeDouble(radius);
         parcel.writeInt(infoTextID);
         parcel.writeInt(imageID);
         parcel.writeInt(audioID);
@@ -97,6 +105,7 @@ public class TourStop implements Parcelable{
         name = in.readString();
         latitude = in.readDouble();
         longitude = in.readDouble();
+        radius = in.readDouble();
         infoTextID = in.readInt();
         imageID = in.readInt();
         audioID = in.readInt();

@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -20,9 +19,9 @@ import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.*;
+
+import java.util.ArrayList;
 
 import static com.example.joseph.tlucampustour.Constants.*;
 
@@ -36,7 +35,7 @@ public class TourStopList extends AppCompatActivity
     private double myLat;
     private double myLon;
     private ListView locationListLV;
-    private CursorAdapter myCursorAdapter;
+    private TourCursorAdapter myCursorAdapter;
     private LocationRequest myLocationRequest;
 
     @Override
@@ -45,7 +44,7 @@ public class TourStopList extends AppCompatActivity
         setContentView(R.layout.activity_tour_stop_list);
         setTitle("Tour Stops");
 
-        // disable back button...user should end tour to go back to begining screen
+        // disable back button...user should end tour to go back to beginning screen
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
@@ -54,13 +53,14 @@ public class TourStopList extends AppCompatActivity
 
         // Create CursorAdapter to populate list items in location list
         myCursorAdapter = new TourCursorAdapter(this, null, 0);
-        //myCursorAdapter = new TourCursorAdapter(this,null,0);
 
         // layout list of tour stops and listen for user click events
         locationListLV = (ListView) findViewById(R.id.tourStopLV);
         locationListLV.setAdapter(myCursorAdapter);
         ListClickListener myClickListener = new ListClickListener();
         locationListLV.setOnItemClickListener(myClickListener);
+
+        // NEED TO GET ALL TOUR STOPS TO CHECK FOR RADIUS IN LOCATION UPDATE
 
         getLoaderManager().initLoader(0, null, this);
     }
@@ -187,13 +187,19 @@ public class TourStopList extends AppCompatActivity
         myLocation = location;
         myLat = myLocation.getLatitude();
         myLon = myLocation.getLongitude();
+        float[] distance = new float[2];
+        boolean atLocation = false;
+
         /*
-        if (myLat < 30 && myLat > 29)
+        for (TourStop tourStop : allTourStops)
         {
-            TourStop selectedStop = new TourStop("Library",(float)29.57,(float)-97.98,R.string.library_info,R.drawable.blumberg_library,R.raw.blumburg_library);
-            Intent myIntent = new Intent(TourStopList.this, Directions.class);
-            myIntent.putExtra("Selected Stop", selectedStop);
-            startActivity(myIntent);
+            Location.distanceBetween(myLat, myLon, tourStop.getLatitude(), tourStop.getLongitude(), distance);
+            if (distance[0] < tourStop.getRadius())
+            {
+                Intent myIntent = new Intent(TourStopList.this, Directions.class);
+                myIntent.putExtra("Selected Stop", tourStop);
+                startActivity(myIntent);
+            }
         }
         */
     }

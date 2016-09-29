@@ -16,17 +16,19 @@ abstract class Constants {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_LATITUDE = "latitude";
     public static final String COLUMN_LONGITUDE = "longitude";
+    public static final String COLUMN_RADIUS = "radius";
     public static final String COLUMN_INFO_TEXT = "infotextID";
     public static final String COLUMN_IMAGE = "imageID";
     public static final String COLUMN_AUDIO_FILE = "audiofileID";
     public static final String[] TOUR_STOP_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-            COLUMN_INFO_TEXT, COLUMN_IMAGE, COLUMN_AUDIO_FILE};
+            COLUMN_RADIUS, COLUMN_INFO_TEXT, COLUMN_IMAGE, COLUMN_AUDIO_FILE};
     public static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_TOUR_STOPS + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_NAME + " TEXT, " +
                     COLUMN_LATITUDE + " REAL, " +
                     COLUMN_LONGITUDE + " REAL, " +
+                    COLUMN_RADIUS + " REAL, " +
                     COLUMN_INFO_TEXT + " INTEGER, " +
                     COLUMN_IMAGE + " INTEGER, " +
                     COLUMN_AUDIO_FILE + " INTEGER" + ")";
@@ -34,9 +36,10 @@ abstract class Constants {
     public static final int NAME_COL_POSITION = 1;
     public static final int LAT_COL_POSITION = 2;
     public static final int LONG_COL_POSITION = 3;
-    public static final int INFO_COL_POSITION = 4;
-    public static final int IMG_COL_POSITION = 5;
-    public static final int AUDIO_COL_POSITION = 6;
+    public static final int RADIUS_COL_POSITION = 4;
+    public static final int INFO_COL_POSITION = 5;
+    public static final int IMG_COL_POSITION = 6;
+    public static final int AUDIO_COL_POSITION = 7;
     public static final int NUM_TOUR_STOPS = 20;
 
     // Content Provider Constants

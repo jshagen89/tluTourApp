@@ -3,6 +3,7 @@ package com.example.joseph.tlucampustour;
 import android.*;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -38,6 +40,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private LocationRequest myLocationRequest;
     private double selectedLat;
     private double selectedLon;
+    private double locationRadius;
     LatLng myPoint;
 
     @Override
@@ -57,6 +60,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             destName = destination.getName();
             selectedLat = destination.getLatitude();
             selectedLon = destination.getLongitude();
+            locationRadius = destination.getRadius();
         }
         setTitle("Directions to " + destName);
 
@@ -226,6 +230,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         Log.i("Location", "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
+    // Called when location change is detected
     private void updateMap()
     {
 
@@ -242,6 +247,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             double myLat = myLocation.getLatitude();
             double myLon = myLocation.getLongitude();
 
+            // Create points and add markers to map
             myPoint = new LatLng(myLat, myLon);
             selectedPoint = new LatLng(selectedLat, selectedLon);
             mMap.addMarker(new MarkerOptions()
@@ -252,6 +258,13 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
                     .title("My Location")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
+            // Add radius outline to map
+            mMap.addCircle(new CircleOptions()
+                .center(selectedPoint)
+                .radius(locationRadius)
+                .strokeColor(Color.BLUE));
+
+            // Move camera to markers and keep within specified bounds
             LatLngBounds bounds = new LatLngBounds.Builder()
                     .include(myPoint)
                     .include(selectedPoint)
