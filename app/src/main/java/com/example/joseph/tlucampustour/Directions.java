@@ -19,6 +19,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -243,8 +244,13 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
             myPoint = new LatLng(myLat, myLon);
             selectedPoint = new LatLng(selectedLat, selectedLon);
-            mMap.addMarker(new MarkerOptions().position(selectedPoint).title(destName));
-            mMap.addMarker(new MarkerOptions().position(myPoint).title("My Location"));
+            mMap.addMarker(new MarkerOptions()
+                    .position(selectedPoint)
+                    .title(destName));
+            mMap.addMarker(new MarkerOptions()
+                    .position(myPoint)
+                    .title("My Location")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
             LatLngBounds bounds = new LatLngBounds.Builder()
                     .include(myPoint)
