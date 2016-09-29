@@ -20,6 +20,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import static com.example.joseph.tlucampustour.Constants.*;
@@ -28,13 +29,15 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private TourStop destination;
+    private String destName;
     private GoogleApiClient myGoogleClient;
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
     private Location myLocation;
     private LocationRequest myLocationRequest;
-    private double myLat;
-    private double myLon;
+    private double selectedLat;
+    private double selectedLon;
+    LatLng myPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +51,11 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
         // Get all needed Tour Stop information from passed data
         destination = getIntent().getExtras().getParcelable("Selected Stop");
-        String destName = "";
         if (destination != null)
         {
             destName = destination.getName();
+            selectedLat = destination.getLatitude();
+            selectedLon = destination.getLongitude();
         }
         setTitle("Directions to " + destName);
 
@@ -182,9 +186,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         {
             myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
             startLocationUpdates();
-            Log.d("Location", "Location is connected");
         }
-        Log.d("Location", "Location is connected");
     }
 
     protected void startLocationUpdates() {
@@ -209,6 +211,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     public void onLocationChanged(Location location) {
         myLocation = location;
+        updateMap();
     }
 
     // If connection is suspended, attempt to reconnect
@@ -230,13 +233,27 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             Log.d("LocationService", "Location is null");
             return;
         }
-        // Add a marker in Sydney and move the camera
-        myLat = myLocation.getLatitude();
-        myLon = myLocation.getLongitude();
 
-        LatLng myPoint = new LatLng(myLat, myLon);
-        mMap.addMarker(new MarkerOptions().position(myPoint).title("My Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myPoint));
+        LatLng selectedPoint;
+        // Add markers and update camera
+        if (myPoint == null)
+        {
+            double myLat = myLocation.getLatitude();
+            double myLon = myLocation.getLongitude();
+
+            myPoint = new LatLng(myLat, myLon);
+            selectedPoint = new LatLng(selectedLat, selectedLon);
+            mMap.addMarker(new MarkerOptions().position(selectedPoint).title(destName));
+            mMap.addMarker(new MarkerOptions().position(myPoint).title("My Location"));
+
+            LatLngBounds bounds = new LatLngBounds.Builder()
+                    .include(myPoint)
+                    .include(selectedPoint)
+                    .build();
+            int margin = getResources().getDimensionPixelSize(R.dimen.map_inset_margin);
+            CameraUpdate camUpdate = CameraUpdateFactory.newLatLngBounds(bounds, margin);
+            mMap.animateCamera(camUpdate);
+        }
     }
 
     @Override

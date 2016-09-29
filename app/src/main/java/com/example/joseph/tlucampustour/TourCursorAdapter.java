@@ -34,8 +34,8 @@ public class TourCursorAdapter extends CursorAdapter {
     {
         Cursor myCursor = getCursor();
         String name = myCursor.getString(NAME_COL_POSITION);
-        float lat = myCursor.getFloat(LAT_COL_POSITION);
-        float lon = myCursor.getFloat(LONG_COL_POSITION);
+        double lat = myCursor.getDouble(LAT_COL_POSITION);
+        double lon = myCursor.getDouble(LONG_COL_POSITION);
         int info = myCursor.getInt(INFO_COL_POSITION);
         int img = myCursor.getInt(IMG_COL_POSITION);
         int audio = myCursor.getInt(AUDIO_COL_POSITION);

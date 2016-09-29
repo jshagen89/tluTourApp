@@ -11,13 +11,13 @@ import java.io.Serializable;
 public class TourStop implements Parcelable{
 
     private String name;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
     private int infoTextID;
     private int imageID;
     private int audioID;
 
-    public TourStop(String name, float lat, float lon, int infoText, int img, int audio)
+    public TourStop(String name, double lat, double lon, int infoText, int img, int audio)
 
     {
         this.name = name;
@@ -34,12 +34,12 @@ public class TourStop implements Parcelable{
         return this.name;
     }
 
-    public float getLatitude()
+    public double getLatitude()
     {
         return this.latitude;
     }
 
-    public float getLongitude()
+    public double getLongitude()
     {
         return this.longitude;
     }
@@ -74,8 +74,8 @@ public class TourStop implements Parcelable{
     public void writeToParcel(Parcel parcel, int i) {
 
         parcel.writeString(name);
-        parcel.writeFloat(latitude);
-        parcel.writeFloat(longitude);
+        parcel.writeDouble(latitude);
+        parcel.writeDouble(longitude);
         parcel.writeInt(infoTextID);
         parcel.writeInt(imageID);
         parcel.writeInt(audioID);
@@ -95,8 +95,8 @@ public class TourStop implements Parcelable{
     private TourStop(Parcel in) {
 
         name = in.readString();
-        latitude = in.readFloat();
-        longitude = in.readFloat();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
         infoTextID = in.readInt();
         imageID = in.readInt();
         audioID = in.readInt();
