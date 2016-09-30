@@ -27,14 +27,10 @@ public class TourStopList extends AppCompatActivity
         LocationListener {
 
 
-    private TourStopDataSource myDataSource;
     private ArrayList<TourStop> allTourStops;
     private GoogleApiClient myGoogleClient;
     private Location myLocation;
-    private double myLat;
-    private double myLon;
     private ListView locationListLV;
-    private TourArrayAdapter myAdapter;
     private LocationRequest myLocationRequest;
 
     @Override
@@ -48,17 +44,14 @@ public class TourStopList extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         // Get all Tour Stops from database
-        myDataSource = new TourStopDataSource(this);
-        myDataSource.open();
-        allTourStops = myDataSource.getAllTourStops();
-        myDataSource.close();
+        getTourStops();
 
         // Create the Play Services client object
         buildGoogleApiClient();
 
         // layout list of tour stops and listen for user click events
         locationListLV = (ListView) findViewById(R.id.tourStopLV);
-        myAdapter = new TourArrayAdapter(this, allTourStops);
+        TourArrayAdapter myAdapter = new TourArrayAdapter(this, allTourStops);
         locationListLV.setAdapter(myAdapter);
         ListClickListener myClickListener = new ListClickListener();
         locationListLV.setOnItemClickListener(myClickListener);
@@ -67,29 +60,24 @@ public class TourStopList extends AppCompatActivity
     // Retrieves all TourStops from the database and populates arrayList
     private void getTourStops()
     {
-
+        TourStopDataSource myDataSource = new TourStopDataSource(this);
+        myDataSource.open();
+        allTourStops = myDataSource.getAllTourStops();
+        myDataSource.close();
     }
 
-    // Creates the Google API Client with Location Services
-    protected synchronized void buildGoogleApiClient() {
-        myGoogleClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        createLocationRequest();
-
-    }
-
-    // Gets the users current location
-    private Location getCurrentLocation() {
-        try {
-            myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
-            return myLocation;
-        } catch (SecurityException e) {
-            return null;
+    // Called by End Tour button on tour stop list view
+    public void endTour(View view)
+    {
+        if (myGoogleClient.isConnected())
+        {
+            LocationServices.FusedLocationApi.removeLocationUpdates(myGoogleClient, this);
+            myGoogleClient.disconnect();
         }
+        finish();
     }
+
+    /* ***************************** NAVIGATION METHODS START HERE ****************************** */
 
     // Called if user presses the back button
     @Override
@@ -133,6 +121,21 @@ public class TourStopList extends AppCompatActivity
         }
     }
 
+    /* ***************************** NAVIGATION METHODS END HERE ****************************** */
+    /* ***************************** LOCATION METHODS START HERE ****************************** */
+
+    // Creates the Google API Client with Location Services
+    protected synchronized void buildGoogleApiClient() {
+        myGoogleClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        createLocationRequest();
+
+    }
+
+
     // Called when the user has been prompted at runtime to grant permissions
     @Override
     public void onRequestPermissionsResult(int reqCode, @NonNull String[] perms, @NonNull int[] results) {
@@ -169,7 +172,10 @@ public class TourStopList extends AppCompatActivity
     }
 
     protected void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -187,13 +193,22 @@ public class TourStopList extends AppCompatActivity
         LocationServices.FusedLocationApi.removeLocationUpdates(myGoogleClient, this);
     }
 
+    // Gets the users current location
+    private Location getCurrentLocation() {
+        try {
+            myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
+            return myLocation;
+        } catch (SecurityException e) {
+            return null;
+        }
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         myLocation = location;
-        myLat = myLocation.getLatitude();
-        myLon = myLocation.getLongitude();
+        double myLat = myLocation.getLatitude();
+        double myLon = myLocation.getLongitude();
         float[] distance = new float[2];
-        boolean atLocation = false;
 
         for (TourStop tourStop : allTourStops)
         {
@@ -215,19 +230,12 @@ public class TourStopList extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i("Location", "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+        Log.i("Location", "Connection failed: ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
     }
 
-    // Called by End Tour button on tour stop list view
-    public void endTour(View view)
-    {
-        if (myGoogleClient.isConnected())
-        {
-            LocationServices.FusedLocationApi.removeLocationUpdates(myGoogleClient, this);
-            myGoogleClient.disconnect();
-        }
-        finish();
-    }
+    /* ***************************** LOCATION METHODS END HERE ****************************** */
+
 
     private class ListClickListener implements AdapterView.OnItemClickListener {
 

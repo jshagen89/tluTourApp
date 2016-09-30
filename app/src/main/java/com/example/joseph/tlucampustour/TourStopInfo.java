@@ -23,7 +23,6 @@ public class TourStopInfo extends AppCompatActivity {
     private SeekBar volumeControl;
 
 
-    private TourStop currStop;
     private String currName;
     private int infoTextID;
     private int audioID;
@@ -39,7 +38,7 @@ public class TourStopInfo extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        currStop = getIntent().getExtras().getParcelable("TourStop");
+        TourStop currStop = getIntent().getExtras().getParcelable("TourStop");
         if (currStop != null)
         {
             currName = currStop.getName();

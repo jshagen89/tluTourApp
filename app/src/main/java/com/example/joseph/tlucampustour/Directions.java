@@ -1,13 +1,11 @@
 package com.example.joseph.tlucampustour;
 
-import android.*;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +20,7 @@ import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.*;
 
 import static com.example.joseph.tlucampustour.Constants.*;
 
@@ -35,7 +31,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private String destName;
     private GoogleApiClient myGoogleClient;
     private GoogleMap mMap;
-    private SupportMapFragment mapFragment;
     private Location myLocation;
     private LocationRequest myLocationRequest;
     private double selectedLat;
@@ -68,7 +63,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         myTV.setText(destName);
 
         // Set up Google Map for directions
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
@@ -99,14 +94,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     {
         setResult(RESULT_OK);
         finish();
-    }
-
-    // Called from location listener if user arrives at a tour stop
-    public void reachedTourStop()
-    {
-        Intent myIntent = new Intent(Directions.this, TourStopInfo.class);
-        myIntent.putExtra("TourStop", destination);
-        startActivity(myIntent);
     }
 
     /* ***************************** END NAVIGATION METHODS ****************************** */
@@ -195,7 +182,10 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     }
 
     protected void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -213,10 +203,32 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         LocationServices.FusedLocationApi.removeLocationUpdates(myGoogleClient, this);
     }
 
+    // Called from location listener if user arrives at a tour stop
+    public void reachedTourStop()
+    {
+        Intent myIntent = new Intent(Directions.this, TourStopInfo.class);
+        myIntent.putExtra("TourStop", destination);
+        startActivity(myIntent);
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         myLocation = location;
-        updateMap();
+        float[] distance = new float[2];
+
+        // Get distance between user and selected destination
+        Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
+                destination.getLatitude(), destination.getLongitude(), distance);
+
+        // If user is within the radius of selected destination, load info activity
+        if (distance[0] < destination.getRadius())
+        {
+            reachedTourStop();
+        }
+        else
+        {
+            updateMap();
+        }
     }
 
     // If connection is suspended, attempt to reconnect
