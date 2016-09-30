@@ -195,18 +195,16 @@ public class TourStopList extends AppCompatActivity
         float[] distance = new float[2];
         boolean atLocation = false;
 
-        /*
         for (TourStop tourStop : allTourStops)
         {
             Location.distanceBetween(myLat, myLon, tourStop.getLatitude(), tourStop.getLongitude(), distance);
             if (distance[0] < tourStop.getRadius())
             {
-                Intent myIntent = new Intent(TourStopList.this, Directions.class);
-                myIntent.putExtra("Selected Stop", tourStop);
+                Intent myIntent = new Intent(TourStopList.this, TourStopInfo.class);
+                myIntent.putExtra("TourStop", tourStop);
                 startActivity(myIntent);
             }
         }
-        */
     }
 
     // If connection is suspended, attempt to reconnect

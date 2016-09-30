@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -75,6 +76,18 @@ public class TourStopInfo extends AppCompatActivity {
     public void onStart()
     {
         super.onStart();
+        playAudio();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void playAudio()
@@ -155,6 +168,7 @@ public class TourStopInfo extends AppCompatActivity {
         myAudioPlayer.stop();
         finish();
     }
+
 
     @Override
     public void onStop()
