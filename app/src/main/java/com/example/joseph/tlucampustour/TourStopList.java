@@ -1,15 +1,12 @@
 package com.example.joseph.tlucampustour;
 
 import android.Manifest;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,15 +24,17 @@ import static com.example.joseph.tlucampustour.Constants.*;
 
 public class TourStopList extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, LoaderManager.LoaderCallbacks<Cursor> {
+        LocationListener {
 
 
+    private TourStopDataSource myDataSource;
+    private ArrayList<TourStop> allTourStops;
     private GoogleApiClient myGoogleClient;
     private Location myLocation;
     private double myLat;
     private double myLon;
     private ListView locationListLV;
-    private TourCursorAdapter myCursorAdapter;
+    private TourArrayAdapter myAdapter;
     private LocationRequest myLocationRequest;
 
     @Override
@@ -48,21 +47,27 @@ public class TourStopList extends AppCompatActivity
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+        // Get all Tour Stops from database
+        myDataSource = new TourStopDataSource(this);
+        myDataSource.open();
+        allTourStops = myDataSource.getAllTourStops();
+        myDataSource.close();
+
         // Create the Play Services client object
         buildGoogleApiClient();
 
-        // Create CursorAdapter to populate list items in location list
-        myCursorAdapter = new TourCursorAdapter(this, null, 0);
-
         // layout list of tour stops and listen for user click events
         locationListLV = (ListView) findViewById(R.id.tourStopLV);
-        locationListLV.setAdapter(myCursorAdapter);
+        myAdapter = new TourArrayAdapter(this, allTourStops);
+        locationListLV.setAdapter(myAdapter);
         ListClickListener myClickListener = new ListClickListener();
         locationListLV.setOnItemClickListener(myClickListener);
+    }
 
-        // NEED TO GET ALL TOUR STOPS TO CHECK FOR RADIUS IN LOCATION UPDATE
+    // Retrieves all TourStops from the database and populates arrayList
+    private void getTourStops()
+    {
 
-        getLoaderManager().initLoader(0, null, this);
     }
 
     // Creates the Google API Client with Location Services
@@ -226,42 +231,12 @@ public class TourStopList extends AppCompatActivity
         finish();
     }
 
-    // Reloads data from database each time data is added or deleted
-    private void restartLoader() {
-        getLoaderManager().restartLoader(0,null,this);
-    }
-
-    // Creates Loader and specifies where the data is coming from
-    @Override
-    public android.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this,CONTENT_URI,null,null,null,null);
-    }
-
-    // Pass the returned data to the cursorAdapter when data is finished loading
-    @Override
-    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
-        myCursorAdapter.swapCursor(data);
-    }
-
-    @Override
-    public void onLoaderReset(android.content.Loader<Cursor> loader) {
-        myCursorAdapter.swapCursor(null);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == EDITOR_REQUEST_CODE && resultCode == RESULT_OK)
-        {
-            restartLoader();
-        }
-    }
-
     private class ListClickListener implements AdapterView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             // pass selected tour stop info to new intent
-            TourCursorAdapter myAdapter = (TourCursorAdapter) locationListLV.getAdapter();
+            TourArrayAdapter myAdapter = (TourArrayAdapter) locationListLV.getAdapter();
             TourStop selectedStop = myAdapter.getTourStop(i);
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
             myIntent.putExtra("Selected Stop", selectedStop);
