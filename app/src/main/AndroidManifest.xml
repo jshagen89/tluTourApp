@@ -26,6 +26,7 @@ package="com.example.joseph.tlucampustour">
     </activity>
     <activity android:name=".Directions"
         android:label="@string/title_activity_directions"
+        android:configChanges="orientation|screenSize"
         android:theme="@style/AppTheme" />
     <activity android:name=".TourStopInfo"
         android:label="@string/title_activity_tour_stop_info"

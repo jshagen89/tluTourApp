@@ -2,7 +2,6 @@ package com.example.joseph.tlucampustour;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -11,10 +10,10 @@ import static com.example.joseph.tlucampustour.Constants.*;
 /**
  * Created by Joseph on 9/14/2016.
  */
-public class DBOpenHelper extends SQLiteOpenHelper
+class DBOpenHelper extends SQLiteOpenHelper
 {
 
-    public DBOpenHelper(Context context)
+    DBOpenHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -32,7 +31,7 @@ public class DBOpenHelper extends SQLiteOpenHelper
         myTourStops[3] = new TourStop("Tschope Hall", 29.57206, -97.98265, 40, R.string.tschoepe_info, R.drawable.tschoepe, R.raw.tschope);
         myTourStops[4] = new TourStop("Baldus, Clifton, Trinity Housing", 29.57184, -97.98363, 55, R.string.baldus_clifton_trinity_info, R.drawable.baldus_clifton_trinity_housing, R.raw.baldus_clifton_trinity);
         myTourStops[5] = new TourStop("Krost and Health Sciences", 29.57096, -97.98347, 30, R.string.krost_info, R.drawable.krost_health_sciences, R.raw.krost);
-        myTourStops[6] = new TourStop("Weston Ranch", 27, -97, 50, R.string.weston_ranch_info, R.drawable.weston_ranch, R.raw.weston_ranch);
+        myTourStops[6] = new TourStop("Weston Ranch", 29, -97, 50, R.string.weston_ranch_info, R.drawable.weston_ranch, R.raw.weston_ranch);
         myTourStops[7] = new TourStop("Chapel of the Abiding Presence", 29.57262, -97.98376, 30, R.string.chapel_info, R.drawable.chapel, R.raw.chapel);
         myTourStops[8] = new TourStop("Campus Ministry/Servant Leadership", 29.57322, -97.98481, 40, R.string.campus_ministry_info, R.drawable.campus_ministry, R.raw.campus_ministry);
         myTourStops[9] = new TourStop("Hein Dining Hall", 29.57208, -97.98512, 45, R.string.hein_info, R.drawable.hein_dining_hall, R.raw.hein_dining_hall);
@@ -56,7 +55,7 @@ public class DBOpenHelper extends SQLiteOpenHelper
     }
 
     // Add a new TourStop to the db
-    public void addTourStop(SQLiteDatabase db, TourStop newStop)
+    private void addTourStop(SQLiteDatabase db, TourStop newStop)
     {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, newStop.getName());
