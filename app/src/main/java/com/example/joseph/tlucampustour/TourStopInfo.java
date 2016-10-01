@@ -74,7 +74,7 @@ public class TourStopInfo extends AppCompatActivity {
     @Override
     public void onStart()
     {
-        super.onStart();
+        super.onStart(); 
         playAudio();
     }
 
@@ -84,9 +84,9 @@ public class TourStopInfo extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
-                return true;
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private void playAudio()

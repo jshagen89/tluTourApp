@@ -43,6 +43,6 @@ public class TourInfo extends AppCompatActivity {
     // Opens the location list
     public void startTour(View view) {
         Intent myIntent = new Intent(this,TourStopList.class);
-        startActivityForResult(myIntent,EDITOR_REQUEST_CODE);
+        startActivity(myIntent);
     }
 }

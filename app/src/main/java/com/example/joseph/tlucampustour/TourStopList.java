@@ -122,6 +122,10 @@ public class TourStopList extends AppCompatActivity
         {
             startLocationUpdates();
         }
+        else
+        {
+            myGoogleClient.connect();
+        }
     }
 
     /* ***************************** NAVIGATION METHODS END HERE ****************************** */

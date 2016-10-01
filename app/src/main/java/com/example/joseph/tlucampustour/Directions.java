@@ -106,14 +106,12 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     // Called if user presses the back button
     @Override
     public void onBackPressed () {
-        setResult(RESULT_OK);
         finish();
     }
 
     // Called by return to list button
     public void returnToList(View view)
     {
-        setResult(RESULT_OK);
         finish();
     }
 
@@ -183,6 +181,10 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         if (myGoogleClient.isConnected())
         {
             startLocationUpdates();
+        }
+        else
+        {
+            myGoogleClient.connect();
         }
     }
 
