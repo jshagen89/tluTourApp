@@ -64,7 +64,7 @@ public class TourStopInfo extends AppCompatActivity {
         volumeControl.setOnSeekBarChangeListener(myVolumeListener);
         myAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         volumeControl.setMax(myAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-        volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_SYSTEM));
 
         myAudioPlayer = new AudioPlayer(audioID);
         NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();

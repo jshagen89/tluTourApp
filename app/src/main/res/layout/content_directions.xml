@@ -31,6 +31,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:padding="3dp"
+        android:background="@color/colorPrimaryDark"
         android:id="@+id/mapFrame"
         android:layout_below="@+id/tourStopName"
         android:layout_above="@+id/backToList" >
@@ -48,7 +50,7 @@
         android:layout_height="wrap_content"
         android:text="@string/return_to_list"
         android:id="@+id/backToList"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/gold_button_border"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

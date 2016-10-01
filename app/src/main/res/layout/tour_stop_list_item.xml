@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
+    android:elevation="5dp"
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:text="Large Text"
     android:textStyle="bold"
@@ -10,4 +11,4 @@
     android:ellipsize="end"
     android:id="@+id/tour_stop_item"
     android:layout_gravity="center_horizontal"
-    android:background="@color/lightYellow" />
+    android:background="@drawable/list_item_border" />

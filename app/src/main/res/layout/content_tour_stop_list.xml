@@ -32,9 +32,10 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:text="@string/end_tour"
         android:id="@+id/endTourButton"
-        android:background="@android:color/holo_red_light"
+        android:background="@drawable/end_tour_button_border"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
