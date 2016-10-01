@@ -32,6 +32,9 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private GoogleApiClient myGoogleClient;
     private GoogleMap mMap;
     private Location myLocation;
+    private Location prevLocation;
+    private boolean isMapInitialized;
+    private Marker myMarker;
     private LocationRequest myLocationRequest;
     private double selectedLat;
     private double selectedLon;
@@ -213,20 +216,36 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
     @Override
     public void onLocationChanged(Location location) {
-        myLocation = location;
-        float[] distance = new float[2];
+        float[] myDistance = new float[2];
+        float[] destDistance = new float[2];
 
-        // Get distance between user and selected destination
-        Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
-                destination.getLatitude(), destination.getLongitude(), distance);
-
-        // If user is within the radius of selected destination, load info activity
-        if (distance[0] < destination.getRadius())
+        if (isMapInitialized)
         {
-            reachedTourStop();
+            prevLocation = myLocation;
         }
         else
         {
+            prevLocation = location;
+        }
+
+        myLocation = location;
+
+        // Get distance between last user location and current location
+        Location.distanceBetween(prevLocation.getLatitude(), prevLocation.getLongitude(),
+                myLocation.getLatitude(), myLocation.getLongitude(), myDistance);
+
+        // Get distance between user and selected destination
+        Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
+                destination.getLatitude(), destination.getLongitude(), destDistance);
+
+        // If user is within the radius of selected destination, load info activity
+        if (Math.abs(destDistance[0]) < destination.getRadius())
+        {
+            reachedTourStop();
+        }
+        else if (!isMapInitialized || Math.abs(myDistance[0]) > UPDATE_LOCATION_DISTANCE)
+        {
+            // If user has moved far enough or if map is not initialized, update map
             updateMap();
         }
     }
@@ -246,35 +265,44 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private void updateMap()
     {
 
-        if (myLocation == null)
+        if (myLocation == null || prevLocation == null)
         {
             Log.d("LocationService", "Location is null");
             return;
         }
 
+        // Remove old location marker so that updated marker can be placed on map
+        if ( myMarker != null)
+        {
+            myMarker.remove();
+        }
+
         LatLng selectedPoint;
         // Add markers and update camera
-        if (myPoint == null)
-        {
-            double myLat = myLocation.getLatitude();
-            double myLon = myLocation.getLongitude();
+        double myLat = myLocation.getLatitude();
+        double myLon = myLocation.getLongitude();
+        Marker destMarker;
 
-            // Create points and add markers to map
-            myPoint = new LatLng(myLat, myLon);
+        // Create points and add markers to map
+        myPoint = new LatLng(myLat, myLon);
+        myMarker = mMap.addMarker(new MarkerOptions()
+                .position(myPoint)
+                .title("My Location")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        myMarker.showInfoWindow();
+
+        if (!isMapInitialized)
+        {
             selectedPoint = new LatLng(selectedLat, selectedLon);
-            mMap.addMarker(new MarkerOptions()
+            destMarker = mMap.addMarker(new MarkerOptions()
                     .position(selectedPoint)
                     .title(destName));
-            mMap.addMarker(new MarkerOptions()
-                    .position(myPoint)
-                    .title("My Location")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
             // Add radius outline to map
             mMap.addCircle(new CircleOptions()
-                .center(selectedPoint)
-                .radius(locationRadius)
-                .strokeColor(Color.BLUE));
+                    .center(selectedPoint)
+                    .radius(locationRadius)
+                    .strokeColor(Color.BLUE));
 
             // Move camera to markers and keep within specified bounds
             LatLngBounds bounds = new LatLngBounds.Builder()
@@ -285,7 +313,9 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             CameraUpdate camUpdate = CameraUpdateFactory.newLatLngBounds(bounds, margin);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TLUPoint, DEFAULT_CAMERA_ZOOM));
             mMap.animateCamera(camUpdate);
+            isMapInitialized = true;
         }
+
     }
 
     @Override
