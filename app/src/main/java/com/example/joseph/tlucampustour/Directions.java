@@ -93,6 +93,12 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             case R.id.location_details:
                 reachedTourStop();
                 break;
+            case R.id.satelliteMap:
+                setMapSatelliteView();
+                break;
+            case R.id.normalMap:
+                setMapNormalView();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -326,6 +332,22 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             CameraUpdate camUpdate = CameraUpdateFactory.newLatLngBounds(bounds, margin);
             mMap.animateCamera(camUpdate);
             isMapInitialized = true;
+        }
+    }
+
+    private void setMapSatelliteView()
+    {
+        if (mMap != null && mMap.getMapType() != GoogleMap.MAP_TYPE_SATELLITE)
+        {
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        }
+    }
+
+    private void setMapNormalView()
+    {
+        if (mMap != null && mMap.getMapType() != GoogleMap.MAP_TYPE_NORMAL)
+        {
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }
     }
 

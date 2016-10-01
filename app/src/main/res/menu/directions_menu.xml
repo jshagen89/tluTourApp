@@ -6,4 +6,14 @@
         android:title="Details"
         android:textStyle="bold"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/satelliteMap"
+        android:title="Satellite View"
+        android:textStyle="bold"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/normalMap"
+        android:title="Normal View"
+        android:textStyle="bold"
+        app:showAsAction="never" />
 </menu>
