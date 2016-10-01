@@ -305,6 +305,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
         if (!isMapInitialized)
         {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TLUPoint, DEFAULT_CAMERA_ZOOM));
             selectedPoint = new LatLng(selectedLat, selectedLon);
             destMarker = mMap.addMarker(new MarkerOptions()
                     .position(selectedPoint)
@@ -323,7 +324,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
                     .build();
             int margin = getResources().getDimensionPixelSize(R.dimen.map_inset_margin);
             CameraUpdate camUpdate = CameraUpdateFactory.newLatLngBounds(bounds, margin);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TLUPoint, DEFAULT_CAMERA_ZOOM));
             mMap.animateCamera(camUpdate);
             isMapInitialized = true;
         }

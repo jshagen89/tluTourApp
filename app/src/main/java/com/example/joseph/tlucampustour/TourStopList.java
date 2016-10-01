@@ -1,6 +1,8 @@
 package com.example.joseph.tlucampustour;
 
 import android.Manifest;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -11,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -241,6 +244,7 @@ public class TourStopList extends AppCompatActivity
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
             // pass selected tour stop info to new intent
             TourArrayAdapter myAdapter = (TourArrayAdapter) locationListLV.getAdapter();
             TourStop selectedStop = myAdapter.getTourStop(i);
