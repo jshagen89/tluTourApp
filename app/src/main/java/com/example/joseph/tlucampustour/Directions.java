@@ -10,6 +10,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -75,12 +77,22 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     /* ***************************** NAVIGATION METHODS START HERE ****************************** */
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.directions_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
-                return true;
+                break;
+            case R.id.location_details:
+                reachedTourStop();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -315,7 +327,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             mMap.animateCamera(camUpdate);
             isMapInitialized = true;
         }
-
     }
 
     @Override
