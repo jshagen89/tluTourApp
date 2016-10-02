@@ -156,33 +156,10 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        if (myGoogleClient.isConnected())
-        {
-            LocationServices.FusedLocationApi.removeLocationUpdates(myGoogleClient, this);
-            myGoogleClient.disconnect();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
-        if (myGoogleClient.isConnected()) {
-            stopLocationUpdates();
-        }
-    }
-
-    @Override
     public void onResume()
     {
         super.onResume();
-        if (myGoogleClient.isConnected())
-        {
-            startLocationUpdates();
-        }
-        else
+        if (!myGoogleClient.isConnected())
         {
             myGoogleClient.connect();
         }
@@ -220,10 +197,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 myGoogleClient, myLocationRequest, this);
-    }
-
-    private void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(myGoogleClient, this);
     }
 
     // Called from location listener if user arrives at a tour stop
@@ -301,7 +274,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         // Add markers and update camera
         double myLat = myLocation.getLatitude();
         double myLon = myLocation.getLongitude();
-        Marker destMarker;
 
         // Create points and add markers to map
         myPoint = new LatLng(myLat, myLon);
@@ -315,7 +287,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TLUPoint, DEFAULT_CAMERA_ZOOM));
             selectedPoint = new LatLng(selectedLat, selectedLon);
-            destMarker = mMap.addMarker(new MarkerOptions()
+            Marker destMarker = mMap.addMarker(new MarkerOptions()
                     .position(selectedPoint)
                     .title(destName));
 

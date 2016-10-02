@@ -74,7 +74,7 @@ public class TourStopInfo extends AppCompatActivity {
     @Override
     public void onStart()
     {
-        super.onStart(); 
+        super.onStart();
         playAudio();
     }
 

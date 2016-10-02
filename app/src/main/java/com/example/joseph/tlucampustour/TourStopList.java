@@ -1,8 +1,6 @@
 package com.example.joseph.tlucampustour;
 
 import android.Manifest;
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -13,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -74,7 +71,7 @@ public class TourStopList extends AppCompatActivity
     {
         if (myGoogleClient.isConnected())
         {
-            LocationServices.FusedLocationApi.removeLocationUpdates(myGoogleClient, this);
+            stopLocationUpdates();
             myGoogleClient.disconnect();
         }
         finish();
@@ -96,33 +93,10 @@ public class TourStopList extends AppCompatActivity
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        if (myGoogleClient.isConnected())
-        {
-            LocationServices.FusedLocationApi.removeLocationUpdates(myGoogleClient, this);
-            myGoogleClient.disconnect();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
-        if (myGoogleClient.isConnected()) {
-            stopLocationUpdates();
-        }
-    }
-
-    @Override
     public void onResume()
     {
         super.onResume();
-        if (myGoogleClient.isConnected())
-        {
-            startLocationUpdates();
-        }
-        else
+        if (!myGoogleClient.isConnected())
         {
             myGoogleClient.connect();
         }
