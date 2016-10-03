@@ -52,7 +52,7 @@ abstract class Constants {
 
     // Google Location Service Constants
     static final int EDITOR_REQUEST_CODE = 1001;
-    static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
     static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     static final LatLng TLUPoint = new LatLng(29.572682, -97.985592);
     static final float DEFAULT_CAMERA_ZOOM = 15.0f;
