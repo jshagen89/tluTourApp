@@ -17,6 +17,7 @@ public class TourStop implements Parcelable{
     private int infoTextID;
     private int imageID;
     private int audioID;
+    private boolean beenPlayed;
 
     public TourStop(String name, double lat, double lon, double rad, int infoText, int img, int audio)
 
@@ -28,6 +29,7 @@ public class TourStop implements Parcelable{
         this.infoTextID = infoText;
         this.imageID = img;
         this.audioID = audio;
+        this.beenPlayed = false;
     }
 
     public String getName()
@@ -65,6 +67,16 @@ public class TourStop implements Parcelable{
         return this.audioID;
     }
 
+    public boolean hasBeenPlayed()
+    {
+        return this.beenPlayed;
+    }
+
+    public void setPlayed(boolean value)
+    {
+        this.beenPlayed = value;
+    }
+
     @Override
     public String toString()
 
@@ -87,6 +99,7 @@ public class TourStop implements Parcelable{
         parcel.writeInt(infoTextID);
         parcel.writeInt(imageID);
         parcel.writeInt(audioID);
+        parcel.writeByte((byte) (beenPlayed ? 1 : 0));
     }
 
     public static final Parcelable.Creator<TourStop> CREATOR
@@ -109,5 +122,6 @@ public class TourStop implements Parcelable{
         infoTextID = in.readInt();
         imageID = in.readInt();
         audioID = in.readInt();
+        beenPlayed = in.readByte() != 0;
     }
 }

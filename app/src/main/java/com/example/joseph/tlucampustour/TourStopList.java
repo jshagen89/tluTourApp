@@ -194,9 +194,10 @@ public class TourStopList extends AppCompatActivity
         for (TourStop tourStop : allTourStops)
         {
             Location.distanceBetween(myLat, myLon, tourStop.getLatitude(), tourStop.getLongitude(), distance);
-            if (distance[0] < tourStop.getRadius())
+            if (distance[0] < tourStop.getRadius() && !tourStop.hasBeenPlayed())
             {
                 Intent myIntent = new Intent(TourStopList.this, TourStopInfo.class);
+                tourStop.setPlayed(true);
                 myIntent.putExtra("TourStop", tourStop);
                 startActivity(myIntent);
             }

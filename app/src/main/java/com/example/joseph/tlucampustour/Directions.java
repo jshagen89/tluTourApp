@@ -203,6 +203,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     public void reachedTourStop()
     {
         Intent myIntent = new Intent(Directions.this, TourStopInfo.class);
+        destination.setPlayed(true);
         myIntent.putExtra("TourStop", destination);
         startActivity(myIntent);
     }
@@ -232,7 +233,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
                 destination.getLatitude(), destination.getLongitude(), destDistance);
 
         // If user is within the radius of selected destination, load info activity
-        if (Math.abs(destDistance[0]) < destination.getRadius())
+        if (Math.abs(destDistance[0]) < destination.getRadius() && !destination.hasBeenPlayed())
         {
             reachedTourStop();
         }

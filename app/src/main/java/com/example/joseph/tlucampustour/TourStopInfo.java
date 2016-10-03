@@ -60,11 +60,12 @@ public class TourStopInfo extends AppCompatActivity {
 
         playPauseButton = (ImageButton) findViewById(R.id.playPauseButton);
         volumeControl = (SeekBar) findViewById(R.id.volumeControl);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         VolumeChangeListener myVolumeListener = new VolumeChangeListener();
         volumeControl.setOnSeekBarChangeListener(myVolumeListener);
         myAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         volumeControl.setMax(myAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-        volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_SYSTEM));
+        volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
 
         myAudioPlayer = new AudioPlayer(audioID);
         NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
@@ -147,17 +148,6 @@ public class TourStopInfo extends AppCompatActivity {
         playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
         myAudioPlayer.stop();
         isAudioPlaying = false;
-    }
-
-    // Used to determine if user adjusted volume with device volume controls
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // if one of the volume keys were pressed
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP)
-        {
-            volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     // Called if user presses the back button
