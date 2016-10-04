@@ -10,10 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,16 +18,12 @@ import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
 import com.akexorcist.googledirection.constant.RequestResult;
 import com.akexorcist.googledirection.constant.TransportMode;
-import com.akexorcist.googledirection.model.Direction;
-import com.akexorcist.googledirection.model.Leg;
-import com.akexorcist.googledirection.model.Route;
+import com.akexorcist.googledirection.model.*;
 import com.akexorcist.googledirection.util.DirectionConverter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
 import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.*;
 
 import java.util.ArrayList;
@@ -352,7 +345,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     /* ***************************** DIRECTION METHODS START HERE ****************************** */
 
     // Get Walking Directions for user to destination
-    
+
     public void getDirections()
     {
         GoogleDirection.withServerKey(DIRECTIONS_API_KEY)
