@@ -31,7 +31,6 @@ package="com.example.joseph.tlucampustour">
     <activity android:name=".TourStopInfo"
         android:label="@string/title_activity_tour_stop_info"
         android:parentActivityName=".TourStopList"
-        android:configChanges="orientation|screenSize"
         android:theme="@style/AppTheme">
         <meta-data android:name="android.support.PARENT_ACTIVITY"
             android:value="com.example.joseph.tlucampustour.TourStopList" />

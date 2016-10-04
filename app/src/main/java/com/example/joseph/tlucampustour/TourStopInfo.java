@@ -14,8 +14,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
@@ -31,9 +33,10 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private TourStop currStop;
-    private static AudioPlayer myAudioPlayer;
+    private AudioPlayer myAudioPlayer;
     private boolean isAudioPlaying;
     private boolean isAudioPaused;
+    private int audioPosition;
     private ImageButton playPauseButton;
     private AudioManager myAudioManager;
     private SeekBar volumeControl;
@@ -57,6 +60,17 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        if (savedInstanceState != null)
+        {
+            isAudioPlaying = savedInstanceState.getBoolean("isPlaying");
+            if (isAudioPlaying)
+            {
+                audioPosition = savedInstanceState.getInt("audioPosition");
+                myAudioPlayer.seekTo(audioPosition);
+                myAudioPlayer.start();
+            }
+        }
+
         currStop = getIntent().getExtras().getParcelable("TourStop");
         if (currStop != null)
         {
@@ -69,6 +83,7 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         buildGoogleApiClient();
         initializeAudioControls();
     }
+
 
     private void initializeUI()
     {
@@ -101,6 +116,19 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
         myAudioPlayer.setAudioCompletionListener(myCompletionListener);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        if (myAudioPlayer.isPlaying())
+        {
+            outState.putInt("audioPosition", myAudioPlayer.getCurrentPosition());
+            outState.putBoolean("isPlaying", myAudioPlayer.isPlaying());
+            myAudioPlayer.pause();
+        }
+        super.onSaveInstanceState(outState);
+    }
+
 
     @Override
     public void onStart()
