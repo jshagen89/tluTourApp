@@ -15,7 +15,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.constant.RequestResult;
+import com.akexorcist.googledirection.constant.TransportMode;
+import com.akexorcist.googledirection.model.Direction;
+import com.akexorcist.googledirection.model.Leg;
+import com.akexorcist.googledirection.model.Route;
+import com.akexorcist.googledirection.util.DirectionConverter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
@@ -24,10 +33,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.*;
 
+import java.util.ArrayList;
+
 import static com.example.joseph.tlucampustour.Constants.*;
 
 public class Directions extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,
+        DirectionCallback{
 
     private TourStop destination;
     private String destName;
@@ -41,7 +53,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private double selectedLat;
     private double selectedLon;
     private double locationRadius;
-    LatLng myPoint;
+    private LatLng myPoint;
+    private LatLng selectedPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,7 +284,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             myMarker.remove();
         }
 
-        LatLng selectedPoint;
         // Add markers and update camera
         double myLat = myLocation.getLatitude();
         double myLon = myLocation.getLongitude();
@@ -308,6 +320,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             mMap.animateCamera(camUpdate);
             isMapInitialized = true;
         }
+        getDirections();
     }
 
     private void setMapSatelliteView()
@@ -332,5 +345,44 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TLUPoint, DEFAULT_CAMERA_ZOOM));
         myLocation = getCurrentLocation();
         updateMap();
+    }
+
+
+    /* ***************************** END LOCATION METHODS ****************************** */
+    /* ***************************** DIRECTION METHODS START HERE ****************************** */
+
+    // Get Walking Directions for user to destination
+    
+    public void getDirections()
+    {
+        GoogleDirection.withServerKey(DIRECTIONS_API_KEY)
+                .from(myPoint)
+                .to(selectedPoint)
+                .transportMode(TransportMode.WALKING)
+                .execute(this);
+    }
+
+    @Override
+    public void onDirectionSuccess(Direction direction, String rawBody) {
+        String status = direction.getStatus();
+        if(status.equals(RequestResult.OK))
+        {
+            Route route = direction.getRouteList().get(0);
+            Leg leg = route.getLegList().get(0);
+            ArrayList<LatLng> pointList = leg.getDirectionPoint();
+            PolylineOptions polylineOptions = DirectionConverter.createPolyline(this, pointList, 5, Color.BLUE);
+            mMap.addPolyline(polylineOptions);
+        }
+        else
+        {
+            Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
+    @Override
+    public void onDirectionFailure(Throwable t) {
+        Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_LONG);
+        toast.show();
     }
 }

@@ -26,5 +26,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:9.6.0'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.google.android.gms:play-services:9.6.0'
+    compile 'com.akexorcist:googledirectionlibrary:1.0.4'       // Directions GitHub Code Dependency
     testCompile 'junit:junit:4.12'
 }
