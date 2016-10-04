@@ -108,11 +108,18 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+                if (myGoogleClient.isConnected())
+                {
+                    stopLocationUpdates();
+                    myGoogleClient.disconnect();
+                }
                 finish();
                 break;
         }
         return true;
     }
+
+
 
     private void playAudio()
     {
@@ -177,7 +184,11 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
     // Called if user presses the back button
     @Override
     public void onBackPressed () {
-        setResult(RESULT_OK);
+        if (myGoogleClient.isConnected())
+        {
+            stopLocationUpdates();
+            myGoogleClient.disconnect();
+        }
         myAudioPlayer.stop();
         finish();
     }
@@ -228,6 +239,10 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 myGoogleClient, myLocationRequest, this);
+    }
+
+    private void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(myGoogleClient, this);
     }
 
     // Gets the users current location

@@ -57,5 +57,5 @@ abstract class Constants {
     static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     static final LatLng TLUPoint = new LatLng(29.572682, -97.985592);
     static final float DEFAULT_CAMERA_ZOOM = 15.0f;
-    static final int UPDATE_LOCATION_DISTANCE = 10;
+    static final int UPDATE_LOCATION_DISTANCE = 30;
 }

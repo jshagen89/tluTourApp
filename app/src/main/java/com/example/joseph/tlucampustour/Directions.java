@@ -94,6 +94,11 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
+                if (myGoogleClient.isConnected())
+                {
+                    stopLocationUpdates();
+                    myGoogleClient.disconnect();
+                }
                 finish();
                 break;
             case R.id.location_details:
@@ -112,12 +117,22 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     // Called if user presses the back button
     @Override
     public void onBackPressed () {
+        if (myGoogleClient.isConnected())
+        {
+            stopLocationUpdates();
+            myGoogleClient.disconnect();
+        }
         finish();
     }
 
     // Called by return to list button
     public void returnToList(View view)
     {
+        if (myGoogleClient.isConnected())
+        {
+            stopLocationUpdates();
+            myGoogleClient.disconnect();
+        }
         finish();
     }
 
@@ -203,6 +218,10 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 myGoogleClient, myLocationRequest, this);
+    }
+
+    private void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(myGoogleClient, this);
     }
 
     // Called from location listener if user arrives at a tour stop
@@ -368,14 +387,14 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         }
         else
         {
-            Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
 
     @Override
     public void onDirectionFailure(Throwable t) {
-        Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_SHORT);
         toast.show();
     }
 }

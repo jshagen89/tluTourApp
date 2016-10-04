@@ -82,7 +82,11 @@ public class TourStopList extends AppCompatActivity
     // Called if user presses the back button
     @Override
     public void onBackPressed() {
-        setResult(RESULT_OK);
+        stopLocationUpdates();
+        if (myGoogleClient.isConnected())
+        {
+            myGoogleClient.disconnect();
+        }
         finish();
     }
 
@@ -227,6 +231,7 @@ public class TourStopList extends AppCompatActivity
             // pass selected tour stop info to new intent
             TourArrayAdapter myAdapter = (TourArrayAdapter) locationListLV.getAdapter();
             TourStop selectedStop = myAdapter.getTourStop(i);
+            Bundle myBundle = new Bundle();
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
             myIntent.putExtra("Selected Stop", selectedStop);
             startActivity(myIntent);
