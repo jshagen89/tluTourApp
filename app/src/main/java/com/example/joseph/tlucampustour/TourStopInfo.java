@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
@@ -276,6 +277,22 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         {
             finish();
         }
+    }
+
+    // Adjust seekbar volume control if user presses volume buttons
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int action = event.getAction();
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+                }
+
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     private class NarrationCompletionListener implements MediaPlayer.OnCompletionListener {
