@@ -166,6 +166,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
             return myLocation;
         } catch (SecurityException e) {
+            Log.d("LocationService", "Error: " + e);
             return null;
         }
     }

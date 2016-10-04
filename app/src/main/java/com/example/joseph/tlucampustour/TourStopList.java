@@ -159,10 +159,8 @@ public class TourStopList extends AppCompatActivity
     // NEED TO FIGURE OUT HOW TO GET PERMISSION TO USE LOCATION FOR OLDER APIS
     protected void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PackageManager.PERMISSION_GRANTED);
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
@@ -226,7 +224,6 @@ public class TourStopList extends AppCompatActivity
             // pass selected tour stop info to new intent
             TourArrayAdapter myAdapter = (TourArrayAdapter) locationListLV.getAdapter();
             TourStop selectedStop = myAdapter.getTourStop(i);
-            Bundle myBundle = new Bundle();
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
             myIntent.putExtra("Selected Stop", selectedStop);
             startActivity(myIntent);

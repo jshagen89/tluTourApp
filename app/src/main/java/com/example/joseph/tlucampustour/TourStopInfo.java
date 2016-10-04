@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -30,7 +31,7 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private TourStop currStop;
-    private AudioPlayer myAudioPlayer;
+    private static AudioPlayer myAudioPlayer;
     private boolean isAudioPlaying;
     private boolean isAudioPaused;
     private ImageButton playPauseButton;
@@ -82,14 +83,19 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
 
     private void initializeAudioControls()
     {
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         playPauseButton = (ImageButton) findViewById(R.id.playPauseButton);
         volumeControl = (SeekBar) findViewById(R.id.volumeControl);
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        VolumeChangeListener myVolumeListener = new VolumeChangeListener();
-        volumeControl.setOnSeekBarChangeListener(myVolumeListener);
         myAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        volumeControl.setMax(myAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-        volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+
+        // Volume control not present on small devices
+        if (volumeControl != null)
+        {
+            VolumeChangeListener myVolumeListener = new VolumeChangeListener();
+            volumeControl.setOnSeekBarChangeListener(myVolumeListener);
+            volumeControl.setMax(myAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+            volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        }
 
         myAudioPlayer = new AudioPlayer(audioID);
         NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
@@ -118,8 +124,6 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         }
         return true;
     }
-
-
 
     private void playAudio()
     {
@@ -302,7 +306,7 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                if (action == KeyEvent.ACTION_DOWN) {
+                if (volumeControl != null && action == KeyEvent.ACTION_DOWN) {
                     volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
                 }
 
