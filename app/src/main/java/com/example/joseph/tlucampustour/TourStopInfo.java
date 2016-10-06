@@ -3,6 +3,7 @@ package com.example.joseph.tlucampustour;
 import android.*;
 import android.Manifest;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Location;
@@ -53,6 +54,13 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Lock orientation to portrait if device is a phone
+        if(getResources().getBoolean(R.bool.portrait_only))
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         setContentView(R.layout.activity_tour_stop_info);
 
         if (getSupportActionBar() != null)

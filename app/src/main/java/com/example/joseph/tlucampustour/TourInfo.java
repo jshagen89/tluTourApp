@@ -1,6 +1,7 @@
 package com.example.joseph.tlucampustour;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,6 +15,13 @@ public class TourInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Lock orientation to portrait if device is a phone
+        if(getResources().getBoolean(R.bool.portrait_only))
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         setContentView(R.layout.activity_tour_info);
         setTitle(R.string.app_name);
     }
