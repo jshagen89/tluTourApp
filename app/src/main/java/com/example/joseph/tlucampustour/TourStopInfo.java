@@ -55,7 +55,6 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         // Lock orientation to portrait if device is a phone
         if(getResources().getBoolean(R.bool.portrait_only))
@@ -78,9 +77,28 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
             imgID = currStop.getImage();
             audioID = currStop.getAudioFile();
         }
+
         initializeUI();
         buildGoogleApiClient();
         initializeAudioControls();
+        myAudioPlayer = new AudioPlayer(audioID);
+        NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
+        myAudioPlayer.setAudioCompletionListener(myCompletionListener);
+
+        if (savedInstanceState != null)
+        {
+            isAudioPlaying = savedInstanceState.getBoolean("isPlaying");
+            Log.d("Audio", "Value is " + isAudioPlaying);
+            audioPosition = savedInstanceState.getInt("audioPosition");
+            Log.d("Audio", "Position is " + audioPosition);
+            playAudio();
+            myAudioPlayer.seekTo(audioPosition);
+        }
+        else
+        {
+            playAudio();
+        }
+        super.onCreate(savedInstanceState);
     }
 
 
@@ -124,33 +142,10 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)
-    {
-        if (savedInstanceState != null)
-        {
-            audioPosition = myAudioPlayer.getCurrentPosition();
-            isAudioPlaying = savedInstanceState.getBoolean("isPlaying");
-            Log.d("Audio", "Value is " + isAudioPlaying);
-            audioPosition = savedInstanceState.getInt("audioPosition");
-            Log.d("Audio", "Position is " + audioPosition);
-            myAudioPlayer.seekTo(audioPosition);
-        }
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
 
     @Override
     public void onStart()
     {
-        if (!isAudioPlaying)
-        {
-            Log.d("Audio", "onStart Called");
-            myAudioPlayer = new AudioPlayer(audioID);
-            NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
-            myAudioPlayer.setAudioCompletionListener(myCompletionListener);
-            playAudio();
-        }
         super.onStart();
     }
 
