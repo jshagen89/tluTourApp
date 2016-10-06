@@ -27,6 +27,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
 
+import org.parceler.Parcels;
+
 import static com.example.joseph.tlucampustour.Constants.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS;
 import static com.example.joseph.tlucampustour.Constants.UPDATE_INTERVAL_IN_MILLISECONDS;
 
@@ -66,17 +68,6 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         if (getSupportActionBar() != null)
         {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        if (savedInstanceState != null)
-        {
-            isAudioPlaying = savedInstanceState.getBoolean("isPlaying");
-            if (isAudioPlaying)
-            {
-                audioPosition = savedInstanceState.getInt("audioPosition");
-                myAudioPlayer.seekTo(audioPosition);
-                myAudioPlayer.start();
-            }
         }
 
         currStop = getIntent().getExtras().getParcelable("TourStop");
@@ -119,10 +110,6 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
             volumeControl.setMax(myAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
             volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
         }
-
-        myAudioPlayer = new AudioPlayer(audioID);
-        NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
-        myAudioPlayer.setAudioCompletionListener(myCompletionListener);
     }
 
     @Override
@@ -130,19 +117,41 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
     {
         if (myAudioPlayer.isPlaying())
         {
-            outState.putInt("audioPosition", myAudioPlayer.getCurrentPosition());
-            outState.putBoolean("isPlaying", myAudioPlayer.isPlaying());
+            outState.putInt("audioPosition", audioPosition);
+            outState.putBoolean("isPlaying", true);
             myAudioPlayer.pause();
         }
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        if (savedInstanceState != null)
+        {
+            audioPosition = myAudioPlayer.getCurrentPosition();
+            isAudioPlaying = savedInstanceState.getBoolean("isPlaying");
+            Log.d("Audio", "Value is " + isAudioPlaying);
+            audioPosition = savedInstanceState.getInt("audioPosition");
+            Log.d("Audio", "Position is " + audioPosition);
+            myAudioPlayer.seekTo(audioPosition);
+        }
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
 
     @Override
     public void onStart()
     {
+        if (!isAudioPlaying)
+        {
+            Log.d("Audio", "onStart Called");
+            myAudioPlayer = new AudioPlayer(audioID);
+            NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
+            myAudioPlayer.setAudioCompletionListener(myCompletionListener);
+            playAudio();
+        }
         super.onStart();
-        playAudio();
     }
 
     @Override
@@ -187,8 +196,6 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
     // Called by play/pause button for audio controls
     public void playPauseAudio(View view)
     {
-        // Need to add on completed listener to button to handle completion of audio clip
-
         if (isAudioPlaying)
         {
             togglePauseAudio();
@@ -237,8 +244,12 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onStop()
     {
-        super.onStop();
+        if (myAudioPlayer.isPlaying())
+        {
+            audioPosition = myAudioPlayer.getCurrentPosition();
+        }
         myAudioPlayer.stop();
+        super.onStop();
     }
 
     /* ***************************** LOCATION METHODS START HERE ****************************** */
