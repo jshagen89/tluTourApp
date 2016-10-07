@@ -1,11 +1,9 @@
 package com.example.joseph.tlucampustour;
 
-import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.location.Location;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -13,33 +11,29 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
 
-import org.parceler.Parcels;
-
 import static com.example.joseph.tlucampustour.Constants.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS;
 import static com.example.joseph.tlucampustour.Constants.UPDATE_INTERVAL_IN_MILLISECONDS;
 
-public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+public class TourStopInfo extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private TourStop currStop;
     private AudioPlayer myAudioPlayer;
     private boolean isAudioPlaying;
     private boolean isAudioPaused;
-    private int audioPosition;
     private ImageButton playPauseButton;
     private AudioManager myAudioManager;
     private SeekBar volumeControl;
@@ -55,6 +49,8 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         // Lock orientation to portrait if device is a phone
         if(getResources().getBoolean(R.bool.portrait_only))
@@ -62,11 +58,9 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        setContentView(R.layout.activity_tour_stop_info);
-
-        if (getSupportActionBar() != null)
+        if (getActionBar() != null)
         {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         currStop = getIntent().getExtras().getParcelable("TourStop");
@@ -78,68 +72,22 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
             audioID = currStop.getAudioFile();
         }
 
-        initializeUI();
+        setContentView(R.layout.activity_tour_stop_info);
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment myFragment = fm.findFragmentById(R.id.fragmentContainer);
+
+        if (myFragment != null)
+        {
+            myFragment = new TourStopInfoFragment();
+            Bundle arguments = new Bundle();
+            arguments.putParcelable("TourStop", currStop);
+            myFragment.setArguments(arguments);
+            fm.beginTransaction()
+                    .add(R.id.fragmentContainer, myFragment)
+                    .commit();
+        }
+
         buildGoogleApiClient();
-        initializeAudioControls();
-        myAudioPlayer = new AudioPlayer(audioID);
-        NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
-        myAudioPlayer.setAudioCompletionListener(myCompletionListener);
-
-        if (savedInstanceState != null)
-        {
-            isAudioPlaying = savedInstanceState.getBoolean("isPlaying");
-            Log.d("Audio", "Value is " + isAudioPlaying);
-            audioPosition = savedInstanceState.getInt("audioPosition");
-            Log.d("Audio", "Position is " + audioPosition);
-            playAudio();
-            myAudioPlayer.seekTo(audioPosition);
-        }
-        else
-        {
-            playAudio();
-        }
-        super.onCreate(savedInstanceState);
-    }
-
-
-    private void initializeUI()
-    {
-        setTitle(currName);
-        TextView nameTV = (TextView) findViewById(R.id.tourStopName);
-        nameTV.setText(currName);
-        TextView infoTV = (TextView) findViewById(R.id.tourStopInfo);
-        infoTV.setText(infoTextID);
-        ImageView tourStopIV = (ImageView) findViewById(R.id.tourStopImg);
-        tourStopIV.setImageResource(imgID);
-    }
-
-    private void initializeAudioControls()
-    {
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        playPauseButton = (ImageButton) findViewById(R.id.playPauseButton);
-        volumeControl = (SeekBar) findViewById(R.id.volumeControl);
-        myAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
-        // Volume control not present on small devices
-        if (volumeControl != null)
-        {
-            VolumeChangeListener myVolumeListener = new VolumeChangeListener();
-            volumeControl.setOnSeekBarChangeListener(myVolumeListener);
-            volumeControl.setMax(myAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-            volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
-        if (myAudioPlayer.isPlaying())
-        {
-            outState.putInt("audioPosition", audioPosition);
-            outState.putBoolean("isPlaying", true);
-            myAudioPlayer.pause();
-        }
-        super.onSaveInstanceState(outState);
     }
 
 
@@ -147,6 +95,13 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
     public void onStart()
     {
         super.onStart();
+        playAudio();
+    }
+
+    @Override
+    public  void onPause()
+    {
+        super.onPause();
     }
 
     @Override
@@ -239,10 +194,6 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onStop()
     {
-        if (myAudioPlayer.isPlaying())
-        {
-            audioPosition = myAudioPlayer.getCurrentPosition();
-        }
         myAudioPlayer.stop();
         super.onStop();
     }
