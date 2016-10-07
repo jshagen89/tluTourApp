@@ -16,7 +16,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:padding="3dp"
         android:layout_marginBottom="16dp"
@@ -84,33 +83,27 @@
             android:src="@drawable/ic_skip_previous_black_48dp"
             android:id="@+id/prevButton"
             android:background="@android:color/transparent"
-            android:onClick="restartTrack"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/stopButton"
             android:layout_toStartOf="@+id/stopButton" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_stop_black_48dp"
-                android:id="@+id/stopButton"
-                android:background="@android:color/transparent"
-                android:onClick="stopAudio"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_stop_black_48dp"
+            android:id="@+id/stopButton"
+            android:background="@android:color/transparent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_play_arrow_black_48dp"
-                android:id="@+id/playPauseButton"
-                android:background="@android:color/transparent"
-                android:onClick="playPauseAudio"
-                android:layout_marginRight="97dp"
-                android:layout_marginEnd="97dp"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/stopButton"
-                android:layout_toEndOf="@+id/stopButton" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_play_arrow_black_48dp"
+            android:id="@+id/playPauseButton"
+            android:background="@android:color/transparent"
+            android:layout_marginEnd="97dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/stopButton" />
 
         <SeekBar
             android:layout_width="wrap_content"
@@ -120,9 +113,7 @@
             android:minHeight="10dp"
             android:maxHeight="10dp"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/playPauseButton"
             android:layout_toEndOf="@+id/playPauseButton"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:progressTint="@color/colorPrimaryDark"
             android:thumbTint="@color/colorPrimaryDark"/>

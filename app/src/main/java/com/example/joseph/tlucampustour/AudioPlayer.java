@@ -7,10 +7,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 
+import java.io.Serializable;
+
 /**
  * Created by Joseph on 9/12/2016.
  */
-public class AudioPlayer extends MediaPlayer {
+public class AudioPlayer extends MediaPlayer implements Serializable {
 
     private MediaPlayer myMediaPlayer;
     private int audioID;
@@ -54,6 +56,11 @@ public class AudioPlayer extends MediaPlayer {
     public boolean isPlaying()
     {
         return myMediaPlayer.isPlaying();
+    }
+
+    public void release()
+    {
+        super.release();
     }
 
     public int getCurrentPosition()
