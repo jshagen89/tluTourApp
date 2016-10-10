@@ -26,11 +26,34 @@ import static com.example.joseph.tlucampustour.Constants.*;
  */
 public class AudioService extends Service implements MediaPlayer.OnPreparedListener
 {
-    private MediaPlayer myAudioPlayer;
+    private AudioPlayer myAudioPlayer;
 
-    public AudioService()
+    public AudioService(int audioID, MediaPlayer.OnCompletionListener myListener)
     {
+        myAudioPlayer = new AudioPlayer(audioID);
+        myAudioPlayer.setOnCompletionListener(myListener);
+        myAudioPlayer.setOnPreparedListener(this);
+        myAudioPlayer.prepareAsync();
+    }
 
+    public void pauseAudio()
+    {
+        myAudioPlayer.pause();
+    }
+
+    public void resumeAudio()
+    {
+        myAudioPlayer.resume();
+    }
+
+    public void stopAudio()
+    {
+        myAudioPlayer.stop();
+    }
+
+    public void playAudio()
+    {
+        myAudioPlayer.start();
     }
 
     @Nullable

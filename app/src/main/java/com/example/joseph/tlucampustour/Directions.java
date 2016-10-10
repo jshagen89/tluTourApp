@@ -107,6 +107,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
                     stopLocationUpdates();
                     myGoogleClient.disconnect();
                 }
+                setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.location_details:
@@ -130,6 +131,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             stopLocationUpdates();
             myGoogleClient.disconnect();
         }
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -141,6 +143,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             stopLocationUpdates();
             myGoogleClient.disconnect();
         }
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -239,7 +242,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         Intent myIntent = new Intent(Directions.this, TourStopInfo.class);
         destination.setPlayed(true);
         myIntent.putExtra("TourStop", destination);
-        startActivity(myIntent);
+        startActivityForResult(myIntent, RESULT_OK);
     }
 
     @Override
@@ -376,10 +379,21 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
     public void getDirections()
     {
+        // Determine if user is on TLU campus
+        float[] distance = new float[2];
+        Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
+                TLU_CAMPUS_LAT, TLU_CAMPUS_LON, distance);
+        String transMode = TransportMode.WALKING;
+        // Set transport mode to driving if user is off campus
+        if (distance[0] > TLU_CAMPUS_RADIUS)
+        {
+            transMode = TransportMode.DRIVING;
+        }
+
         GoogleDirection.withServerKey(DIRECTIONS_API_KEY)
                 .from(myPoint)
                 .to(selectedPoint)
-                .transportMode(TransportMode.WALKING)
+                .transportMode(transMode)
                 .execute(this);
     }
 

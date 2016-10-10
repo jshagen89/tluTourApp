@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.*;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
 
@@ -20,11 +22,11 @@ import com.google.android.gms.location.*;
 import static com.example.joseph.tlucampustour.Constants.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS;
 import static com.example.joseph.tlucampustour.Constants.UPDATE_INTERVAL_IN_MILLISECONDS;
 
-public class TourStopInfo extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks,
+public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private TourStop currStop;
-    Fragment myFragment;
+    TourStopInfoFragment myFragment;
     private GoogleApiClient myGoogleClient;
     private LocationRequest myLocationRequest;
     private Location myLocation;
@@ -44,9 +46,9 @@ public class TourStopInfo extends FragmentActivity implements GoogleApiClient.Co
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        if (getActionBar() != null)
+        if (getSupportActionBar() != null)
         {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         currStop = getIntent().getExtras().getParcelable("TourStop");
@@ -81,6 +83,7 @@ public class TourStopInfo extends FragmentActivity implements GoogleApiClient.Co
                     stopLocationUpdates();
                     myGoogleClient.disconnect();
                 }
+                setResult(RESULT_OK);
                 finish();
                 break;
         }
@@ -95,6 +98,7 @@ public class TourStopInfo extends FragmentActivity implements GoogleApiClient.Co
             stopLocationUpdates();
             myGoogleClient.disconnect();
         }
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -184,8 +188,9 @@ public class TourStopInfo extends FragmentActivity implements GoogleApiClient.Co
         double myLat = myLocation.getLatitude();
         double myLon = myLocation.getLongitude();
         Location.distanceBetween(myLat, myLon, currStop.getLatitude(), currStop.getLongitude(), distance);
+        AudioPlayer myAudioPlayer = myFragment.getAudioPlayer();
 
-        if (distance[0] > currStop.getRadius())
+        if (distance[0] > currStop.getRadius() && !myAudioPlayer.isPlaying())
         {
             finish();
         }

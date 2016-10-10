@@ -55,7 +55,10 @@ abstract class Constants {
     static final String DIRECTIONS_API_KEY = "AIzaSyDwu1KeZqcNGUihZcCYQS9uywE4XNaHFwQ";
     static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
     static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-    static final LatLng TLUPoint = new LatLng(29.572682, -97.985592);
+    static final double TLU_CAMPUS_LAT = 29.572682;
+    static final double TLU_CAMPUS_LON = -97.985592;
+    static final LatLng TLUPoint = new LatLng(TLU_CAMPUS_LAT, TLU_CAMPUS_LON);
+    static final int TLU_CAMPUS_RADIUS = 600;
     static final float DEFAULT_CAMERA_ZOOM = 15.0f;
     static final int UPDATE_LOCATION_DISTANCE = 30;
 }

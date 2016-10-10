@@ -1,6 +1,7 @@
 package com.example.joseph.tlucampustour;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -19,6 +20,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
 import static com.example.joseph.tlucampustour.Constants.*;
@@ -33,6 +36,7 @@ public class TourStopList extends AppCompatActivity
     private Location myLocation;
     private ListView locationListLV;
     private LocationRequest myLocationRequest;
+    private boolean infoDisplayed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,9 @@ public class TourStopList extends AppCompatActivity
         locationListLV.setAdapter(myAdapter);
         ListClickListener myClickListener = new ListClickListener();
         locationListLV.setOnItemClickListener(myClickListener);
+
+        // Used to only allow one tour stop info activity to be displayed at a time
+        infoDisplayed = false;
     }
 
     // Retrieves all TourStops from the database and populates arrayList
@@ -199,12 +206,12 @@ public class TourStopList extends AppCompatActivity
         for (TourStop tourStop : allTourStops)
         {
             Location.distanceBetween(myLat, myLon, tourStop.getLatitude(), tourStop.getLongitude(), distance);
-            if (distance[0] < tourStop.getRadius() && !tourStop.hasBeenPlayed())
+            if (distance[0] < tourStop.getRadius() && !infoDisplayed && !tourStop.hasBeenPlayed())
             {
                 Intent myIntent = new Intent(TourStopList.this, TourStopInfo.class);
                 tourStop.setPlayed(true);
                 myIntent.putExtra("TourStop", tourStop);
-                startActivity(myIntent);
+                startActivityForResult(myIntent, RESULT_OK);
             }
         }
     }
@@ -234,7 +241,17 @@ public class TourStopList extends AppCompatActivity
             TourStop selectedStop = myAdapter.getTourStop(i);
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
             myIntent.putExtra("Selected Stop", selectedStop);
-            startActivity(myIntent);
+            startActivityForResult(myIntent, RESULT_OK);
+        }
+    }
+
+    // Reset boolean to allow another info activity to be displayed
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_OK)
+        {
+            infoDisplayed = false;
         }
     }
 }

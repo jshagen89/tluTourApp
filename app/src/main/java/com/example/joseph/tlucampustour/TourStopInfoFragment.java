@@ -1,6 +1,7 @@
 package com.example.joseph.tlucampustour;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -80,6 +81,13 @@ public class TourStopInfoFragment extends Fragment {
             volumeControl.setMax(myAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
             volumeControl.setProgress(myAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
         }
+
+        // Initialize Audio Player
+        myAudioPlayer = new AudioPlayer(audioID);
+        NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
+        myAudioPlayer.setOnCompletionListener(myCompletionListener);
+
+
 
         return myView;
     }
@@ -169,6 +177,12 @@ public class TourStopInfoFragment extends Fragment {
             isAudioPlaying = false;
             playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
         }
+    }
+
+    // Used by hosting activity to get reference to audio player
+    public AudioPlayer getAudioPlayer()
+    {
+        return myAudioPlayer;
     }
 
     private class NarrationCompletionListener implements MediaPlayer.OnCompletionListener {
