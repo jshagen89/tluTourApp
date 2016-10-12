@@ -61,4 +61,8 @@ abstract class Constants {
     static final int TLU_CAMPUS_RADIUS = 600;
     static final float DEFAULT_CAMERA_ZOOM = 15.0f;
     static final int UPDATE_LOCATION_DISTANCE = 30;
+    static final String MAP_OPTIONS_RESULT = "Map View";
+    static final int MAP_OPTIONS_REQUEST_CODE = 0;
+    static final int SATELLITE_MAP_CHOICE = 1;
+    static final int NORMAL_MAP_CHOICE = 2;
 }

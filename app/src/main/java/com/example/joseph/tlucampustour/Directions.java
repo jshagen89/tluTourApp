@@ -1,5 +1,9 @@
 package com.example.joseph.tlucampustour;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -8,6 +12,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -49,6 +54,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private double locationRadius;
     private LatLng myPoint;
     private LatLng selectedPoint;
+    private Polyline myMapRoute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,14 +119,33 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             case R.id.location_details:
                 reachedTourStop();
                 break;
-            case R.id.satelliteMap:
-                setMapSatelliteView();
-                break;
-            case R.id.normalMap:
-                setMapNormalView();
+            case R.id.mapOptions:
+                createOptionsDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createOptionsDialog()
+    {
+        FragmentManager fm = getFragmentManager();
+        MapOptionsMenuFragment options = new MapOptionsMenuFragment();
+        options.show(fm, "Map Options");
+    }
+
+    // Process map option choices
+    public void onOptionsSelected(Bundle choices)
+    {
+        // Map type user selection
+        int mapViewChoice = choices.getInt(MAP_OPTIONS_RESULT, NORMAL_MAP_CHOICE);
+
+        if (mapViewChoice == NORMAL_MAP_CHOICE)
+        {
+            setMapNormalView();
+        }
+        else if (mapViewChoice == SATELLITE_MAP_CHOICE) {
+            setMapSatelliteView();
+        }
     }
 
     // Called if user presses the back button
@@ -322,6 +347,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
         if (!isMapInitialized)
         {
+            // Move camera to TLU campus and place destination marker
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TLUPoint, DEFAULT_CAMERA_ZOOM));
             selectedPoint = new LatLng(selectedLat, selectedLon);
             Marker destMarker = mMap.addMarker(new MarkerOptions()
@@ -406,7 +432,13 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             Leg leg = route.getLegList().get(0);
             ArrayList<LatLng> pointList = leg.getDirectionPoint();
             PolylineOptions polylineOptions = DirectionConverter.createPolyline(this, pointList, 5, Color.BLUE);
-            mMap.addPolyline(polylineOptions);
+
+            // Remove old route before placing new one
+            if (myMapRoute != null)
+            {
+                myMapRoute.remove();
+            }
+            myMapRoute = mMap.addPolyline(polylineOptions);
         }
         else
         {
