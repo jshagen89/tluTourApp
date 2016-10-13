@@ -32,25 +32,54 @@ public class TourStopDataSource {
     {
         ArrayList<TourStop> allStops = new ArrayList<>(NUM_TOUR_STOPS);
         String name;
-        double lat;
-        double lon;
+        double Clat;
+        double Clon;
+        double Elat;
+        double Elon;
+        double Hlat;
+        double Hlon;
         double radius;
         int infoID;
         int imgID;
         int audioID;
+        int isBuild;
         Cursor myCursor = db.query(TABLE_TOUR_STOPS, TOUR_STOP_COLUMNS, null, null, null, null, null);
         if (myCursor.getCount() > 0)
         {
             while (myCursor.moveToNext())
             {
                 name = myCursor.getString(NAME_COL_POSITION);
-                lat = myCursor.getDouble(CENTER_LAT_COL_POSITION);
-                lon = myCursor.getDouble(CENTER_LONG_COL_POSITION);
+                Clat = myCursor.getDouble(CENTER_LAT_COL_POSITION);
+                Clon = myCursor.getDouble(CENTER_LONG_COL_POSITION);
+                Elat = Clat;
+                Elon = Clon;
+                Hlat = Clat;
+                Hlon = Clon;
                 radius = myCursor.getDouble(RADIUS_COL_POSITION);
                 infoID = myCursor.getInt(INFO_COL_POSITION);
                 imgID = myCursor.getInt(IMG_COL_POSITION);
                 audioID = myCursor.getInt(AUDIO_COL_POSITION);
-                TourStop newStop = new TourStop(name,lat,lon,radius,infoID,imgID,audioID);
+                isBuild = myCursor.getInt(IS_BUILDING_COL_POSITION);
+
+                // get building info for all tour stops that are buildings
+                if (isBuild == 1)
+                {
+                    String whereClause = COLUMN_NAME + " = ?";
+                    String[] values = {name};
+                    Cursor buildingCursor = db.query(TABLE_BUILDING_INFO, BUILDING_INFO_COLUMNS, whereClause, values, null, null, null);
+                    if (buildingCursor.getCount() > 0)
+                    {
+                        while (buildingCursor.moveToNext())
+                        {
+                            Elat = buildingCursor.getDouble(ENTRY_LAT_COL_POSITION);
+                            Elon = buildingCursor.getDouble(ENTRY_LON_COL_POSITION);
+                            Hlat = buildingCursor.getDouble(HANDICAP_LAT_COL_POSITION);
+                            Hlon = buildingCursor.getDouble(HANDICAP_LON_COL_POSITION);
+                        }
+                    }
+                }
+
+                TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,Hlat,Hlon,radius,infoID,imgID,audioID, isBuild);
                 allStops.add(newStop);
             }
             myCursor.close();

@@ -11,22 +11,35 @@ public class TourStop implements Parcelable{
     private String name;
     private double centerLatitude;
     private double centerLongitude;
+    private double entryLatitude;
+    private double entryLongitude;
+    private double handicapLatitude;
+    private double handicapLongitude;
     private double radius;
     private int infoTextID;
     private int imageID;
     private int audioID;
+    private boolean isBuilding;
     private boolean beenPlayed;
 
-    public TourStop(String name, double Clat, double Clon, double rad, int infoText, int img, int audio)
+    public TourStop(String name, double Clat, double Clon, double Elat, double Elon, double Hlat, double Hlon, double rad, int infoText, int img, int audio, int isBuild)
 
     {
         this.name = name;
         this.centerLatitude = Clat;
         this.centerLongitude = Clon;
+        this.entryLatitude = Elat;
+        this.entryLongitude = Elon;
+        this.handicapLatitude = Hlat;
+        this.entryLongitude = Hlon;
         this.radius = rad;
         this.infoTextID = infoText;
         this.imageID = img;
         this.audioID = audio;
+        if (isBuild == 1)
+            isBuilding = true;
+        else if (isBuild == 0)
+            isBuilding = false;
         this.beenPlayed = false;
     }
 
@@ -46,6 +59,26 @@ public class TourStop implements Parcelable{
         return this.centerLongitude;
     }
 
+    public double getEntryLatitude()
+    {
+        return this.entryLatitude;
+    }
+
+    public double getEntryLongitude()
+    {
+        return this.entryLongitude;
+    }
+
+    public double getHandicapLatitude()
+    {
+        return this.handicapLatitude;
+    }
+
+    public double getHandicapLongitude()
+    {
+        return this.handicapLongitude;
+    }
+
     public double getRadius()
     {
         return this.radius;
@@ -63,6 +96,11 @@ public class TourStop implements Parcelable{
     public int getAudioFile()
     {
         return this.audioID;
+    }
+
+    public boolean isBuilding()
+    {
+        return this.isBuilding;
     }
 
     public boolean hasBeenPlayed()
@@ -93,10 +131,15 @@ public class TourStop implements Parcelable{
         parcel.writeString(name);
         parcel.writeDouble(centerLatitude);
         parcel.writeDouble(centerLongitude);
+        parcel.writeDouble(entryLatitude);
+        parcel.writeDouble(entryLongitude);
+        parcel.writeDouble(handicapLatitude);
+        parcel.writeDouble(handicapLongitude);
         parcel.writeDouble(radius);
         parcel.writeInt(infoTextID);
         parcel.writeInt(imageID);
         parcel.writeInt(audioID);
+        parcel.writeByte((byte) (isBuilding ? 1 : 0));
         parcel.writeByte((byte) (beenPlayed ? 1 : 0));
     }
 
@@ -116,10 +159,15 @@ public class TourStop implements Parcelable{
         name = in.readString();
         centerLatitude = in.readDouble();
         centerLongitude = in.readDouble();
+        entryLatitude = in.readDouble();
+        entryLongitude = in.readDouble();
+        handicapLatitude = in.readDouble();
+        handicapLongitude = in.readDouble();
         radius = in.readDouble();
         infoTextID = in.readInt();
         imageID = in.readInt();
         audioID = in.readInt();
+        isBuilding = in.readByte() != 0;
         beenPlayed = in.readByte() != 0;
     }
 }

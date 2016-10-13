@@ -37,6 +37,7 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("");
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         // Lock orientation to portrait if device is a phone
@@ -58,7 +59,6 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
             imgID = currStop.getImage();
             audioID = currStop.getAudioFile();
         }
-        setTitle(currName);
 
         setContentView(R.layout.activity_tour_stop_info);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

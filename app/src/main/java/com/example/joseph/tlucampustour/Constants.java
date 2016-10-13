@@ -13,17 +13,25 @@ abstract class Constants {
     // Database Constants
     static final String DATABASE_NAME = "tlucampustour.db";
     static final String TABLE_TOUR_STOPS = "tourstops";
+    static final String TABLE_BUILDING_INFO = "buildingInfo";
     static final int DATABASE_VERSION = 1;
     static final String COLUMN_ID = "_id";
     static final String COLUMN_NAME = "name";
-    static final String COLUMN_CENTER_LATITUDE = "latitude";
-    static final String COLUMN_CENTER_LONGITUDE = "longitude";
+    static final String COLUMN_CENTER_LATITUDE = "centerLatitude";
+    static final String COLUMN_CENTER_LONGITUDE = "centerLongitude";
     static final String COLUMN_RADIUS = "radius";
     static final String COLUMN_INFO_TEXT = "infotextID";
     static final String COLUMN_IMAGE = "imageID";
     static final String COLUMN_AUDIO_FILE = "audiofileID";
+    static final String COLUMN_IS_BUILDING = "isBuilding";
+    static final String COLUMN_ENTRY_LATITUDE = "entryLatitude";
+    static final String COLUMN_ENTRY_LONGITUDE = "entryLongitude";
+    static final String COLUMN_HANDICAP_LATITUDE = "handicapLatitude";
+    static final String COLUMN_HANDICAP_LONGITUDE = "handicapLongitude";
     static final String[] TOUR_STOP_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_CENTER_LATITUDE, COLUMN_CENTER_LONGITUDE,
-            COLUMN_RADIUS, COLUMN_INFO_TEXT, COLUMN_IMAGE, COLUMN_AUDIO_FILE};
+            COLUMN_RADIUS, COLUMN_INFO_TEXT, COLUMN_IMAGE, COLUMN_AUDIO_FILE, COLUMN_IS_BUILDING};
+    static final String[] BUILDING_INFO_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_ENTRY_LATITUDE, COLUMN_ENTRY_LONGITUDE,
+            COLUMN_HANDICAP_LATITUDE, COLUMN_HANDICAP_LONGITUDE};
     static final String TOUR_STOP_TABLE_CREATE =
             "CREATE TABLE " + TABLE_TOUR_STOPS + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -33,7 +41,16 @@ abstract class Constants {
                     COLUMN_RADIUS + " REAL, " +
                     COLUMN_INFO_TEXT + " INTEGER, " +
                     COLUMN_IMAGE + " INTEGER, " +
-                    COLUMN_AUDIO_FILE + " INTEGER" + ")";
+                    COLUMN_AUDIO_FILE + " INTEGER, " +
+                    COLUMN_IS_BUILDING + " INTEGER" + ")";
+    static final String BUILDING_INFO_TABLE_CREATE =
+            "CREATE TABLE " + TABLE_BUILDING_INFO + " (" +
+                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_NAME + " TEXT, " +
+                    COLUMN_ENTRY_LATITUDE + " REAL, " +
+                    COLUMN_ENTRY_LONGITUDE + " REAL, " +
+                    COLUMN_HANDICAP_LATITUDE + " REAL, " +
+                    COLUMN_HANDICAP_LONGITUDE + " REAL" + ")";
     static final int ID_COL_POSITION = 0;
     static final int NAME_COL_POSITION = 1;
     static final int CENTER_LAT_COL_POSITION = 2;
@@ -42,7 +59,13 @@ abstract class Constants {
     static final int INFO_COL_POSITION = 5;
     static final int IMG_COL_POSITION = 6;
     static final int AUDIO_COL_POSITION = 7;
+    static final int IS_BUILDING_COL_POSITION = 8;
+    static final int ENTRY_LAT_COL_POSITION = 2;
+    static final int ENTRY_LON_COL_POSITION = 3;
+    static final int HANDICAP_LAT_COL_POSITION = 4;
+    static final int HANDICAP_LON_COL_POSITION = 5;
     static final int NUM_TOUR_STOPS = 20;
+    static final int NUM_BUILDINGS = 15;
 
     // Content Provider Constants
     static final String AUTHORITY = "com.example.joseph.tlucampustour.tourcontentprovider";
