@@ -240,7 +240,8 @@ public class TourStopList extends AppCompatActivity
             TourArrayAdapter myAdapter = (TourArrayAdapter) locationListLV.getAdapter();
             TourStop selectedStop = myAdapter.getTourStop(i);
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
-            myIntent.putExtra("Selected Stop", selectedStop);
+            myIntent.putExtra(SELECTED_STOP_EXTRA, selectedStop);
+            myIntent.putParcelableArrayListExtra(TOUR_STOP_ARRAY_EXTRA, allTourStops);
             startActivityForResult(myIntent, RESULT_OK);
         }
     }

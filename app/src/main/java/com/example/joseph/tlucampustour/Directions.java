@@ -41,6 +41,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         DirectionCallback{
 
     private TourStop destination;
+    private ArrayList<TourStop> allTourStops;
     private String destName;
     private GoogleApiClient myGoogleClient;
     private GoogleMap mMap;
@@ -48,6 +49,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private Location prevLocation;
     private boolean isMapInitialized;
     private Marker myMarker;
+    private Marker passingMarker;
+    private TourStop passingStop;
     private LocationRequest myLocationRequest;
     private double selectedLat;
     private double selectedLon;
@@ -75,7 +78,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         buildGoogleApiClient();
 
         // Get all needed Tour Stop information from passed data
-        destination = getIntent().getExtras().getParcelable("Selected Stop");
+        destination = getIntent().getExtras().getParcelable(SELECTED_STOP_EXTRA);
+        allTourStops = getIntent().getExtras().getParcelableArrayList(TOUR_STOP_ARRAY_EXTRA);
         if (destination != null)
         {
             destName = destination.getName();
@@ -373,6 +377,33 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             mMap.animateCamera(camUpdate);
             isMapInitialized = true;
         }
+
+        // Check to see if user is passing other tour stops
+        float[] distance = new float[2];
+        for (TourStop stop : allTourStops)
+        {
+            double stopLat = stop.getLatitude();
+            double stopLon = stop.getLongitude();
+            Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
+                    stopLat, stopLon, distance);
+            double stopRadius = stop.getRadius();
+            if (distance[0] < stopRadius)
+            {
+                passingStop = stop;
+                String stopName = stop.getName();
+                LatLng stopPoint = new LatLng(stopLat, stopLon);
+                if (passingMarker != null)
+                {
+                    passingMarker.remove();
+                }
+                passingMarker = mMap.addMarker(new MarkerOptions()
+                    .position(stopPoint)
+                    .title(stopName)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                passingMarker.showInfoWindow();
+            }
+        }
+
         getDirections();
     }
 
@@ -395,6 +426,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        DirectionsInfoClickListener myMapListener = new DirectionsInfoClickListener();
+        mMap.setOnInfoWindowClickListener(myMapListener);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TLUPoint, DEFAULT_CAMERA_ZOOM));
         myLocation = getCurrentLocation();
         updateMap();
@@ -454,5 +487,27 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     public void onDirectionFailure(Throwable t) {
         Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+
+    // Listener for map to determine if user selects tour stop that they are passing or they select the destination
+    private class DirectionsInfoClickListener implements GoogleMap.OnInfoWindowClickListener {
+
+        @Override
+        public void onInfoWindowClick(Marker marker) {
+            String selectedName = marker.getTitle();
+
+            if (passingStop != null && selectedName.equals(passingStop.getName()))
+            {
+                Intent myIntent = new Intent(Directions.this, TourStopInfo.class);
+                passingStop.setPlayed(true);
+                myIntent.putExtra("TourStop", passingStop);
+                startActivityForResult(myIntent, RESULT_OK);
+            }
+            else if (selectedName.equals(destName))
+            {
+                reachedTourStop();
+            }
+        }
     }
 }

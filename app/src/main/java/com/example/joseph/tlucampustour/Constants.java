@@ -50,6 +50,10 @@ abstract class Constants {
     static final int TABLE_REF = 1;
     static final int ID_REF = 2;
 
+    // Passing Data Constants
+    static final String SELECTED_STOP_EXTRA = "Selected Stop";
+    static final String TOUR_STOP_ARRAY_EXTRA = "Tour Stop Array";
+
     // Google Location Service Constants
     static final int EDITOR_REQUEST_CODE = 1001;
     static final String DIRECTIONS_API_KEY = "AIzaSyDwu1KeZqcNGUihZcCYQS9uywE4XNaHFwQ";
