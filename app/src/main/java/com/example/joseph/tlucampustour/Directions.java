@@ -55,6 +55,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private LatLng myPoint;
     private LatLng selectedPoint;
     private Polyline myMapRoute;
+    private boolean dialogOpen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +132,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         FragmentManager fm = getFragmentManager();
         MapOptionsMenuFragment options = new MapOptionsMenuFragment();
         options.show(fm, "Map Options");
+        dialogOpen = true;
     }
 
     // Process map option choices
@@ -146,6 +148,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         else if (mapViewChoice == SATELLITE_MAP_CHOICE) {
             setMapSatelliteView();
         }
+        dialogOpen = false;
     }
 
     // Called if user presses the back button
@@ -295,11 +298,11 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
                 destination.getLatitude(), destination.getLongitude(), destDistance);
 
         // If user is within the radius of selected destination, load info activity
-        if (Math.abs(destDistance[0]) < destination.getRadius() && !destination.hasBeenPlayed())
+        if (Math.abs(destDistance[0]) < destination.getRadius() && !destination.hasBeenPlayed() && !dialogOpen)
         {
             reachedTourStop();
         }
-        else if (!isMapInitialized || Math.abs(myDistance[0]) > UPDATE_LOCATION_DISTANCE)
+        else if (!isMapInitialized || Math.abs(myDistance[0]) > UPDATE_LOCATION_DISTANCE && !dialogOpen)
         {
             // If user has moved far enough or if map is not initialized, update map
             updateMap();
