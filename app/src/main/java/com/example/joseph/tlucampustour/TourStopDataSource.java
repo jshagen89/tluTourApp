@@ -44,8 +44,8 @@ public class TourStopDataSource {
             while (myCursor.moveToNext())
             {
                 name = myCursor.getString(NAME_COL_POSITION);
-                lat = myCursor.getDouble(LAT_COL_POSITION);
-                lon = myCursor.getDouble(LONG_COL_POSITION);
+                lat = myCursor.getDouble(CENTER_LAT_COL_POSITION);
+                lon = myCursor.getDouble(CENTER_LONG_COL_POSITION);
                 radius = myCursor.getDouble(RADIUS_COL_POSITION);
                 infoID = myCursor.getInt(INFO_COL_POSITION);
                 imgID = myCursor.getInt(IMG_COL_POSITION);

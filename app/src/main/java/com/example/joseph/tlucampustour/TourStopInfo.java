@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.*;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
@@ -187,7 +186,7 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         float[] distance = new float[2];
         double myLat = myLocation.getLatitude();
         double myLon = myLocation.getLongitude();
-        Location.distanceBetween(myLat, myLon, currStop.getLatitude(), currStop.getLongitude(), distance);
+        Location.distanceBetween(myLat, myLon, currStop.getCenterLatitude(), currStop.getCenterLongitude(), distance);
         AudioPlayer myAudioPlayer = myFragment.getAudioPlayer();
 
         if (distance[0] > currStop.getRadius() && !myAudioPlayer.isPlaying())

@@ -20,8 +20,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 
 import static com.example.joseph.tlucampustour.Constants.*;
@@ -205,7 +203,7 @@ public class TourStopList extends AppCompatActivity
 
         for (TourStop tourStop : allTourStops)
         {
-            Location.distanceBetween(myLat, myLon, tourStop.getLatitude(), tourStop.getLongitude(), distance);
+            Location.distanceBetween(myLat, myLon, tourStop.getCenterLatitude(), tourStop.getCenterLongitude(), distance);
             if (distance[0] < tourStop.getRadius() && !infoDisplayed && !tourStop.hasBeenPlayed())
             {
                 Intent myIntent = new Intent(TourStopList.this, TourStopInfo.class);

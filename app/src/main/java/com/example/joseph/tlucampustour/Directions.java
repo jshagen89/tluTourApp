@@ -1,9 +1,5 @@
 package com.example.joseph.tlucampustour;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -63,6 +59,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("");
 
         // Lock orientation to portrait if device is a phone
         if(getResources().getBoolean(R.bool.portrait_only))
@@ -83,14 +80,13 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         if (destination != null)
         {
             destName = destination.getName();
-            selectedLat = destination.getLatitude();
-            selectedLon = destination.getLongitude();
+            selectedLat = destination.getCenterLatitude();
+            selectedLon = destination.getCenterLongitude();
             locationRadius = destination.getRadius();
         }
-        setTitle("Directions to " + destName);
 
         TextView myTV = (TextView) findViewById(R.id.tourStopName);
-        myTV.setText(destName);
+        myTV.setText("Directions to " + destName);
 
         // Set up Google Map for directions
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -299,7 +295,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
         // Get distance between user and selected destination
         Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
-                destination.getLatitude(), destination.getLongitude(), destDistance);
+                destination.getCenterLatitude(), destination.getCenterLongitude(), destDistance);
 
         // If user is within the radius of selected destination, load info activity
         if (Math.abs(destDistance[0]) < destination.getRadius() && !destination.hasBeenPlayed() && !dialogOpen)
@@ -382,8 +378,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         float[] distance = new float[2];
         for (TourStop stop : allTourStops)
         {
-            double stopLat = stop.getLatitude();
-            double stopLon = stop.getLongitude();
+            double stopLat = stop.getCenterLatitude();
+            double stopLon = stop.getCenterLongitude();
             Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
                     stopLat, stopLon, distance);
             double stopRadius = stop.getRadius();

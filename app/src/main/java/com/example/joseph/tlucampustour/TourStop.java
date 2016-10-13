@@ -3,28 +3,26 @@ package com.example.joseph.tlucampustour;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 /**
  * Created by Joseph on 9/8/2016.
  */
 public class TourStop implements Parcelable{
 
     private String name;
-    private double latitude;
-    private double longitude;
+    private double centerLatitude;
+    private double centerLongitude;
     private double radius;
     private int infoTextID;
     private int imageID;
     private int audioID;
     private boolean beenPlayed;
 
-    public TourStop(String name, double lat, double lon, double rad, int infoText, int img, int audio)
+    public TourStop(String name, double Clat, double Clon, double rad, int infoText, int img, int audio)
 
     {
         this.name = name;
-        this.latitude = lat;
-        this.longitude = lon;
+        this.centerLatitude = Clat;
+        this.centerLongitude = Clon;
         this.radius = rad;
         this.infoTextID = infoText;
         this.imageID = img;
@@ -38,14 +36,14 @@ public class TourStop implements Parcelable{
         return this.name;
     }
 
-    public double getLatitude()
+    public double getCenterLatitude()
     {
-        return this.latitude;
+        return this.centerLatitude;
     }
 
-    public double getLongitude()
+    public double getCenterLongitude()
     {
-        return this.longitude;
+        return this.centerLongitude;
     }
 
     public double getRadius()
@@ -93,8 +91,8 @@ public class TourStop implements Parcelable{
     public void writeToParcel(Parcel parcel, int i) {
 
         parcel.writeString(name);
-        parcel.writeDouble(latitude);
-        parcel.writeDouble(longitude);
+        parcel.writeDouble(centerLatitude);
+        parcel.writeDouble(centerLongitude);
         parcel.writeDouble(radius);
         parcel.writeInt(infoTextID);
         parcel.writeInt(imageID);
@@ -116,8 +114,8 @@ public class TourStop implements Parcelable{
     private TourStop(Parcel in) {
 
         name = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
+        centerLatitude = in.readDouble();
+        centerLongitude = in.readDouble();
         radius = in.readDouble();
         infoTextID = in.readInt();
         imageID = in.readInt();

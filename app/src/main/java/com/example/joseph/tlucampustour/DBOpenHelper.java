@@ -21,7 +21,7 @@ class DBOpenHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create new db if none exists
-        db.execSQL(TABLE_CREATE);
+        db.execSQL(TOUR_STOP_TABLE_CREATE);
 
         //Add all tour stops to new db
         TourStop[] myTourStops = new TourStop[NUM_TOUR_STOPS];
@@ -59,8 +59,8 @@ class DBOpenHelper extends SQLiteOpenHelper
     {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, newStop.getName());
-        values.put(COLUMN_LATITUDE, newStop.getLatitude());
-        values.put(COLUMN_LONGITUDE, newStop.getLongitude());
+        values.put(COLUMN_CENTER_LATITUDE, newStop.getCenterLatitude());
+        values.put(COLUMN_CENTER_LONGITUDE, newStop.getCenterLongitude());
         values.put(COLUMN_RADIUS, newStop.getRadius());
         values.put(COLUMN_INFO_TEXT, newStop.getInfoTextID());
         values.put(COLUMN_IMAGE, newStop.getImage());
