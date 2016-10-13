@@ -1,19 +1,27 @@
 package com.example.joseph.tlucampustour;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class TourInfo extends AppCompatActivity {
+import static com.example.joseph.tlucampustour.Constants.*;
 
-    private static final int EDITOR_REQUEST_CODE = 1001;
+public class TourInfo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Lock orientation to portrait if device is a phone
+        if(getResources().getBoolean(R.bool.portrait_only))
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         setContentView(R.layout.activity_tour_info);
         setTitle(R.string.app_name);
     }
@@ -43,6 +51,6 @@ public class TourInfo extends AppCompatActivity {
     // Opens the location list
     public void startTour(View view) {
         Intent myIntent = new Intent(this,TourStopList.class);
-        startActivityForResult(myIntent,EDITOR_REQUEST_CODE);
+        startActivity(myIntent);
     }
 }

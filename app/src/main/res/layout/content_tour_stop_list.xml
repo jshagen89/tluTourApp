@@ -13,10 +13,24 @@
     tools:context=".TourStopList"
     tools:showIn="@layout/activity_tour_stop_list">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listInstructions"
+        android:text="@string/tour_stop_list_instructions"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_vertical_margin"
-        android:layout_alignParentTop="true"
+        android:id="@+id/listFrame"
+        android:layout_below="@+id/listInstructions"
         android:layout_marginBottom="10dp"
         android:layout_above="@+id/endTourButton" >
 
@@ -25,16 +39,17 @@
             android:layout_height="match_parent"
             android:id="@+id/tourStopLV"
             android:divider="@android:color/transparent"
-            android:dividerHeight="15dp"/>
+            android:dividerHeight="15dp" />
 
     </FrameLayout>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:text="@string/end_tour"
         android:id="@+id/endTourButton"
-        android:background="@android:color/holo_red_light"
+        android:background="@drawable/end_tour_button_border"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
