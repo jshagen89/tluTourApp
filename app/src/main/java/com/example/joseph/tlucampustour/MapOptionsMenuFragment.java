@@ -45,6 +45,7 @@ public class MapOptionsMenuFragment extends DialogFragment {
 
         @Override
         public void onShow(DialogInterface dialogInterface) {
+            options.setCancelable(false);
             // Change color of title text
             int textViewId = options.getContext().getResources().getIdentifier("android:id/alertTitle", null, null);
             TextView titleTV = (TextView) options.findViewById(textViewId);
