@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.prefs.Preferences;
 
@@ -77,6 +78,8 @@ public class TourInfo extends AppCompatActivity {
         prefsEditor.putInt(LANGUAGE_PREF_RESULT, languagePref);
         prefsEditor.putBoolean(ACCESS_PREF_RESULT, useHandicapEntries);
         prefsEditor.apply();
+        Toast toast = Toast.makeText(this, "Settings Updated", Toast.LENGTH_SHORT);
+        toast.show();
         dialogOpen = false;
     }
 
