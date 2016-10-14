@@ -39,18 +39,18 @@
             android:layout_marginStart="10dp"
             android:id="@+id/mapViewGroup"
             android:orientation="vertical">
-            <RadioButton android:id="@+id/satelliteViewOption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:buttonTint="@color/colorPrimary"
-                android:text="Satellite View" />
             <RadioButton android:id="@+id/normalViewOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:buttonTint="@color/colorPrimary"
                 android:text="Normal View" />
+            <RadioButton android:id="@+id/satelliteViewOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:buttonTint="@color/colorPrimary"
+                android:text="Satellite View" />
         </RadioGroup>
     </RelativeLayout>
 

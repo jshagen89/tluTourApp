@@ -159,7 +159,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private void createOptionsDialog()
     {
         FragmentManager fm = getFragmentManager();
-        MapOptionsMenuFragment options = new MapOptionsMenuFragment();
+        MapOptionsMenuFragment options = new MapOptionsMenuFragment().newInstance(mMap.getMapType());
         options.show(fm, "Map Options");
         dialogOpen = true;
     }

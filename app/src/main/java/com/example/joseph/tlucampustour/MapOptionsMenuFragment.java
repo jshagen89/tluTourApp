@@ -2,17 +2,14 @@ package com.example.joseph.tlucampustour;
 
 import android.app.*;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.*;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 
-import com.google.android.gms.identity.intents.AddressConstants;
+import com.google.android.gms.maps.GoogleMap;
 
 import static com.example.joseph.tlucampustour.Constants.*;
 
@@ -24,10 +21,24 @@ public class MapOptionsMenuFragment extends DialogFragment {
 
     private Dialog options;
     private RadioGroup mapViewGroup;
+    private int currMapType;
+
+    public static MapOptionsMenuFragment newInstance(int currMapView)
+    {
+        Bundle args = new Bundle();
+        args.putInt(MAP_OPTIONS_RESULT, currMapView);
+        MapOptionsMenuFragment fragmentMenu = new MapOptionsMenuFragment();
+        fragmentMenu.setArguments(args);
+        return fragmentMenu;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
+        // Check to see what type of map is currently displayed
+        currMapType = getArguments().getInt(MAP_OPTIONS_RESULT);
+
+        // Create dialog and set appropriate attributes
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.map_options, null);
         options = new AlertDialog.Builder(getActivity())
@@ -63,6 +74,18 @@ public class MapOptionsMenuFragment extends DialogFragment {
             MapOptionsCompleteListener myButtonListener = new MapOptionsCompleteListener();
             positiveButton.setOnClickListener(myButtonListener);
             mapViewGroup = (RadioGroup) options.findViewById(R.id.mapViewGroup);
+
+            // Check radioButton for current map type
+            if (currMapType == GoogleMap.MAP_TYPE_HYBRID)
+            {
+                RadioButton satelliteOption = (RadioButton) options.findViewById(R.id.satelliteViewOption);
+                satelliteOption.setChecked(true);
+            }
+            else if (currMapType == GoogleMap.MAP_TYPE_NORMAL)
+            {
+                RadioButton normalOption = (RadioButton) options.findViewById(R.id.normalViewOption);
+                normalOption.setChecked(true);
+            }
         }
     }
 
