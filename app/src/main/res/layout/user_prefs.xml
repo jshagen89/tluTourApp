@@ -17,12 +17,20 @@
         android:id="@+id/languageOptions"
         android:layout_marginBottom="15dp">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/languageIcon"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/chat_bubble_white_small" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/languageIcon"
             android:id="@+id/languageText"
             android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_margin="5dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:text="Language Options"/>
@@ -68,12 +76,19 @@
         android:layout_height="wrap_content"
         android:id="@+id/accessibilityOptionsContainer">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/accessibleIcon"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/accessible_white_small" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/accessibilityText"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/accessibleIcon"
+            android:layout_margin="5dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:text="Accessibility Options"/>
