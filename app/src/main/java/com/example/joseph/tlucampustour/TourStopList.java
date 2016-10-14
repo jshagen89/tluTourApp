@@ -240,6 +240,7 @@ public class TourStopList extends AppCompatActivity
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
             myIntent.putExtra(SELECTED_STOP_EXTRA, selectedStop);
             myIntent.putParcelableArrayListExtra(TOUR_STOP_ARRAY_EXTRA, allTourStops);
+            Log.d("Map", "selectedLongitude: " + selectedStop.getEntryLongitude());
             startActivityForResult(myIntent, RESULT_OK);
         }
     }

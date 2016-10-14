@@ -31,7 +31,7 @@ public class TourStop implements Parcelable{
         this.entryLatitude = Elat;
         this.entryLongitude = Elon;
         this.handicapLatitude = Hlat;
-        this.entryLongitude = Hlon;
+        this.handicapLongitude = Hlon;
         this.radius = rad;
         this.infoTextID = infoText;
         this.imageID = img;

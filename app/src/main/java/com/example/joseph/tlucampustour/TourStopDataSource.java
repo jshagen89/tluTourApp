@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -64,19 +65,18 @@ public class TourStopDataSource {
                 // get building info for all tour stops that are buildings
                 if (isBuild == 1)
                 {
-                    String whereClause = COLUMN_NAME + " = ?";
+                    String whereClause = COLUMN_NAME + " = ? LIMIT 1";
                     String[] values = {name};
                     Cursor buildingCursor = db.query(TABLE_BUILDING_INFO, BUILDING_INFO_COLUMNS, whereClause, values, null, null, null);
                     if (buildingCursor.getCount() > 0)
                     {
-                        while (buildingCursor.moveToNext())
-                        {
-                            Elat = buildingCursor.getDouble(ENTRY_LAT_COL_POSITION);
-                            Elon = buildingCursor.getDouble(ENTRY_LON_COL_POSITION);
-                            Hlat = buildingCursor.getDouble(HANDICAP_LAT_COL_POSITION);
-                            Hlon = buildingCursor.getDouble(HANDICAP_LON_COL_POSITION);
-                        }
+                        buildingCursor.moveToFirst();
+                        Elat = buildingCursor.getDouble(ENTRY_LAT_COL_POSITION);
+                        Elon = buildingCursor.getDouble(ENTRY_LON_COL_POSITION);
+                        Hlat = buildingCursor.getDouble(HANDICAP_LAT_COL_POSITION);
+                        Hlon = buildingCursor.getDouble(HANDICAP_LON_COL_POSITION);
                     }
+                    buildingCursor.close();
                 }
 
                 TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,Hlat,Hlon,radius,infoID,imgID,audioID, isBuild);

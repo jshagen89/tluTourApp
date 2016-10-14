@@ -53,6 +53,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private double locationRadius;
     private LatLng myPoint;
     private LatLng selectedPoint;
+    private LatLng centerPoint;
     private Polyline myMapRoute;
     private boolean dialogOpen;
 
@@ -79,10 +80,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         allTourStops = getIntent().getExtras().getParcelableArrayList(TOUR_STOP_ARRAY_EXTRA);
         if (destination != null)
         {
-            destName = destination.getName();
-            selectedLat = destination.getCenterLatitude();
-            selectedLon = destination.getCenterLongitude();
-            locationRadius = destination.getRadius();
+            getDestinationInfo();
         }
 
         TextView myTV = (TextView) findViewById(R.id.tourStopName);
@@ -92,6 +90,24 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    // initializes all instance variables for selected destination
+    private void getDestinationInfo()
+    {
+        destName = destination.getName();
+        if (destination.isBuilding())
+        {
+            selectedLat = destination.getHandicapLatitude();
+            selectedLon = destination.getHandicapLongitude();
+        }
+        else
+        {
+            selectedLat = destination.getEntryLatitude();
+            selectedLon = destination.getEntryLongitude();
+        }
+        centerPoint = new LatLng(destination.getCenterLatitude(), destination.getCenterLongitude());
+        locationRadius = destination.getRadius();
     }
 
 
@@ -353,13 +369,14 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             // Move camera to TLU campus and place destination marker
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TLUPoint, DEFAULT_CAMERA_ZOOM));
             selectedPoint = new LatLng(selectedLat, selectedLon);
+            Log.d("Map", "Lat: " + selectedLat + "    Lon: " + selectedLon);
             Marker destMarker = mMap.addMarker(new MarkerOptions()
                     .position(selectedPoint)
                     .title(destName));
 
             // Add radius outline to map
             mMap.addCircle(new CircleOptions()
-                    .center(selectedPoint)
+                    .center(centerPoint)
                     .radius(locationRadius)
                     .strokeColor(Color.BLUE));
 
