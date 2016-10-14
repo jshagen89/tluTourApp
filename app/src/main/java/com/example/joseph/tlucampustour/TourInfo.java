@@ -1,16 +1,24 @@
 package com.example.joseph.tlucampustour;
 
+import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.prefs.Preferences;
+
 import static com.example.joseph.tlucampustour.Constants.*;
 
 public class TourInfo extends AppCompatActivity {
+
+    private boolean dialogOpen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +50,42 @@ public class TourInfo extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            createSettingsDialog();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void createSettingsDialog()
+    {
+        FragmentManager fm = getFragmentManager();
+        UserPreferencesOptionMenu options = new UserPreferencesOptionMenu();
+        options.show(fm, "Settings");
+        dialogOpen = true;
+    }
+
+    // Called by settings dialog once user finishes selecting options
+    public void onSettingsSelected(Bundle prefs)
+    {
+        // Get selected preferences or use default values
+        int languagePref = prefs.getInt(LANGUAGE_PREF_RESULT, ENGLISH_CHOICE);
+        boolean useHandicapEntries = prefs.getBoolean(ACCESS_PREF_RESULT, false);
+
+        // Update user preferences with new choices
+        SharedPreferences myPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor prefsEditor = myPrefs.edit();
+        prefsEditor.putInt(LANGUAGE_PREF_RESULT, languagePref);
+        prefsEditor.putBoolean(ACCESS_PREF_RESULT, useHandicapEntries);
+        prefsEditor.apply();
+        dialogOpen = false;
+    }
+
     // Opens the location list
     public void startTour(View view) {
-        Intent myIntent = new Intent(this,TourStopList.class);
-        startActivity(myIntent);
+        if (!dialogOpen)
+        {
+            Intent myIntent = new Intent(this,TourStopList.class);
+            startActivity(myIntent);
+        }
     }
 }

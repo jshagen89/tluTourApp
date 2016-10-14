@@ -1,11 +1,13 @@
 package com.example.joseph.tlucampustour;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.app.FragmentManager;
@@ -53,6 +55,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private double locationRadius;
     private LatLng myPoint;
     private LatLng selectedPoint;
+    private boolean useHandicapEntries;
     private LatLng centerPoint;
     private Polyline myMapRoute;
     private boolean dialogOpen;
@@ -75,6 +78,9 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         // Build Google API Client
         buildGoogleApiClient();
 
+        // Get user preferences
+        getUserPrefs();
+
         // Get all needed Tour Stop information from passed data
         destination = getIntent().getExtras().getParcelable(SELECTED_STOP_EXTRA);
         allTourStops = getIntent().getExtras().getParcelableArrayList(TOUR_STOP_ARRAY_EXTRA);
@@ -92,11 +98,18 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         mapFragment.getMapAsync(this);
     }
 
+    private void getUserPrefs()
+    {
+        // Use preferred entries or normal entry if no preference is available
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        useHandicapEntries = prefs.getBoolean(ACCESS_PREF_RESULT, false);
+    }
+
     // initializes all instance variables for selected destination
     private void getDestinationInfo()
     {
         destName = destination.getName();
-        if (destination.isBuilding())
+        if (useHandicapEntries)
         {
             selectedLat = destination.getHandicapLatitude();
             selectedLon = destination.getHandicapLongitude();
@@ -369,7 +382,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             // Move camera to TLU campus and place destination marker
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TLUPoint, DEFAULT_CAMERA_ZOOM));
             selectedPoint = new LatLng(selectedLat, selectedLon);
-            Log.d("Map", "Lat: " + selectedLat + "    Lon: " + selectedLon);
             Marker destMarker = mMap.addMarker(new MarkerOptions()
                     .position(selectedPoint)
                     .title(destName));
