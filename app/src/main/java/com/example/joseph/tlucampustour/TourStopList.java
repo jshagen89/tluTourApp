@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -174,7 +175,6 @@ public class TourStopList extends AppCompatActivity
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 myGoogleClient, myLocationRequest, this);
@@ -209,6 +209,7 @@ public class TourStopList extends AppCompatActivity
                 Intent myIntent = new Intent(TourStopList.this, TourStopInfo.class);
                 tourStop.setPlayed(true);
                 myIntent.putExtra("TourStop", tourStop);
+                infoDisplayed = true;
                 startActivityForResult(myIntent, RESULT_OK);
             }
         }
@@ -222,8 +223,8 @@ public class TourStopList extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i("Location", "Connection failed: ConnectionResult.getErrorCode() = "
-                + connectionResult.getErrorCode());
+        Toast toast = Toast.makeText(this, "Could not Connect to Location Services", Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     /* ***************************** LOCATION METHODS END HERE ****************************** */
@@ -241,6 +242,7 @@ public class TourStopList extends AppCompatActivity
             myIntent.putExtra(SELECTED_STOP_EXTRA, selectedStop);
             myIntent.putParcelableArrayListExtra(TOUR_STOP_ARRAY_EXTRA, allTourStops);
             Log.d("Map", "selectedLongitude: " + selectedStop.getEntryLongitude());
+            infoDisplayed = true;
             startActivityForResult(myIntent, RESULT_OK);
         }
     }

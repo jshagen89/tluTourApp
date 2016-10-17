@@ -1,5 +1,6 @@
 package com.example.joseph.tlucampustour;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -59,6 +60,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private LatLng centerPoint;
     private Polyline myMapRoute;
     private boolean dialogOpen;
+    private boolean infoDisplayed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +206,16 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         finish();
     }
 
+    // Reset boolean to allow another info activity to be displayed
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_OK)
+        {
+            infoDisplayed = false;
+        }
+    }
+
     /* ***************************** END NAVIGATION METHODS ****************************** */
     /* ***************************** LOCATION METHODS START HERE ****************************** */
 
@@ -299,6 +311,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         Intent myIntent = new Intent(Directions.this, TourStopInfo.class);
         destination.setPlayed(true);
         myIntent.putExtra("TourStop", destination);
+        infoDisplayed = true;
         startActivityForResult(myIntent, RESULT_OK);
     }
 
@@ -326,15 +339,19 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
                 destination.getCenterLatitude(), destination.getCenterLongitude(), destDistance);
 
-        // If user is within the radius of selected destination, load info activity
-        if (Math.abs(destDistance[0]) < destination.getRadius() && !destination.hasBeenPlayed() && !dialogOpen)
+        // If user is not already viewing another info activity
+        if (!infoDisplayed)
         {
-            reachedTourStop();
-        }
-        else if (!isMapInitialized || Math.abs(myDistance[0]) > UPDATE_LOCATION_DISTANCE && !dialogOpen)
-        {
-            // If user has moved far enough or if map is not initialized, update map
-            updateMap();
+            // If user is within the radius of selected destination, load info activity
+            if (Math.abs(destDistance[0]) < destination.getRadius() && !destination.hasBeenPlayed() && !dialogOpen)
+            {
+                reachedTourStop();
+            }
+            else if (!isMapInitialized || Math.abs(myDistance[0]) > UPDATE_LOCATION_DISTANCE && !dialogOpen)
+            {
+                // If user has moved far enough or if map is not initialized, update map
+                updateMap();
+            }
         }
     }
 
@@ -346,7 +363,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i("Location", "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+        Toast toast = Toast.makeText(this, "Could not Connect to Location Services", Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     // Called when location change is detected

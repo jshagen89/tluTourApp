@@ -85,7 +85,7 @@ public class TourStopInfoFragment extends Fragment {
         // Initialize Audio Player
         myAudioPlayer = new AudioPlayer(audioID);
         NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
-        myAudioPlayer.setOnCompletionListener(myCompletionListener);
+        myAudioPlayer.setAudioCompletionListener(myCompletionListener);
 
 
 
@@ -142,6 +142,7 @@ public class TourStopInfoFragment extends Fragment {
     // Needed for audio completion listener..since no view is available
     public void audioFinished()
     {
+        Log.d("Audio", "audioFinished called");
         playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
         myAudioPlayer.stop();
         isAudioPlaying = false;
@@ -189,6 +190,7 @@ public class TourStopInfoFragment extends Fragment {
 
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
+
             audioFinished();
         }
     }
@@ -197,7 +199,7 @@ public class TourStopInfoFragment extends Fragment {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-            myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_SHOW_UI);
         }
 
         @Override
