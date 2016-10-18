@@ -61,6 +61,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private Polyline myMapRoute;
     private boolean dialogOpen;
     private boolean infoDisplayed;
+    private boolean gotDirections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -353,6 +354,11 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
                 // If user has moved far enough or if map is not initialized, update map
                 updateMap();
             }
+            else if (!gotDirections)
+            {
+                // If directions were not successfully loaded, try again
+                getDirections();
+            }
         }
     }
 
@@ -526,6 +532,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         String status = direction.getStatus();
         if(status.equals(RequestResult.OK))
         {
+            gotDirections = true;
             Route route = direction.getRouteList().get(0);
             Leg leg = route.getLegList().get(0);
             ArrayList<LatLng> pointList = leg.getDirectionPoint();
@@ -542,6 +549,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         {
             Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_SHORT);
             toast.show();
+            gotDirections = false;
         }
     }
 
@@ -549,6 +557,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     public void onDirectionFailure(Throwable t) {
         Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_SHORT);
         toast.show();
+        gotDirections = false;
     }
 
 

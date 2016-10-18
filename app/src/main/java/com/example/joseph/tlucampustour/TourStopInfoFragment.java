@@ -33,6 +33,7 @@ public class TourStopInfoFragment extends Fragment {
     private AudioPlayer myAudioPlayer;
     private boolean isAudioPlaying;
     private boolean isAudioPaused;
+    private boolean audioControlsInit;
 
 
     @Override
@@ -86,6 +87,7 @@ public class TourStopInfoFragment extends Fragment {
         myAudioPlayer = new AudioPlayer(audioID);
         NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
         myAudioPlayer.setAudioCompletionListener(myCompletionListener);
+        audioControlsInit = true;
 
         return myView;
     }
@@ -200,7 +202,11 @@ public class TourStopInfoFragment extends Fragment {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-            myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_SHOW_UI);
+            // Only set volume after initialization to prevent volume from resetting to 0 on init
+            if (audioControlsInit)
+            {
+                myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_SHOW_UI);
+            }
         }
 
         @Override
