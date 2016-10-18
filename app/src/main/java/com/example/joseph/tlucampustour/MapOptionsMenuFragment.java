@@ -5,10 +5,12 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 
+import com.akexorcist.googledirection.constant.TransportMode;
 import com.google.android.gms.maps.GoogleMap;
 
 import static com.example.joseph.tlucampustour.Constants.*;
@@ -21,12 +23,15 @@ public class MapOptionsMenuFragment extends DialogFragment {
 
     private Dialog options;
     private RadioGroup mapViewGroup;
+    private RadioGroup transportModeGroup;
     private int currMapType;
+    private String currTransMode;
 
-    public static MapOptionsMenuFragment newInstance(int currMapView)
+    public static MapOptionsMenuFragment newInstance(int currMapView, String transMode)
     {
         Bundle args = new Bundle();
         args.putInt(MAP_OPTIONS_RESULT, currMapView);
+        args.putString(TRANSPORTATION_MODE_RESULT, transMode);
         MapOptionsMenuFragment fragmentMenu = new MapOptionsMenuFragment();
         fragmentMenu.setArguments(args);
         return fragmentMenu;
@@ -37,6 +42,7 @@ public class MapOptionsMenuFragment extends DialogFragment {
     {
         // Check to see what type of map is currently displayed
         currMapType = getArguments().getInt(MAP_OPTIONS_RESULT);
+        currTransMode = getArguments().getString(TRANSPORTATION_MODE_RESULT);
 
         // Create dialog and set appropriate attributes
         View v = LayoutInflater.from(getActivity())
@@ -74,6 +80,7 @@ public class MapOptionsMenuFragment extends DialogFragment {
             MapOptionsCompleteListener myButtonListener = new MapOptionsCompleteListener();
             positiveButton.setOnClickListener(myButtonListener);
             mapViewGroup = (RadioGroup) options.findViewById(R.id.mapViewGroup);
+            transportModeGroup = (RadioGroup) options.findViewById(R.id.transportModeGroup);
 
             // Check radioButton for current map type
             if (currMapType == GoogleMap.MAP_TYPE_HYBRID)
@@ -86,6 +93,18 @@ public class MapOptionsMenuFragment extends DialogFragment {
                 RadioButton normalOption = (RadioButton) options.findViewById(R.id.normalViewOption);
                 normalOption.setChecked(true);
             }
+
+            // Check radioButton for current mode of transportation
+            if (currTransMode.equals(TransportMode.WALKING))
+            {
+                RadioButton walkingOption = (RadioButton) options.findViewById(R.id.walkingOption);
+                walkingOption.setChecked(true);
+            }
+            else
+            {
+                RadioButton drivingOption = (RadioButton) options.findViewById(R.id.drivingOption);
+                drivingOption.setChecked(true);
+            }
         }
     }
 
@@ -93,10 +112,11 @@ public class MapOptionsMenuFragment extends DialogFragment {
 
         @Override
         public void onClick(View view) {
-            int mapTypeChoice = 0;
+            int mapTypeChoice = currMapType;
+            String transportModeChoice = currTransMode;
             int checkedViewButton = mapViewGroup.getCheckedRadioButtonId();
-
-            // Check which radio button was clicked
+            int checkedTransportMode = transportModeGroup.getCheckedRadioButtonId();
+            // Check which radio button was clicked for map view
             switch(checkedViewButton)
             {
                 case R.id.satelliteViewOption:
@@ -107,9 +127,21 @@ public class MapOptionsMenuFragment extends DialogFragment {
                     break;
             }
 
+            // Check which radio button was clicked for transportation mode
+            switch (checkedTransportMode)
+            {
+                case R.id.walkingOption:
+                    transportModeChoice = TransportMode.WALKING;
+                    break;
+                case R.id.drivingOption:
+                    transportModeChoice = TransportMode.DRIVING;
+                    break;
+            }
+
             // Send choices back to Directions activity
             Bundle selections = new Bundle();
             selections.putInt(MAP_OPTIONS_RESULT, mapTypeChoice);
+            selections.putString(TRANSPORTATION_MODE_RESULT, transportModeChoice);
             Directions callingActivity = (Directions) getActivity();
             callingActivity.onOptionsSelected(selections);
             getDialog().dismiss();

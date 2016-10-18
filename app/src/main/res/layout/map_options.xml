@@ -13,20 +13,22 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/mapTypeContainer"
+        android:layout_marginBottom="15dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/mapOptionsIcon"
+            android:id="@+id/mapTypeIcon"
             android:layout_marginStart="10dp"
             android:src="@drawable/map_white_small"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mapOptionsText"
-            android:layout_toEndOf="@+id/mapOptionsIcon"
+            android:id="@+id/mapViewText"
+            android:layout_toEndOf="@+id/mapTypeIcon"
             android:layout_margin="5dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
@@ -35,7 +37,7 @@
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mapOptionsText"
+            android:layout_below="@+id/mapViewText"
             android:layout_marginStart="10dp"
             android:id="@+id/mapViewGroup"
             android:orientation="vertical">
@@ -51,6 +53,56 @@
                 android:textColor="@android:color/white"
                 android:buttonTint="@color/colorPrimary"
                 android:text="Satellite View" />
+        </RadioGroup>
+    </RelativeLayout>
+
+    <ImageView  android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:layout_margin="5dp"
+        android:background="@android:color/white"
+        android:padding="5dip"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/transportModeContainer">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/transportModeIcon"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/walking_white_small"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/transportModeText"
+            android:layout_toEndOf="@+id/transportModeIcon"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:text="Mode of Transportation"/>
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/transportModeText"
+            android:layout_marginStart="10dp"
+            android:id="@+id/transportModeGroup"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/walkingOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:buttonTint="@color/colorPrimary"
+                android:text="Walking Directions" />
+            <RadioButton android:id="@+id/drivingOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:buttonTint="@color/colorPrimary"
+                android:text="Driving Directions" />
         </RadioGroup>
     </RelativeLayout>
 

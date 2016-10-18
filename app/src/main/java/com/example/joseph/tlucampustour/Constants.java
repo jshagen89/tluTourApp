@@ -77,6 +77,7 @@ abstract class Constants {
     static final String SELECTED_STOP_EXTRA = "Selected Stop";
     static final String TOUR_STOP_ARRAY_EXTRA = "Tour Stop Array";
     static final String MAP_OPTIONS_RESULT = "Map View";
+    static final String TRANSPORTATION_MODE_RESULT = "Directions Type";
     static final int SATELLITE_MAP_CHOICE = 1;
     static final int NORMAL_MAP_CHOICE = 2;
     static final String LANGUAGE_PREF_RESULT = "Language Pref";
@@ -96,5 +97,4 @@ abstract class Constants {
     static final int TLU_CAMPUS_RADIUS = 600;
     static final float DEFAULT_CAMERA_ZOOM = 15.0f;
     static final int UPDATE_LOCATION_DISTANCE = 20;
-    static final int MAP_OPTIONS_REQUEST_CODE = 0;
 }

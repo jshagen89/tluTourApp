@@ -63,6 +63,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private boolean dialogOpen;
     private boolean infoDisplayed;
     private boolean gotDirections;
+    private String transMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         myTV.setText("Directions to " + destName);
 
         // Set up Google Map for directions
+        transMode = TransportMode.WALKING;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -162,10 +164,18 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
     private void createOptionsDialog()
     {
-        FragmentManager fm = getFragmentManager();
-        MapOptionsMenuFragment options = new MapOptionsMenuFragment().newInstance(mMap.getMapType());
-        options.show(fm, "Map Options");
-        dialogOpen = true;
+        if (mMap != null && (transMode.equals(TransportMode.WALKING) || transMode.equals(TransportMode.DRIVING)))
+        {
+            FragmentManager fm = getFragmentManager();
+            MapOptionsMenuFragment options = new MapOptionsMenuFragment().newInstance(mMap.getMapType(), transMode);
+            options.show(fm, "Map Options");
+            dialogOpen = true;
+        }
+        else
+        {
+            Toast toast = Toast.makeText(this, "Please wait for the map to load", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     // Process map option choices
@@ -173,6 +183,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     {
         // Map type user selection
         int mapViewChoice = choices.getInt(MAP_OPTIONS_RESULT, NORMAL_MAP_CHOICE);
+        String transportModeChoice = choices.getString(TRANSPORTATION_MODE_RESULT, TransportMode.WALKING);
 
         if (mapViewChoice == NORMAL_MAP_CHOICE)
         {
@@ -181,6 +192,11 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         else if (mapViewChoice == SATELLITE_MAP_CHOICE) {
             setMapSatelliteView();
         }
+
+        // May want to save to preferences file later
+        transMode = transportModeChoice;
+        updateMap();
+
         dialogOpen = false;
     }
 
@@ -507,7 +523,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         float[] distance = new float[2];
         Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
                 TLU_CAMPUS_LAT, TLU_CAMPUS_LON, distance);
-        String transMode = TransportMode.WALKING;
+
         // Set transport mode to driving if user is off campus
         if (distance[0] > TLU_CAMPUS_RADIUS)
         {
