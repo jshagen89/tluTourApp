@@ -95,6 +95,6 @@ abstract class Constants {
     static final LatLng TLUPoint = new LatLng(TLU_CAMPUS_LAT, TLU_CAMPUS_LON);
     static final int TLU_CAMPUS_RADIUS = 600;
     static final float DEFAULT_CAMERA_ZOOM = 15.0f;
-    static final int UPDATE_LOCATION_DISTANCE = 30;
+    static final int UPDATE_LOCATION_DISTANCE = 20;
     static final int MAP_OPTIONS_REQUEST_CODE = 0;
 }

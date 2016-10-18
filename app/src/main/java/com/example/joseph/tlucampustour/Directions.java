@@ -340,14 +340,15 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
                 destination.getCenterLatitude(), destination.getCenterLongitude(), destDistance);
 
         // If user is not already viewing another info activity
-        if (!infoDisplayed)
+        if (!infoDisplayed && !dialogOpen)
         {
             // If user is within the radius of selected destination, load info activity
-            if (Math.abs(destDistance[0]) < destination.getRadius() && !destination.hasBeenPlayed() && !dialogOpen)
+            if (Math.abs(destDistance[0]) < destination.getRadius() && !destination.hasBeenPlayed())
             {
+                updateMap();
                 reachedTourStop();
             }
-            else if (!isMapInitialized || Math.abs(myDistance[0]) > UPDATE_LOCATION_DISTANCE && !dialogOpen)
+            else if (!isMapInitialized || Math.abs(myDistance[0]) > UPDATE_LOCATION_DISTANCE)
             {
                 // If user has moved far enough or if map is not initialized, update map
                 updateMap();
@@ -371,9 +372,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private void updateMap()
     {
 
-        if (myLocation == null || prevLocation == null)
+        if (myLocation == null)
         {
-            Log.d("LocationService", "Location is null");
             return;
         }
 
@@ -421,24 +421,43 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             isMapInitialized = true;
         }
 
-        // Check to see if user is passing other tour stops
+        // Check to see if user is passing stops other than their destination
         float[] distance = new float[2];
+
+        // Remove previous marker for passing stop, if necessary
+        if (passingMarker != null)
+        {
+            Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
+                    passingStop.getCenterLatitude(), passingStop.getCenterLongitude(), distance);
+            if (distance[0] > passingStop.getRadius())
+            {
+                passingMarker.remove();
+            }
+        }
+
         for (TourStop stop : allTourStops)
         {
-            double stopLat = stop.getCenterLatitude();
-            double stopLon = stop.getCenterLongitude();
+            double stopLat;
+            double stopLon;
+            if (useHandicapEntries)
+            {
+                stopLat = stop.getHandicapLatitude();
+                stopLon = stop.getHandicapLongitude();
+            }
+            else
+            {
+                stopLat = stop.getEntryLatitude();
+                stopLon = stop.getEntryLongitude();
+            }
+
             Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
-                    stopLat, stopLon, distance);
+                    stop.getCenterLatitude(), stop.getCenterLongitude(), distance);
             double stopRadius = stop.getRadius();
-            if (distance[0] < stopRadius)
+            if (!stop.getName().equals(destination.getName()) && distance[0] < stopRadius)
             {
                 passingStop = stop;
                 String stopName = stop.getName();
                 LatLng stopPoint = new LatLng(stopLat, stopLon);
-                if (passingMarker != null)
-                {
-                    passingMarker.remove();
-                }
                 passingMarker = mMap.addMarker(new MarkerOptions()
                     .position(stopPoint)
                     .title(stopName)

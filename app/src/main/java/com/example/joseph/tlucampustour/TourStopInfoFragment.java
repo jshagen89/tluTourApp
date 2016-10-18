@@ -87,8 +87,6 @@ public class TourStopInfoFragment extends Fragment {
         NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
         myAudioPlayer.setAudioCompletionListener(myCompletionListener);
 
-
-
         return myView;
     }
 
@@ -103,7 +101,7 @@ public class TourStopInfoFragment extends Fragment {
     public void onStop()
     {
         super.onStop();
-        if (myAudioPlayer.isPlaying())
+        if (isAudioPlaying || isAudioPaused)
         {
             myAudioPlayer.stop();
         }
@@ -113,7 +111,10 @@ public class TourStopInfoFragment extends Fragment {
     public void onDestroyView()
     {
         super.onDestroyView();
-        myAudioPlayer.release();
+        if (myAudioPlayer != null)
+        {
+            myAudioPlayer.release();
+        }
     }
 
     private void playAudio()
