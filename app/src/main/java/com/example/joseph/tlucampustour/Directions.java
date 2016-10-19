@@ -307,6 +307,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 myGoogleClient, myLocationRequest, this);
