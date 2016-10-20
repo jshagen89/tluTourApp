@@ -125,11 +125,11 @@ class DBOpenHelper extends SQLiteOpenHelper
         {
             values.put(COLUMN_NAME, TOUR_STOP_NAMES[i]);
             values.put(COLUMN_ENG_INFO_TEXT, TOUR_STOP_ENG_TXT_IDS[i]);
-            //values.put(COLUMN_SPAN_INFO_TEXT, BUILDING_ENTRY_LONGITUDES[i]);
-            //values.put(COLUMN_MAND_INFO_TEXT, BUILDING_HANDICAP_LATITUDES[i]);
+            values.put(COLUMN_SPAN_INFO_TEXT, TOUR_STOP_ENG_TXT_IDS[i]);
+            values.put(COLUMN_MAND_INFO_TEXT, TOUR_STOP_ENG_TXT_IDS[i]);
             values.put(COLUMN_ENG_AUDIO_FILE, TOUR_STOP_ENG_AUDIO_IDS[i]);
-            //values.put(COLUMN_SPAN_AUDIO_FILE, BUILDING_HANDICAP_LONGITUDES[i]);
-            //values.put(COLUMN_MAND_AUDIO_FILE, BUILDING_HANDICAP_LONGITUDES[i]);
+            values.put(COLUMN_SPAN_AUDIO_FILE, TOUR_STOP_ENG_AUDIO_IDS[i]);
+            values.put(COLUMN_MAND_AUDIO_FILE, TOUR_STOP_ENG_AUDIO_IDS[i]);
             db.insert(TABLE_TEXT_AUDIO_RESOURCES, null, values);
         }
     }

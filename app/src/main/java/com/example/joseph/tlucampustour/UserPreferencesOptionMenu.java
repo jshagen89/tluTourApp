@@ -64,7 +64,21 @@ public class UserPreferencesOptionMenu extends DialogFragment {
             // Get reference to all needed widgets
             languageGroup = (RadioGroup) options.findViewById(R.id.languageChoiceGroup);
             handicapOption = (CheckBox) options.findViewById(R.id.handicapOption);
+
+            // Check widgets for current preferences
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            int languagePref = prefs.getInt(LANGUAGE_PREF_RESULT, ENGLISH_CHOICE);
+            switch (languagePref)
+            {
+                case SPANISH_CHOICE:
+                    languageGroup.check(R.id.spanishOption);
+                    break;
+                case MANDARIN_CHOICE:
+                    languageGroup.check(R.id.mandarinOption);
+                    break;
+                default:
+                    languageGroup.check(R.id.englishOption);
+            }
             handicapOption.setChecked(prefs.getBoolean(ACCESS_PREF_RESULT, false));
         }
     }

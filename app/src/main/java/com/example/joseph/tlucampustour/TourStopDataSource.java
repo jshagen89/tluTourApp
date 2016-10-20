@@ -1,9 +1,11 @@
 package com.example.joseph.tlucampustour;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -16,8 +18,8 @@ import static com.example.joseph.tlucampustour.Constants.*;
 
 public class TourStopDataSource {
 
-    SQLiteOpenHelper dbOpenHelper;
-    SQLiteDatabase db;
+    private SQLiteOpenHelper dbOpenHelper;
+    private SQLiteDatabase db;
 
     public TourStopDataSource(Context context)
     {
@@ -29,8 +31,28 @@ public class TourStopDataSource {
         db = dbOpenHelper.getWritableDatabase();
     }
 
-    public ArrayList<TourStop> getAllTourStops()
+    public ArrayList<TourStop> getAllTourStops(Context context)
     {
+        // Determine which language user has set as preference
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        int languagePref = prefs.getInt(LANGUAGE_PREF_RESULT, ENGLISH_CHOICE);
+        int txtColPos;
+        int audioColPos;
+        switch (languagePref)
+        {
+            case SPANISH_CHOICE:
+                txtColPos = SPAN_TXT_COL_POSITION;
+                audioColPos = SPAN_AUDIO_COL_POSITION;
+                break;
+            case MANDARIN_CHOICE:
+                txtColPos = MAND_TXT_COL_POSITION;
+                audioColPos = MAND_AUDIO_COL_POSITION;
+                break;
+            default:
+                txtColPos = ENG_TXT_COL_POSITION;
+                audioColPos = ENG_AUDIO_COL_POSITION;
+        }
+
         ArrayList<TourStop> allStops = new ArrayList<>(NUM_TOUR_STOPS);
         String name;
         double Clat;
@@ -59,6 +81,8 @@ public class TourStopDataSource {
                 radius = myCursor.getDouble(RADIUS_COL_POSITION);
                 imgID = myCursor.getInt(IMG_COL_POSITION);
                 isBuild = myCursor.getInt(IS_BUILDING_COL_POSITION);
+                infoID = 0;
+                audioID = 0;
 
                 // get building info for all tour stops that are buildings
                 if (isBuild == 1)
@@ -77,18 +101,17 @@ public class TourStopDataSource {
                     buildingCursor.close();
                 }
 
-                // get txt and audio resources for each tour stop
-                String[] resColumns = {COLUMN_ENG_INFO_TEXT, COLUMN_ENG_AUDIO_FILE};
+                // Get info txt and audio resource files for appropriate language for each tour stop
                 String resWhereClause = COLUMN_NAME + " = ? LIMIT 1";
                 String[] resValues = {name};
-                Cursor resourceCursor = db.query(TABLE_TEXT_AUDIO_RESOURCES, resColumns, resWhereClause, resValues, null, null, null);
+                Cursor resourceCursor = db.query(TABLE_TEXT_AUDIO_RESOURCES, TEXT_AUDIO_RESOURCES_COLUMNS, resWhereClause, resValues, null, null, null);
                 if (resourceCursor.getCount() > 0)
                 {
-                    while (resourceCursor.moveToNext())
-                    {
-
-                    }
+                    resourceCursor.moveToFirst();
+                    infoID = resourceCursor.getInt(txtColPos);
+                    audioID = resourceCursor.getInt(audioColPos);
                 }
+                resourceCursor.close();
 
                 TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,Hlat,Hlon,radius,infoID,imgID,audioID, isBuild);
                 allStops.add(newStop);

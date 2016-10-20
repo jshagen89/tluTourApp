@@ -76,7 +76,7 @@ public class TourStopList extends AppCompatActivity
     {
         TourStopDataSource myDataSource = new TourStopDataSource(this);
         myDataSource.open();
-        allTourStops = myDataSource.getAllTourStops();
+        allTourStops = myDataSource.getAllTourStops(this);
         myDataSource.close();
     }
 
