@@ -57,17 +57,15 @@ public class TourStopDataSource {
                 Hlat = Clat;
                 Hlon = Clon;
                 radius = myCursor.getDouble(RADIUS_COL_POSITION);
-                infoID = myCursor.getInt(INFO_COL_POSITION);
                 imgID = myCursor.getInt(IMG_COL_POSITION);
-                audioID = myCursor.getInt(AUDIO_COL_POSITION);
                 isBuild = myCursor.getInt(IS_BUILDING_COL_POSITION);
 
                 // get building info for all tour stops that are buildings
                 if (isBuild == 1)
                 {
-                    String whereClause = COLUMN_NAME + " = ? LIMIT 1";
-                    String[] values = {name};
-                    Cursor buildingCursor = db.query(TABLE_BUILDING_INFO, BUILDING_INFO_COLUMNS, whereClause, values, null, null, null);
+                    String buildingWhereClause = COLUMN_NAME + " = ? LIMIT 1";
+                    String[] buildingValues = {name};
+                    Cursor buildingCursor = db.query(TABLE_BUILDING_INFO, BUILDING_INFO_COLUMNS, buildingWhereClause, buildingValues, null, null, null);
                     if (buildingCursor.getCount() > 0)
                     {
                         buildingCursor.moveToFirst();
@@ -77,6 +75,19 @@ public class TourStopDataSource {
                         Hlon = buildingCursor.getDouble(HANDICAP_LON_COL_POSITION);
                     }
                     buildingCursor.close();
+                }
+
+                // get txt and audio resources for each tour stop
+                String[] resColumns = {COLUMN_ENG_INFO_TEXT, COLUMN_ENG_AUDIO_FILE};
+                String resWhereClause = COLUMN_NAME + " = ? LIMIT 1";
+                String[] resValues = {name};
+                Cursor resourceCursor = db.query(TABLE_TEXT_AUDIO_RESOURCES, resColumns, resWhereClause, resValues, null, null, null);
+                if (resourceCursor.getCount() > 0)
+                {
+                    while (resourceCursor.moveToNext())
+                    {
+
+                    }
                 }
 
                 TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,Hlat,Hlon,radius,infoID,imgID,audioID, isBuild);
