@@ -4,16 +4,16 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.prefs.Preferences;
+import java.util.Locale;
 
 import static com.example.joseph.tlucampustour.Constants.*;
 
@@ -32,7 +32,6 @@ public class TourInfo extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_tour_info);
-        setTitle(R.string.app_name);
     }
 
     @Override
@@ -78,9 +77,35 @@ public class TourInfo extends AppCompatActivity {
         prefsEditor.putInt(LANGUAGE_PREF_RESULT, languagePref);
         prefsEditor.putBoolean(ACCESS_PREF_RESULT, useHandicapEntries);
         prefsEditor.apply();
+        updateLanguageSettings(languagePref);
         Toast toast = Toast.makeText(this, "Settings Updated", Toast.LENGTH_SHORT);
         toast.show();
         dialogOpen = false;
+        restartActivity();
+    }
+
+    private void updateLanguageSettings(int languageID)
+    {
+        Locale localePref;
+        switch (languageID)
+        {
+            case SPANISH_CHOICE:
+                localePref = new Locale("es", "ES");
+                break;
+            default:
+                localePref = Locale.ENGLISH;
+        }
+        Configuration cfg = new Configuration();
+        cfg.setLocale(localePref);
+        this.getResources().updateConfiguration(cfg, null);
+    }
+
+    // Restart Activity so that UI will be updated with new language pref
+    private void restartActivity()
+    {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 
     // Opens the location list
