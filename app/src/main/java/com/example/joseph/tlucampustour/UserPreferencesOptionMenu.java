@@ -21,6 +21,7 @@ public class UserPreferencesOptionMenu extends DialogFragment {
     private Dialog options;
     private RadioGroup languageGroup;
     private CheckBox handicapOption;
+    private int prevLanguagePref;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -67,14 +68,11 @@ public class UserPreferencesOptionMenu extends DialogFragment {
 
             // Check widgets for current preferences
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-            int languagePref = prefs.getInt(LANGUAGE_PREF_RESULT, ENGLISH_CHOICE);
-            switch (languagePref)
+            prevLanguagePref = prefs.getInt(LANGUAGE_PREF_RESULT, ENGLISH_CHOICE);
+            switch (prevLanguagePref)
             {
                 case SPANISH_CHOICE:
                     languageGroup.check(R.id.spanishOption);
-                    break;
-                case MANDARIN_CHOICE:
-                    languageGroup.check(R.id.mandarinOption);
                     break;
                 default:
                     languageGroup.check(R.id.englishOption);
@@ -100,9 +98,6 @@ public class UserPreferencesOptionMenu extends DialogFragment {
                 case R.id.spanishOption:
                     languageChoice = SPANISH_CHOICE;
                     break;
-                case R.id.mandarinOption:
-                    languageChoice = MANDARIN_CHOICE;
-                    break;
             }
 
             // Check accessibility prefs
@@ -110,6 +105,7 @@ public class UserPreferencesOptionMenu extends DialogFragment {
 
             // Send choices back to Directions activity
             Bundle prefs = new Bundle();
+            prefs.putInt(PREV_LANGUAGE_RESULT, prevLanguagePref);
             prefs.putInt(LANGUAGE_PREF_RESULT, languageChoice);
             prefs.putBoolean(ACCESS_PREF_RESULT, useHandicapEntrances);
             TourInfo callingActivity = (TourInfo) getActivity();

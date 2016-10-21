@@ -13,8 +13,6 @@ public class TourStop implements Parcelable{
     private double centerLongitude;
     private double entryLatitude;
     private double entryLongitude;
-    private double handicapLatitude;
-    private double handicapLongitude;
     private double radius;
     private int infoTextID;
     private int imageID;
@@ -22,7 +20,7 @@ public class TourStop implements Parcelable{
     private boolean isBuilding;
     private boolean beenPlayed;
 
-    public TourStop(String name, double Clat, double Clon, double Elat, double Elon, double Hlat, double Hlon, double rad, int infoText, int img, int audio, int isBuild)
+    public TourStop(String name, double Clat, double Clon, double Elat, double Elon, double rad, int infoText, int img, int audio, int isBuild)
 
     {
         this.name = name;
@@ -30,8 +28,6 @@ public class TourStop implements Parcelable{
         this.centerLongitude = Clon;
         this.entryLatitude = Elat;
         this.entryLongitude = Elon;
-        this.handicapLatitude = Hlat;
-        this.handicapLongitude = Hlon;
         this.radius = rad;
         this.infoTextID = infoText;
         this.imageID = img;
@@ -67,16 +63,6 @@ public class TourStop implements Parcelable{
     public double getEntryLongitude()
     {
         return this.entryLongitude;
-    }
-
-    public double getHandicapLatitude()
-    {
-        return this.handicapLatitude;
-    }
-
-    public double getHandicapLongitude()
-    {
-        return this.handicapLongitude;
     }
 
     public double getRadius()
@@ -133,8 +119,6 @@ public class TourStop implements Parcelable{
         parcel.writeDouble(centerLongitude);
         parcel.writeDouble(entryLatitude);
         parcel.writeDouble(entryLongitude);
-        parcel.writeDouble(handicapLatitude);
-        parcel.writeDouble(handicapLongitude);
         parcel.writeDouble(radius);
         parcel.writeInt(infoTextID);
         parcel.writeInt(imageID);
@@ -161,8 +145,6 @@ public class TourStop implements Parcelable{
         centerLongitude = in.readDouble();
         entryLatitude = in.readDouble();
         entryLongitude = in.readDouble();
-        handicapLatitude = in.readDouble();
-        handicapLongitude = in.readDouble();
         radius = in.readDouble();
         infoTextID = in.readInt();
         imageID = in.readInt();

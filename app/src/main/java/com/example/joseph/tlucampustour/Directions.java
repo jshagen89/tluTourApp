@@ -115,16 +115,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private void getDestinationInfo()
     {
         destName = destination.getName();
-        if (useHandicapEntries)
-        {
-            selectedLat = destination.getHandicapLatitude();
-            selectedLon = destination.getHandicapLongitude();
-        }
-        else
-        {
-            selectedLat = destination.getEntryLatitude();
-            selectedLon = destination.getEntryLongitude();
-        }
+        selectedLat = destination.getEntryLatitude();
+        selectedLon = destination.getEntryLongitude();
         centerPoint = new LatLng(destination.getCenterLatitude(), destination.getCenterLongitude());
         locationRadius = destination.getRadius();
     }
@@ -454,18 +446,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
         for (TourStop stop : allTourStops)
         {
-            double stopLat;
-            double stopLon;
-            if (useHandicapEntries)
-            {
-                stopLat = stop.getHandicapLatitude();
-                stopLon = stop.getHandicapLongitude();
-            }
-            else
-            {
-                stopLat = stop.getEntryLatitude();
-                stopLon = stop.getEntryLongitude();
-            }
+                double stopLat = stop.getEntryLatitude();
+                double stopLon = stop.getEntryLongitude();
 
             Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
                     stop.getCenterLatitude(), stop.getCenterLongitude(), distance);

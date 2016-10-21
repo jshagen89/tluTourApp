@@ -68,6 +68,7 @@ public class TourInfo extends AppCompatActivity {
     public void onSettingsSelected(Bundle prefs)
     {
         // Get selected preferences or use default values
+        int prevLanguagePref = prefs.getInt(PREV_LANGUAGE_RESULT);
         int languagePref = prefs.getInt(LANGUAGE_PREF_RESULT, ENGLISH_CHOICE);
         boolean useHandicapEntries = prefs.getBoolean(ACCESS_PREF_RESULT, false);
 
@@ -81,9 +82,15 @@ public class TourInfo extends AppCompatActivity {
         Toast toast = Toast.makeText(this, "Settings Updated", Toast.LENGTH_SHORT);
         toast.show();
         dialogOpen = false;
-        restartActivity();
+
+        // Restart activity if language has changed so that UI can be appropriately updated with new language
+        if (prevLanguagePref != languagePref)
+        {
+            restartActivity();
+        }
     }
 
+    // Changes locale of app after language prefs have been changed
     private void updateLanguageSettings(int languageID)
     {
         Locale localePref;

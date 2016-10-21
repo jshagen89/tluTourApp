@@ -34,25 +34,25 @@ abstract class Constants {
             "Krost and Health Sciences", "Chapel of the Abiding Presence", "Campus Ministry/Servant Leadership", "Hein Dining Hall",
             "Centennial Hall Courtyard", "Jackson Auditorium", "Fitness Center", "Alumni Student Center", "Blumburg Memorial Library",
             "Schuech Fine Arts", "Langner Hall"};
-    static final double[] BUILDING_ENTRY_LATITUDES = {29.571, 29.57147, 29.57216, 29.57184, 29.57096, 29.5745,
-            29.57322, 29.57197, 29.57218, 29.5764, 29.57395, 29.5731, 29.57308, 29.57317,
+    static final double[] BUILDING_ENTRY_LATITUDES = {29.571, 29.57147, 29.57216, 29.57184, 29.57096, 29.57263,
+            29.57322, 29.57197, 29.57218, 29.57163, 29.57476, 29.5731, 29.57308, 29.57317,
             29.57238};
     static final double[] BUILDING_ENTRY_LONGITUDES = {-97.98255, -97.98255, -97.98253, -97.98363, -97.98347,
-            -97.98088,-97.98481, -97.98512, -97.98605, -97.98715, -97.98297, -97.98367,
+            -97.98357,-97.98481, -97.98512, -97.98605, -97.98692, -97.98353, -97.98367,
             -97.98262, -97.98179, -97.98151};
     static final double[] BUILDING_HANDICAP_LATITUDES = {29.571, 29.57167, 29.57219, 29.57184, 29.57096, 29.57254, 29.57322,
             29.57202, 29.57218, 29.57173, 29.57464, 29.5731, 29.57338, 29.57317, 29.57217};
     static final double[] BUILDING_HANDICAP_LONGITUDES = {-97.98255, -97.98264, -97.98289, -97.98363, -97.98347, -97.98384,
             -97.98481, -97.98481, -97.98605, -97.98715, -97.98339, -97.98367, -97.98264, -97.98179, -97.98146};
-    static final int[] TOUR_STOP_ENG_TXT_IDS = {R.string.martin_luther_statue_eng_info, R.string.att_science_eng_info, R.string.emma_frey_eng_info,
-            R.string.tschoepe_eng_info, R.string.baldus_clifton_trinity_eng_info, R.string.krost_eng_info, R.string.weston_ranch_eng_info, R.string.chapel_eng_info,
-            R.string.campus_ministry_eng_info, R.string.hein_eng_info, R.string.centennial_eng_info, R.string.jackson_eng_info, R.string.sports_complex_eng_info,
-            R.string.fitness_center_eng_info, R.string.graduation_walk_eng_info, R.string.asc_eng_info, R.string.library_eng_info, R.string.scheuch_eng_info,
-            R.string.langner_eng_info, R.string.alumni_plaza_eng_info};
-    static final int[] TOUR_STOP_ENG_AUDIO_IDS = {R.raw.martin_luther_statue_eng, R.raw.att_science_eng, R.raw.emma_frey_eng, R.raw.tschope_eng, R.raw.baldus_clifton_trinity_eng,
-            R.raw.krost_eng, R.raw.weston_ranch_eng, R.raw.chapel_eng, R.raw.campus_ministry_eng, R.raw.hein_dining_hall_eng, R.raw.centennial_hall_eng,
-            R.raw.jackson_auditorium_eng, R.raw.sports_complex_eng, R.raw.fitness_center_eng, R.raw.graduation_walk_eng, R.raw.asc_eng, R.raw.blumburg_library_eng,
-            R.raw.schuech_fine_arts_eng, R.raw.langner_hall_eng, R.raw.alumni_plaza_eng};
+    static final int[] TOUR_STOP_TXT_IDS = {R.string.martin_luther_statue_info, R.string.att_science_info, R.string.emma_frey_info,
+            R.string.tschoepe_info, R.string.baldus_clifton_trinity_info, R.string.krost_info, R.string.weston_ranch_info, R.string.chapel_info,
+            R.string.campus_ministry_info, R.string.hein_info, R.string.centennial_info, R.string.jackson_info, R.string.sports_complex_info,
+            R.string.fitness_center_info, R.string.graduation_walk_info, R.string.asc_info, R.string.library_info, R.string.scheuch_info,
+            R.string.langner_info, R.string.alumni_plaza_info};
+    static final int[] TOUR_STOP_AUDIO_IDS = {R.raw.martin_luther_statue, R.raw.att_science, R.raw.emma_frey, R.raw.tschope, R.raw.baldus_clifton_trinity,
+            R.raw.krost, R.raw.weston_ranch, R.raw.chapel, R.raw.campus_ministry, R.raw.hein_dining_hall, R.raw.centennial_hall,
+            R.raw.jackson_auditorium, R.raw.sports_complex, R.raw.fitness_center, R.raw.graduation_walk, R.raw.asc, R.raw.blumburg_library,
+            R.raw.schuech_fine_arts, R.raw.langner_hall, R.raw.alumni_plaza};
 
     // Database Creation and Table Refs
     static final String DATABASE_NAME = "tluCampusTour.db";
@@ -73,18 +73,13 @@ abstract class Constants {
     static final String COLUMN_ENTRY_LONGITUDE = "entryLongitude";
     static final String COLUMN_HANDICAP_LATITUDE = "handicapLatitude";
     static final String COLUMN_HANDICAP_LONGITUDE = "handicapLongitude";
-    static final String COLUMN_ENG_INFO_TEXT = "engInfoTextID";
-    static final String COLUMN_SPAN_INFO_TEXT = "spanInfoTextID";
-    static final String COLUMN_MAND_INFO_TEXT = "mandInfoTextID";
-    static final String COLUMN_ENG_AUDIO_FILE = "engAudioFileID";
-    static final String COLUMN_SPAN_AUDIO_FILE = "spanAudioFileID";
-    static final String COLUMN_MAND_AUDIO_FILE = "mandAudioFileID";
+    static final String COLUMN_INFO_TEXT = "engInfoTextID";
+    static final String COLUMN_AUDIO_FILE = "engAudioFileID";
     static final String[] TOUR_STOP_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_CENTER_LATITUDE, COLUMN_CENTER_LONGITUDE,
             COLUMN_RADIUS, COLUMN_IMAGE, COLUMN_IS_BUILDING};
     static final String[] BUILDING_INFO_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_ENTRY_LATITUDE, COLUMN_ENTRY_LONGITUDE,
             COLUMN_HANDICAP_LATITUDE, COLUMN_HANDICAP_LONGITUDE};
-    static final String[] TEXT_AUDIO_RESOURCES_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_ENG_INFO_TEXT, COLUMN_SPAN_INFO_TEXT,
-            COLUMN_MAND_INFO_TEXT, COLUMN_ENG_AUDIO_FILE, COLUMN_SPAN_AUDIO_FILE, COLUMN_MAND_AUDIO_FILE};
+    static final String[] TEXT_AUDIO_RESOURCES_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_INFO_TEXT, COLUMN_AUDIO_FILE};
 
     // Table Create Queries
     static final String TOUR_STOP_TABLE_CREATE =
@@ -108,12 +103,8 @@ abstract class Constants {
             "CREATE TABLE " + TABLE_TEXT_AUDIO_RESOURCES + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_NAME + " TEXT, " +
-                    COLUMN_ENG_INFO_TEXT + " INTEGER, " +
-                    COLUMN_SPAN_INFO_TEXT + " INTEGER, " +
-                    COLUMN_MAND_INFO_TEXT + " INTEGER, " +
-                    COLUMN_ENG_AUDIO_FILE + " INTEGER, " +
-                    COLUMN_SPAN_AUDIO_FILE + " INTEGER, " +
-                    COLUMN_MAND_AUDIO_FILE + " INTEGER" + ")";
+                    COLUMN_INFO_TEXT + " INTEGER, " +
+                    COLUMN_AUDIO_FILE + " INTEGER" + ")";
 
     // Column Position Refs for Queries
     static final int ID_COL_POSITION = 0;
@@ -127,12 +118,8 @@ abstract class Constants {
     static final int ENTRY_LON_COL_POSITION = 3;
     static final int HANDICAP_LAT_COL_POSITION = 4;
     static final int HANDICAP_LON_COL_POSITION = 5;
-    static final int ENG_TXT_COL_POSITION = 2;
-    static final int SPAN_TXT_COL_POSITION = 3;
-    static final int MAND_TXT_COL_POSITION = 4;
-    static final int ENG_AUDIO_COL_POSITION = 5;
-    static final int SPAN_AUDIO_COL_POSITION = 6;
-    static final int MAND_AUDIO_COL_POSITION = 7;
+    static final int TXT_COL_POSITION = 2;
+    static final int AUDIO_COL_POSITION = 3;
     static final int NUM_TOUR_STOPS = 20;
     static final int NUM_BUILDINGS = 15;
 
@@ -151,9 +138,9 @@ abstract class Constants {
     static final int NORMAL_MAP_CHOICE = 2;
     static final String LANGUAGE_PREF_RESULT = "Language Pref";
     static final String ACCESS_PREF_RESULT = "Accessibility Pref";
+    static final String PREV_LANGUAGE_RESULT = "Previous Language Pref";
     static final int ENGLISH_CHOICE = 1;
     static final int SPANISH_CHOICE = 2;
-    static final int MANDARIN_CHOICE = 3;
 
     // Google Location Service Constants
     static final int EDITOR_REQUEST_CODE = 1001;

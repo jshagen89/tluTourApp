@@ -33,24 +33,15 @@ public class TourStopDataSource {
 
     public ArrayList<TourStop> getAllTourStops(Context context)
     {
-        // Determine which language user has set as preference
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        int languagePref = prefs.getInt(LANGUAGE_PREF_RESULT, ENGLISH_CHOICE);
-        int txtColPos;
-        int audioColPos;
-        switch (languagePref)
+        // Determine which type of entries the user prefers to use
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean useHandicapEntries = prefs.getBoolean(ACCESS_PREF_RESULT, false);
+        int entryLatColumnPos = ENTRY_LAT_COL_POSITION;
+        int entryLonColumnPos = ENTRY_LON_COL_POSITION;
+        if (useHandicapEntries)
         {
-            case SPANISH_CHOICE:
-                txtColPos = SPAN_TXT_COL_POSITION;
-                audioColPos = SPAN_AUDIO_COL_POSITION;
-                break;
-            case MANDARIN_CHOICE:
-                txtColPos = MAND_TXT_COL_POSITION;
-                audioColPos = MAND_AUDIO_COL_POSITION;
-                break;
-            default:
-                txtColPos = ENG_TXT_COL_POSITION;
-                audioColPos = ENG_AUDIO_COL_POSITION;
+            entryLatColumnPos = HANDICAP_LAT_COL_POSITION;
+            entryLonColumnPos = HANDICAP_LON_COL_POSITION;
         }
 
         ArrayList<TourStop> allStops = new ArrayList<>(NUM_TOUR_STOPS);
@@ -59,8 +50,6 @@ public class TourStopDataSource {
         double Clon;
         double Elat;
         double Elon;
-        double Hlat;
-        double Hlon;
         double radius;
         int infoID;
         int imgID;
@@ -76,8 +65,6 @@ public class TourStopDataSource {
                 Clon = myCursor.getDouble(CENTER_LONG_COL_POSITION);
                 Elat = Clat;
                 Elon = Clon;
-                Hlat = Clat;
-                Hlon = Clon;
                 radius = myCursor.getDouble(RADIUS_COL_POSITION);
                 imgID = myCursor.getInt(IMG_COL_POSITION);
                 isBuild = myCursor.getInt(IS_BUILDING_COL_POSITION);
@@ -93,27 +80,25 @@ public class TourStopDataSource {
                     if (buildingCursor.getCount() > 0)
                     {
                         buildingCursor.moveToFirst();
-                        Elat = buildingCursor.getDouble(ENTRY_LAT_COL_POSITION);
-                        Elon = buildingCursor.getDouble(ENTRY_LON_COL_POSITION);
-                        Hlat = buildingCursor.getDouble(HANDICAP_LAT_COL_POSITION);
-                        Hlon = buildingCursor.getDouble(HANDICAP_LON_COL_POSITION);
+                        Elat = buildingCursor.getDouble(entryLatColumnPos);
+                        Elon = buildingCursor.getDouble(entryLonColumnPos);
                     }
                     buildingCursor.close();
                 }
 
-                // Get info txt and audio resource files for appropriate language for each tour stop
+                // Get info txt and audio resource files for each tour stop
                 String resWhereClause = COLUMN_NAME + " = ? LIMIT 1";
                 String[] resValues = {name};
                 Cursor resourceCursor = db.query(TABLE_TEXT_AUDIO_RESOURCES, TEXT_AUDIO_RESOURCES_COLUMNS, resWhereClause, resValues, null, null, null);
                 if (resourceCursor.getCount() > 0)
                 {
                     resourceCursor.moveToFirst();
-                    infoID = resourceCursor.getInt(txtColPos);
-                    audioID = resourceCursor.getInt(audioColPos);
+                    infoID = resourceCursor.getInt(TXT_COL_POSITION);
+                    audioID = resourceCursor.getInt(AUDIO_COL_POSITION);
                 }
                 resourceCursor.close();
 
-                TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,Hlat,Hlon,radius,infoID,imgID,audioID, isBuild);
+                TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,radius,infoID,imgID,audioID, isBuild);
                 allStops.add(newStop);
             }
             myCursor.close();
