@@ -64,6 +64,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
     private boolean infoDisplayed;
     private boolean gotDirections;
     private String transMode;
+    private boolean gottenTransModePref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +177,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         // Map type user selection
         int mapViewChoice = choices.getInt(MAP_OPTIONS_RESULT, NORMAL_MAP_CHOICE);
         String transportModeChoice = choices.getString(TRANSPORTATION_MODE_RESULT, TransportMode.WALKING);
+        gottenTransModePref = !transMode.equals(transportModeChoice);
 
         if (mapViewChoice == NORMAL_MAP_CHOICE)
         {
@@ -507,8 +509,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
                 TLU_CAMPUS_LAT, TLU_CAMPUS_LON, distance);
 
-        // Set transport mode to driving if user is off campus
-        if (distance[0] > TLU_CAMPUS_RADIUS)
+        // Set transport mode to driving if user is off campus and has not chosen walking directions
+        if (distance[0] > TLU_CAMPUS_RADIUS && !gottenTransModePref)
         {
             transMode = TransportMode.DRIVING;
         }
