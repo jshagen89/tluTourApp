@@ -50,4 +50,6 @@
     <string name="satellite_option">Satellite View</string>
     <string name="normal_option">Normal View</string>
     <string name="map_view_options">Map view</string>
+    <string name="options">Options</string>
+    <string name="details">Details</string>
 </resources>
