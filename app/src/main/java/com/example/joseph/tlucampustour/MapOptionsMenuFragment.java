@@ -49,7 +49,7 @@ public class MapOptionsMenuFragment extends DialogFragment {
                 .inflate(R.layout.map_options, null);
         options = new AlertDialog.Builder(getActivity())
             .setView(v)
-            .setTitle("Map Options")
+            .setTitle(R.string.map_options_title)
             .setPositiveButton(android.R.string.ok, null)
             .create();
         MapOptionsShowListener myShowListener = new MapOptionsShowListener();

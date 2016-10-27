@@ -145,7 +145,6 @@ public class TourStopInfoFragment extends Fragment {
     // Needed for audio completion listener..since no view is available
     public void audioFinished()
     {
-        Log.d("Audio", "audioFinished called");
         playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
         myAudioPlayer.stop();
         isAudioPlaying = false;
@@ -205,7 +204,7 @@ public class TourStopInfoFragment extends Fragment {
             // Only set volume after initialization to prevent volume from resetting to 0 on init
             if (audioControlsInit)
             {
-                myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_SHOW_UI);
+                myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
             }
         }
 

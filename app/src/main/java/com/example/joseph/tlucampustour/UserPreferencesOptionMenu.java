@@ -28,9 +28,10 @@ public class UserPreferencesOptionMenu extends DialogFragment {
     {
         View v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.user_prefs, null);
+        String title = getResources().getString(R.string.action_settings);
         options = new AlertDialog.Builder(getActivity())
                 .setView(v)
-                .setTitle("Settings")
+                .setTitle(title)
                 .setPositiveButton(android.R.string.ok, null)
                 .create();
 

@@ -170,7 +170,7 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast toast = Toast.makeText(this, "Could not Connect to Location Services", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, R.string.location_conn_error, Toast.LENGTH_SHORT);
         toast.show();
     }
 

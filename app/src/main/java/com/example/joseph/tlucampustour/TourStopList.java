@@ -48,7 +48,7 @@ public class TourStopList extends AppCompatActivity
         }
 
         setContentView(R.layout.activity_tour_stop_list);
-        setTitle("Tour Stops");
+        setTitle(getString(R.string.tour_stops_list_title));
 
         // disable back button...user should end tour to go back to beginning screen
         if (getSupportActionBar() != null)
@@ -224,7 +224,7 @@ public class TourStopList extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast toast = Toast.makeText(this, "Could not Connect to Location Services", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, R.string.location_conn_error, Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -242,7 +242,6 @@ public class TourStopList extends AppCompatActivity
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
             myIntent.putExtra(SELECTED_STOP_EXTRA, selectedStop);
             myIntent.putParcelableArrayListExtra(TOUR_STOP_ARRAY_EXTRA, allTourStops);
-            Log.d("Map", "selectedLongitude: " + selectedStop.getEntryLongitude());
             infoDisplayed = true;
             startActivityForResult(myIntent, RESULT_OK);
         }

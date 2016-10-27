@@ -52,7 +52,6 @@
         android:id="@+id/backToList"
         android:background="@drawable/gold_button_border"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:onClick="returnToList" />
 

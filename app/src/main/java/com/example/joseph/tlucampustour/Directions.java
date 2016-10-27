@@ -96,7 +96,8 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         }
 
         TextView myTV = (TextView) findViewById(R.id.tourStopName);
-        myTV.setText("Directions to " + destName);
+        String titleStart = getResources().getString(R.string.directions_title_start);
+        myTV.setText(String.format("%s%s", titleStart, destName));
 
         // Set up Google Map for directions
         transMode = TransportMode.WALKING;
@@ -161,12 +162,13 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         {
             FragmentManager fm = getFragmentManager();
             MapOptionsMenuFragment options = new MapOptionsMenuFragment().newInstance(mMap.getMapType(), transMode);
-            options.show(fm, "Map Options");
+            String title = getResources().getString(R.string.map_options_title);
+            options.show(fm, title);
             dialogOpen = true;
         }
         else
         {
-            Toast toast = Toast.makeText(this, "Please wait for the map to load", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, R.string.map_loading_message, Toast.LENGTH_SHORT);
             toast.show();
         }
     }
@@ -258,7 +260,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
             myLocation = LocationServices.FusedLocationApi.getLastLocation(myGoogleClient);
             return myLocation;
         } catch (SecurityException e) {
-            Log.d("LocationService", "Error: " + e);
             return null;
         }
     }
@@ -375,7 +376,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast toast = Toast.makeText(this, "Could not Connect to Location Services", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, R.string.location_conn_error, Toast.LENGTH_SHORT);
         toast.show();
     }
 
@@ -402,7 +403,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         myPoint = new LatLng(myLat, myLon);
         myMarker = mMap.addMarker(new MarkerOptions()
                 .position(myPoint)
-                .title("My Location")
+                .title(getString(R.string.my_location_marker_title))
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         myMarker.showInfoWindow();
 
@@ -542,7 +543,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
         }
         else
         {
-            Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, R.string.directions_conn_error, Toast.LENGTH_SHORT);
             toast.show();
             gotDirections = false;
         }
@@ -550,7 +551,7 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
 
     @Override
     public void onDirectionFailure(Throwable t) {
-        Toast toast = Toast.makeText(this, "Directions Not Available", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, R.string.directions_conn_error, Toast.LENGTH_SHORT);
         toast.show();
         gotDirections = false;
     }

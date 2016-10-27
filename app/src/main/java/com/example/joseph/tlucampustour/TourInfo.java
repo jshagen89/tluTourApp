@@ -60,7 +60,8 @@ public class TourInfo extends AppCompatActivity {
     {
         FragmentManager fm = getFragmentManager();
         UserPreferencesOptionMenu options = new UserPreferencesOptionMenu();
-        options.show(fm, "Settings");
+        String title = getResources().getString(R.string.action_settings);
+        options.show(fm, title);
         dialogOpen = true;
     }
 
@@ -79,7 +80,7 @@ public class TourInfo extends AppCompatActivity {
         prefsEditor.putBoolean(ACCESS_PREF_RESULT, useHandicapEntries);
         prefsEditor.apply();
         updateLanguageSettings(languagePref);
-        Toast toast = Toast.makeText(this, "Settings Updated", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, R.string.settings_updated, Toast.LENGTH_SHORT);
         toast.show();
         dialogOpen = false;
 

@@ -33,4 +33,21 @@
     <string name="alumni_plaza_info">On a game day victory or after commencement ceremonies, athletes and graduates will ring the Victory Bell here in Alumni Plaza. The bell is from the campus tower in Brenham, Texas, and was the only original piece brought to Seguin. It\'s remained here for over 100 years and serves as the historical anchor of the campus.\n\nWe hope you\'ve enjoyed your tour and we invite you to schedule a visit, attend a class, talk to our students and meet with our admissions counselors who will personally see you through the admissions and financial aid process. Good luck with your college search and remember, Go Bulldogs!</string>
     <string name="play_text">Play Audio</string>
     <string name="title_activity_direction_map">Map</string>
+    <string name="settings_updated">Settings Updated</string>
+    <string name="location_conn_error">Could not Connect to Location Services</string>
+    <string name="tour_stops_list_title">Tour Stops</string>
+    <string name="directions_title_start">"Directions to "</string>
+    <string name="map_options_title">Map Options</string>
+    <string name="map_loading_message">Please wait for the map to load</string>
+    <string name="my_location_marker_title">My Location</string>
+    <string name="directions_conn_error">Directions Not Available</string>
+    <string name="spanish_option">Spanish</string>
+    <string name="english_option">English</string>
+    <string name="language_options">Language Options</string>
+    <string name="driving_option">Driving Directions</string>
+    <string name="walking_option">Walking Directions</string>
+    <string name="transportation_options">Mode of Transportation</string>
+    <string name="satellite_option">Satellite View</string>
+    <string name="normal_option">Normal View</string>
+    <string name="map_view_options">Map view</string>
 </resources>

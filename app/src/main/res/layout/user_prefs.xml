@@ -33,7 +33,7 @@
             android:layout_margin="5dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:text="Language Options"/>
+            android:text="@string/language_options"/>
 
         <RadioGroup
             android:layout_width="match_parent"
@@ -47,13 +47,13 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:buttonTint="@color/colorPrimary"
-                android:text="English" />
+                android:text="@string/english_option" />
             <RadioButton android:id="@+id/spanishOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:buttonTint="@color/colorPrimary"
-                android:text="Spanish" />
+                android:text="@string/spanish_option" />
 
         </RadioGroup>
 

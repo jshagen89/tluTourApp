@@ -32,7 +32,7 @@
             android:layout_margin="5dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:text="Map view"/>
+            android:text="@string/map_view_options"/>
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
@@ -46,13 +46,13 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:buttonTint="@color/colorPrimary"
-                android:text="Normal View" />
+                android:text="@string/normal_option" />
             <RadioButton android:id="@+id/satelliteViewOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:buttonTint="@color/colorPrimary"
-                android:text="Satellite View" />
+                android:text="@string/satellite_option" />
         </RadioGroup>
     </RelativeLayout>
 
@@ -82,7 +82,7 @@
             android:layout_margin="5dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:text="Mode of Transportation"/>
+            android:text="@string/transportation_options"/>
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
@@ -96,13 +96,13 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:buttonTint="@color/colorPrimary"
-                android:text="Walking Directions" />
+                android:text="@string/walking_option" />
             <RadioButton android:id="@+id/drivingOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:buttonTint="@color/colorPrimary"
-                android:text="Driving Directions" />
+                android:text="@string/driving_option" />
         </RadioGroup>
     </RelativeLayout>
 
