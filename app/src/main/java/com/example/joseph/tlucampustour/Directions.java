@@ -416,12 +416,6 @@ public class Directions extends AppCompatActivity implements OnMapReadyCallback,
                     .position(selectedPoint)
                     .title(destName));
 
-            // Add radius outline to map
-            mMap.addCircle(new CircleOptions()
-                    .center(centerPoint)
-                    .radius(locationRadius)
-                    .strokeColor(Color.BLUE));
-
             // Move camera to markers and keep within specified bounds
             LatLngBounds bounds = new LatLngBounds.Builder()
                     .include(myPoint)
