@@ -85,7 +85,7 @@
             android:layout_margin="5dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:text="Accessibility Options"/>
+            android:text="@string/accessibility_options"/>
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             android:layout_marginStart="10dp"
             android:buttonTint="@color/colorPrimary"
             android:textColor="@android:color/white"
-            android:text="Use Handicap Entrances"/>
+            android:text="@string/use_handicap_entrances"/>
 
     </RelativeLayout>
 

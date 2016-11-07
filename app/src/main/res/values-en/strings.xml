@@ -51,4 +51,6 @@
     <string name="map_view_options">Map View</string>
     <string name="options">Options</string>
     <string name="details">Details</string>
+    <string name="accessibility_options">Accessibility Options</string>
+    <string name="use_handicap_entrances">Use Handicap Entrances</string>
 </resources>
