@@ -53,4 +53,25 @@
     <string name="details">Details</string>
     <string name="accessibility_options">Accessibility Options</string>
     <string name="use_handicap_entrances">Use Handicap Entrances</string>
+    <string name="martin_luther">Martin Luther Statue</string>
+    <string name="att_moody"><![CDATA[AT&T & Moody Science Complex]]></string>
+    <string name="emma_frey">Emma Frey</string>
+    <string name="tschoepe">Tschoepe Hall</string>
+    <string name="bald_clif_trin_housing">Baldus, Clifton, Trinity Housing</string>
+    <string name="krost">Krost and Health Sciences</string>
+    <string name="weston_ranch">Weston Ranch</string>
+    <string name="chapel">Chapel of the Abiding Presence</string>
+    <string name="campus_ministry">Campus Ministry/Servant Leadership</string>
+    <string name="hein_dining">Hein Dining Hall</string>
+    <string name="centennial">Centennial Hall Courtyard</string>
+    <string name="jackson_aud">Jackson Auditorium</string>
+    <string name="sports_complex">Sports Complex/Athletic Training</string>
+    <string name="fitness_center">Fitness Center</string>
+    <string name="grad_walk">Graduation Walk</string>
+    <string name="asc">Alumni Student Center</string>
+    <string name="library">Blumburg Memorial Library</string>
+    <string name="schuech_arts">Schuech Fine Arts</string>
+    <string name="langner_hall">Langner Hall</string>
+    <string name="alumni_plaza">Alumni Plaza</string>
+
 </resources>

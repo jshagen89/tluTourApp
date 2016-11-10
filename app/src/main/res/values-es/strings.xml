@@ -54,4 +54,24 @@
     <string name="details">Detalles</string>
     <string name="accessibility_options">Opciones de Accesibilidad</string>
     <string name="use_handicap_entrances">Utilice las Entradas de Handicap</string>
+    <string name="martin_luther">Estatua de Martín Lutero</string>
+    <string name="att_moody">Complejo AT&amp;T &amp; Moody Science</string>
+    <string name="emma_frey">Emma Frey</string>
+    <string name="tschoepe">Edificio Tschoepe</string>
+    <string name="bald_clif_trin_housing">Residencias/Dormitorios Baldus, Clifton, Trinity</string>
+    <string name="krost">Krost and Health Sciences</string>
+    <string name="weston_ranch">Rancho Weston</string>
+    <string name="chapel">Capilla de Abiding Presence</string>
+    <string name="campus_ministry">Oficinas del Ministerio del Campus /Servant Leadership</string>
+    <string name="hein_dining">Comedor Central Hein</string>
+    <string name="centennial">Patio de Centennial</string>
+    <string name="jackson_aud">Auditorio Jackson</string>
+    <string name="sports_complex">Complejos Deportivos: Sports Complex/Athletic Training</string>
+    <string name="fitness_center">Gimnasio</string>
+    <string name="grad_walk">Caminata de Graduación</string>
+    <string name="asc">Centro Estudiantil ASC</string>
+    <string name="library">Biblioteca Blumburg</string>
+    <string name="schuech_arts">Edificio de Bellas Artes Schuech</string>
+    <string name="langner_hall">Edificio Langner</string>
+    <string name="alumni_plaza">Plaza de Exalumnos</string>
 </resources>

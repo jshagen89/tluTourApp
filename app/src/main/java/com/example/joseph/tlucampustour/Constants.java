@@ -11,11 +11,11 @@ import com.google.android.gms.maps.model.LatLng;
 abstract class Constants {
 
     // Tour Stop Info
-    static final String[] TOUR_STOP_NAMES = {"Martin Luther Statue", "AT&T & Moody Science Complex", "Emma Frey",
-            "Tschoepe Hall", "Baldus, Clifton, Trinity Housing", "Krost and Health Sciences", "Weston Ranch",
-            "Chapel of the Abiding Presence", "Campus Ministry/Servant Leadership", "Hein Dining Hall", "Centennial Hall Courtyard",
-            "Jackson Auditorium", "Sports Complex/Athletic Training", "Fitness Center", "Graduation Walk", "Alumni Student Center",
-            "Blumburg Memorial Library", "Schuech Fine Arts", "Langner Hall", "Alumni Plaza"};
+    static final int[] TOUR_STOP_NAMES = {R.string.martin_luther, R.string.att_moody, R.string.emma_frey,
+            R.string.tschoepe, R.string.bald_clif_trin_housing, R.string.krost, R.string.weston_ranch,
+            R.string.chapel, R.string.campus_ministry, R.string.hein_dining, R.string.centennial,
+            R.string.jackson_aud, R.string.sports_complex, R.string.fitness_center, R.string.grad_walk,
+            R.string.asc, R.string.library, R.string.schuech_arts, R.string.langner_hall, R.string.alumni_plaza};
     static final double[] TOUR_STOP_CENTER_LATITUDES = {29.57089, 29.57098, 29.57148, 29.57206, 29.57184, 29.57096,
             29.5745, 29.57262, 29.57322, 29.57208, 29.57218, 29.57173, 29.5764, 29.57464, 29.57395, 29.57331,
             29.57323, 29.57332, 29.57239, 29.57269};
@@ -30,10 +30,9 @@ abstract class Constants {
             R.drawable.graduation_walk, R.drawable.asc, R.drawable.blumberg_library, R.drawable.schuech_fine_arts,
             R.drawable.langner_hall, R.drawable.alumni_plaza};
     static final int[] TOUR_STOP_IS_BUILDING = {0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0};
-    static final String[] BUILDING_NAMES = {"AT&T & Moody Science Complex", "Emma Frey", "Tschoepe Hall", "Baldus, Clifton, Trinity Housing",
-            "Krost and Health Sciences", "Chapel of the Abiding Presence", "Campus Ministry/Servant Leadership", "Hein Dining Hall",
-            "Centennial Hall Courtyard", "Jackson Auditorium", "Fitness Center", "Alumni Student Center", "Blumburg Memorial Library",
-            "Schuech Fine Arts", "Langner Hall"};
+    static final int[] BUILDING_NAMES = {R.string.att_moody, R.string.emma_frey, R.string.tschoepe, R.string.bald_clif_trin_housing,
+            R.string.krost, R.string.chapel, R.string.campus_ministry, R.string.hein_dining, R.string.centennial,
+            R.string.jackson_aud, R.string.fitness_center, R.string.asc, R.string.library, R.string.schuech_arts, R.string.langner_hall};
     static final double[] BUILDING_ENTRY_LATITUDES = {29.571, 29.57147, 29.57216, 29.57184, 29.57096, 29.57263,
             29.57322, 29.57197, 29.57218, 29.57163, 29.57476, 29.5731, 29.57308, 29.57317,
             29.57238};
@@ -57,69 +56,75 @@ abstract class Constants {
     // Database Creation and Table Refs
     static final String DATABASE_NAME = "tluCampusTour.db";
     static final String TABLE_TOUR_STOPS = "tourStops";
-    static final String TABLE_TEXT_AUDIO_RESOURCES = "txtAudioResources";
+    static final String TABLE_RESOURCES = "resources";
     static final String TABLE_BUILDING_INFO = "buildingInfo";
     static final int DATABASE_VERSION = 1;
 
     // Database Columns
-    static final String COLUMN_ID = "_id";
+    static final String COLUMN_TOUR_STOP_ID = "tourStopID";
+    static final String COLUMN_BUILDING_ID = "buildingID";
     static final String COLUMN_NAME = "name";
     static final String COLUMN_CENTER_LATITUDE = "centerLatitude";
     static final String COLUMN_CENTER_LONGITUDE = "centerLongitude";
     static final String COLUMN_RADIUS = "radius";
-    static final String COLUMN_IMAGE = "imageID";
     static final String COLUMN_IS_BUILDING = "isBuilding";
     static final String COLUMN_ENTRY_LATITUDE = "entryLatitude";
     static final String COLUMN_ENTRY_LONGITUDE = "entryLongitude";
     static final String COLUMN_HANDICAP_LATITUDE = "handicapLatitude";
     static final String COLUMN_HANDICAP_LONGITUDE = "handicapLongitude";
-    static final String COLUMN_INFO_TEXT = "engInfoTextID";
-    static final String COLUMN_AUDIO_FILE = "engAudioFileID";
-    static final String[] TOUR_STOP_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_CENTER_LATITUDE, COLUMN_CENTER_LONGITUDE,
-            COLUMN_RADIUS, COLUMN_IMAGE, COLUMN_IS_BUILDING};
-    static final String[] BUILDING_INFO_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_ENTRY_LATITUDE, COLUMN_ENTRY_LONGITUDE,
+    static final String COLUMN_IMAGE = "imageID";
+    static final String COLUMN_INFO_TEXT = "infoTextID";
+    static final String COLUMN_AUDIO_FILE = "audioFileID";
+    static final String[] TOUR_STOP_COLUMNS = {COLUMN_TOUR_STOP_ID, COLUMN_NAME, COLUMN_CENTER_LATITUDE, COLUMN_CENTER_LONGITUDE,
+            COLUMN_RADIUS, COLUMN_IS_BUILDING, COLUMN_BUILDING_ID};
+    static final String[] BUILDING_INFO_COLUMNS = {COLUMN_BUILDING_ID, COLUMN_NAME, COLUMN_ENTRY_LATITUDE, COLUMN_ENTRY_LONGITUDE,
             COLUMN_HANDICAP_LATITUDE, COLUMN_HANDICAP_LONGITUDE};
-    static final String[] TEXT_AUDIO_RESOURCES_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_INFO_TEXT, COLUMN_AUDIO_FILE};
+    static final String[] RESOURCES_COLUMNS = {COLUMN_TOUR_STOP_ID, COLUMN_NAME, COLUMN_IMAGE, COLUMN_INFO_TEXT, COLUMN_AUDIO_FILE};
 
     // Table Create Queries
     static final String TOUR_STOP_TABLE_CREATE =
             "CREATE TABLE " + TABLE_TOUR_STOPS + " (" +
-                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_NAME + " TEXT, " +
+                    COLUMN_TOUR_STOP_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_NAME + " INTEGER, " +
                     COLUMN_CENTER_LATITUDE + " REAL, " +
                     COLUMN_CENTER_LONGITUDE + " REAL, " +
                     COLUMN_RADIUS + " REAL, " +
-                    COLUMN_IMAGE + " INTEGER, " +
-                    COLUMN_IS_BUILDING + " INTEGER" + ")";
+                    COLUMN_IS_BUILDING + " INTEGER, " +
+                    COLUMN_BUILDING_ID + " INTEGER" + ")";
     static final String BUILDING_INFO_TABLE_CREATE =
             "CREATE TABLE " + TABLE_BUILDING_INFO + " (" +
-                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_NAME + " TEXT, " +
+                    COLUMN_BUILDING_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_NAME + " INTEGER, " +
                     COLUMN_ENTRY_LATITUDE + " REAL, " +
                     COLUMN_ENTRY_LONGITUDE + " REAL, " +
                     COLUMN_HANDICAP_LATITUDE + " REAL, " +
                     COLUMN_HANDICAP_LONGITUDE + " REAL" + ")";
-    static final String TXT_AUDIO_RES_TABLE_CREATE =
-            "CREATE TABLE " + TABLE_TEXT_AUDIO_RESOURCES + " (" +
-                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_NAME + " TEXT, " +
+    static final String RESOURCES_TABLE_CREATE =
+            "CREATE TABLE " + TABLE_RESOURCES + " (" +
+                    COLUMN_TOUR_STOP_ID + " INTEGER, " +
+                    COLUMN_NAME + " INTEGER, " +
+                    COLUMN_IMAGE + " INTEGER, " +
                     COLUMN_INFO_TEXT + " INTEGER, " +
                     COLUMN_AUDIO_FILE + " INTEGER" + ")";
 
     // Column Position Refs for Queries
-    static final int ID_COL_POSITION = 0;
+    static final int TOUR_STOP_ID_COL_POSITION = 0;
     static final int NAME_COL_POSITION = 1;
     static final int CENTER_LAT_COL_POSITION = 2;
     static final int CENTER_LONG_COL_POSITION = 3;
     static final int RADIUS_COL_POSITION = 4;
-    static final int IMG_COL_POSITION = 5;
-    static final int IS_BUILDING_COL_POSITION = 6;
+    static final int IS_BUILDING_COL_POSITION = 5;
+    static final int TOUR_STOP_BUILDING_ID_COL_POSITION = 6;
+
+    static final int BUILDING_ID_COL_POSITION = 0;
     static final int ENTRY_LAT_COL_POSITION = 2;
     static final int ENTRY_LON_COL_POSITION = 3;
     static final int HANDICAP_LAT_COL_POSITION = 4;
     static final int HANDICAP_LON_COL_POSITION = 5;
-    static final int TXT_COL_POSITION = 2;
-    static final int AUDIO_COL_POSITION = 3;
+
+    static final int IMG_COL_POSITION = 2;
+    static final int TXT_COL_POSITION = 3;
+    static final int AUDIO_COL_POSITION = 4;
     static final int NUM_TOUR_STOPS = 20;
     static final int NUM_BUILDINGS = 15;
 
