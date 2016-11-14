@@ -17,12 +17,12 @@ abstract class Constants {
             R.string.jackson_aud, R.string.sports_complex, R.string.fitness_center, R.string.grad_walk,
             R.string.asc, R.string.library, R.string.schuech_arts, R.string.langner_hall, R.string.alumni_plaza};
     static final double[] TOUR_STOP_CENTER_LATITUDES = {29.57089, 29.57098, 29.57148, 29.57206, 29.57184, 29.57096,
-            29.5745, 29.57262, 29.57322, 29.57208, 29.57218, 29.57173, 29.5764, 29.57464, 29.57395, 29.57331,
+            29.57092, 29.57262, 29.57322, 29.57208, 29.57218, 29.57173, 29.5764, 29.57464, 29.57395, 29.57331,
             29.57323, 29.57332, 29.57239, 29.57269};
     static final double[] TOUR_STOP_CENTER_LONGITUDES = {-97.98201, -97.98293, -97.98263, -97.98265, -97.98363, -97.98347,
-            -97.98088, -97.98376, -97.98481, -97.98512, -97.98605, -97.98715, -97.98376, -97.98339, -97.98297, -97.9836, -97.98262,
+            -97.99095, -97.98376, -97.98481, -97.98512, -97.98605, -97.98715, -97.98376, -97.98339, -97.98297, -97.9836, -97.98262,
             -97.98161, -97.98145, -97.98203};
-    static final int[] TOUR_STOP_RADII = {20, 45, 30, 40, 55, 30, 30, 30, 40, 45, 50, 50, 60, 65, 35, 40, 40, 50, 30, 20};
+    static final int[] TOUR_STOP_RADII = {20, 45, 30, 40, 55, 30, 60, 30, 40, 45, 50, 50, 60, 65, 35, 40, 40, 50, 30, 20};
     static final int[] TOUR_STOP_IMAGE_IDS = {R.drawable.martin_luther_statue, R.drawable.att_science, R.drawable.emma_frey,
             R.drawable.tschoepe, R.drawable.baldus_clifton_trinity_housing, R.drawable.krost_health_sciences, R.drawable.weston_ranch,
             R.drawable.chapel, R.drawable.campus_ministry, R.drawable.hein_dining_hall, R.drawable.centennial_hall_courtyard,
@@ -33,16 +33,16 @@ abstract class Constants {
     static final int[] BUILDING_NAMES = {R.string.att_moody, R.string.emma_frey, R.string.tschoepe, R.string.bald_clif_trin_housing,
             R.string.krost, R.string.chapel, R.string.campus_ministry, R.string.hein_dining, R.string.centennial,
             R.string.jackson_aud, R.string.fitness_center, R.string.asc, R.string.library, R.string.schuech_arts, R.string.langner_hall};
-    static final double[] BUILDING_ENTRY_LATITUDES = {29.571, 29.57147, 29.57216, 29.57184, 29.57096, 29.57263,
-            29.57322, 29.57197, 29.57218, 29.57163, 29.57476, 29.5731, 29.57308, 29.57317,
+    static final double[] BUILDING_ENTRY_LATITUDES = {29.571, 29.57147, 29.57216, 29.571626, 29.570981, 29.57263,
+            29.573089, 29.57197, 29.57218, 29.57163, 29.57476, 29.5731, 29.57308, 29.57317,
             29.57238};
-    static final double[] BUILDING_ENTRY_LONGITUDES = {-97.98255, -97.98255, -97.98253, -97.98363, -97.98347,
-            -97.98357,-97.98481, -97.98512, -97.98605, -97.98692, -97.98353, -97.98367,
+    static final double[] BUILDING_ENTRY_LONGITUDES = {-97.98255, -97.98255, -97.98253, -97.983674, -97.983395,
+            -97.98357,-97.984836, -97.98512, -97.98605, -97.98692, -97.98353, -97.98367,
             -97.98262, -97.98179, -97.98151};
-    static final double[] BUILDING_HANDICAP_LATITUDES = {29.571, 29.57167, 29.57219, 29.57184, 29.57096, 29.57254, 29.57322,
-            29.57202, 29.57218, 29.57173, 29.57464, 29.5731, 29.57338, 29.57317, 29.57217};
-    static final double[] BUILDING_HANDICAP_LONGITUDES = {-97.98255, -97.98264, -97.98289, -97.98363, -97.98347, -97.98384,
-            -97.98481, -97.98481, -97.98605, -97.98715, -97.98339, -97.98367, -97.98264, -97.98179, -97.98146};
+    static final double[] BUILDING_HANDICAP_LATITUDES = {29.571, 29.57167, 29.57219, 29.571962, 29.570981, 29.57254, 29.573089,
+            29.57202, 29.57218, 29.57163, 29.57163, 29.5731, 29.57308, 29.57317, 29.57217};
+    static final double[] BUILDING_HANDICAP_LONGITUDES = {-97.98255, -97.98264, -97.98289, -97.983655, -97.983395, -97.98384,
+            -97.984836, -97.98481, -97.98605, -97.98692, -97.98353, -97.98367, -97.98262, -97.98179, -97.98146};
     static final int[] TOUR_STOP_TXT_IDS = {R.string.martin_luther_statue_info, R.string.att_science_info, R.string.emma_frey_info,
             R.string.tschoepe_info, R.string.baldus_clifton_trinity_info, R.string.krost_info, R.string.weston_ranch_info, R.string.chapel_info,
             R.string.campus_ministry_info, R.string.hein_info, R.string.centennial_info, R.string.jackson_info, R.string.sports_complex_info,
