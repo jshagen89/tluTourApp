@@ -3,32 +3,39 @@ package com.example.joseph.tlucampustour;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 /**
  * Created by Joseph on 9/8/2016.
  */
 public class TourStop implements Parcelable{
 
     private String name;
-    private double latitude;
-    private double longitude;
+    private double centerLatitude;
+    private double centerLongitude;
+    private double entryLatitude;
+    private double entryLongitude;
     private double radius;
     private int infoTextID;
     private int imageID;
     private int audioID;
+    private boolean isBuilding;
     private boolean beenPlayed;
 
-    public TourStop(String name, double lat, double lon, double rad, int infoText, int img, int audio)
+    public TourStop(String name, double Clat, double Clon, double Elat, double Elon, double rad, int infoText, int img, int audio, int isBuild)
 
     {
         this.name = name;
-        this.latitude = lat;
-        this.longitude = lon;
+        this.centerLatitude = Clat;
+        this.centerLongitude = Clon;
+        this.entryLatitude = Elat;
+        this.entryLongitude = Elon;
         this.radius = rad;
         this.infoTextID = infoText;
         this.imageID = img;
         this.audioID = audio;
+        if (isBuild == 1)
+            isBuilding = true;
+        else if (isBuild == 0)
+            isBuilding = false;
         this.beenPlayed = false;
     }
 
@@ -38,14 +45,24 @@ public class TourStop implements Parcelable{
         return this.name;
     }
 
-    public double getLatitude()
+    public double getCenterLatitude()
     {
-        return this.latitude;
+        return this.centerLatitude;
     }
 
-    public double getLongitude()
+    public double getCenterLongitude()
     {
-        return this.longitude;
+        return this.centerLongitude;
+    }
+
+    public double getEntryLatitude()
+    {
+        return this.entryLatitude;
+    }
+
+    public double getEntryLongitude()
+    {
+        return this.entryLongitude;
     }
 
     public double getRadius()
@@ -65,6 +82,11 @@ public class TourStop implements Parcelable{
     public int getAudioFile()
     {
         return this.audioID;
+    }
+
+    public boolean isBuilding()
+    {
+        return this.isBuilding;
     }
 
     public boolean hasBeenPlayed()
@@ -93,12 +115,15 @@ public class TourStop implements Parcelable{
     public void writeToParcel(Parcel parcel, int i) {
 
         parcel.writeString(name);
-        parcel.writeDouble(latitude);
-        parcel.writeDouble(longitude);
+        parcel.writeDouble(centerLatitude);
+        parcel.writeDouble(centerLongitude);
+        parcel.writeDouble(entryLatitude);
+        parcel.writeDouble(entryLongitude);
         parcel.writeDouble(radius);
         parcel.writeInt(infoTextID);
         parcel.writeInt(imageID);
         parcel.writeInt(audioID);
+        parcel.writeByte((byte) (isBuilding ? 1 : 0));
         parcel.writeByte((byte) (beenPlayed ? 1 : 0));
     }
 
@@ -116,12 +141,15 @@ public class TourStop implements Parcelable{
     private TourStop(Parcel in) {
 
         name = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
+        centerLatitude = in.readDouble();
+        centerLongitude = in.readDouble();
+        entryLatitude = in.readDouble();
+        entryLongitude = in.readDouble();
         radius = in.readDouble();
         infoTextID = in.readInt();
         imageID = in.readInt();
         audioID = in.readInt();
+        isBuilding = in.readByte() != 0;
         beenPlayed = in.readByte() != 0;
     }
 }

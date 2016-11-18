@@ -10,45 +10,142 @@ import com.google.android.gms.maps.model.LatLng;
 
 abstract class Constants {
 
-    // Database Constants
-    static final String DATABASE_NAME = "tlucampustour.db";
-    static final String TABLE_TOUR_STOPS = "tourstops";
+    // Tour Stop Info
+    static final int[] TOUR_STOP_NAMES = {R.string.martin_luther, R.string.att_moody, R.string.emma_frey,
+            R.string.tschoepe, R.string.bald_clif_trin_housing, R.string.krost, R.string.weston_ranch,
+            R.string.chapel, R.string.campus_ministry, R.string.hein_dining, R.string.centennial,
+            R.string.jackson_aud, R.string.sports_complex, R.string.fitness_center, R.string.grad_walk,
+            R.string.asc, R.string.library, R.string.schuech_arts, R.string.langner_hall, R.string.alumni_plaza};
+    static final double[] TOUR_STOP_CENTER_LATITUDES = {29.57089, 29.57098, 29.57148, 29.57206, 29.57184, 29.57096,
+            29.57092, 29.57262, 29.57322, 29.57208, 29.57218, 29.57173, 29.5764, 29.57464, 29.57395, 29.57331,
+            29.57323, 29.57332, 29.57239, 29.57269};
+    static final double[] TOUR_STOP_CENTER_LONGITUDES = {-97.98201, -97.98293, -97.98263, -97.98265, -97.98363, -97.98347,
+            -97.99095, -97.98376, -97.98481, -97.98512, -97.98605, -97.98715, -97.98376, -97.98339, -97.98297, -97.9836, -97.98262,
+            -97.98161, -97.98145, -97.98203};
+    static final int[] TOUR_STOP_RADII = {20, 45, 30, 40, 55, 30, 60, 30, 40, 45, 50, 50, 60, 65, 35, 40, 40, 50, 30, 20};
+    static final int[] TOUR_STOP_IMAGE_IDS = {R.drawable.martin_luther_statue, R.drawable.att_science, R.drawable.emma_frey,
+            R.drawable.tschoepe, R.drawable.baldus_clifton_trinity_housing, R.drawable.krost_health_sciences, R.drawable.weston_ranch,
+            R.drawable.chapel, R.drawable.campus_ministry, R.drawable.hein_dining_hall, R.drawable.centennial_hall_courtyard,
+            R.drawable.jackson_auditorium, R.drawable.sports_complex_athletic_training, R.drawable.fitness_center,
+            R.drawable.graduation_walk, R.drawable.asc, R.drawable.blumberg_library, R.drawable.schuech_fine_arts,
+            R.drawable.langner_hall, R.drawable.alumni_plaza};
+    static final int[] TOUR_STOP_IS_BUILDING = {0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0};
+    static final int[] BUILDING_NAMES = {R.string.att_moody, R.string.emma_frey, R.string.tschoepe, R.string.bald_clif_trin_housing,
+            R.string.krost, R.string.chapel, R.string.campus_ministry, R.string.hein_dining, R.string.centennial,
+            R.string.jackson_aud, R.string.fitness_center, R.string.asc, R.string.library, R.string.schuech_arts, R.string.langner_hall};
+    static final double[] BUILDING_ENTRY_LATITUDES = {29.571, 29.57147, 29.57216, 29.571626, 29.570981, 29.57263,
+            29.573089, 29.57197, 29.57218, 29.57163, 29.57476, 29.5731, 29.57308, 29.57317,
+            29.57238};
+    static final double[] BUILDING_ENTRY_LONGITUDES = {-97.98255, -97.98255, -97.98253, -97.983674, -97.983395,
+            -97.98357,-97.984836, -97.98512, -97.98605, -97.98692, -97.98353, -97.98367,
+            -97.98262, -97.98179, -97.98151};
+    static final double[] BUILDING_HANDICAP_LATITUDES = {29.571, 29.57167, 29.57219, 29.571962, 29.570981, 29.57254, 29.573089,
+            29.57202, 29.57218, 29.57163, 29.57163, 29.5731, 29.57308, 29.57317, 29.57217};
+    static final double[] BUILDING_HANDICAP_LONGITUDES = {-97.98255, -97.98264, -97.98289, -97.983655, -97.983395, -97.98384,
+            -97.984836, -97.98481, -97.98605, -97.98692, -97.98353, -97.98367, -97.98262, -97.98179, -97.98146};
+    static final int[] TOUR_STOP_TXT_IDS = {R.string.martin_luther_statue_info, R.string.att_science_info, R.string.emma_frey_info,
+            R.string.tschoepe_info, R.string.baldus_clifton_trinity_info, R.string.krost_info, R.string.weston_ranch_info, R.string.chapel_info,
+            R.string.campus_ministry_info, R.string.hein_info, R.string.centennial_info, R.string.jackson_info, R.string.sports_complex_info,
+            R.string.fitness_center_info, R.string.graduation_walk_info, R.string.asc_info, R.string.library_info, R.string.scheuch_info,
+            R.string.langner_info, R.string.alumni_plaza_info};
+    static final int[] TOUR_STOP_AUDIO_IDS = {R.raw.martin_luther_statue, R.raw.att_science, R.raw.emma_frey, R.raw.tschope, R.raw.baldus_clifton_trinity,
+            R.raw.krost, R.raw.weston_ranch, R.raw.chapel, R.raw.campus_ministry, R.raw.hein_dining_hall, R.raw.centennial_hall,
+            R.raw.jackson_auditorium, R.raw.sports_complex, R.raw.fitness_center, R.raw.graduation_walk, R.raw.asc, R.raw.blumburg_library,
+            R.raw.schuech_fine_arts, R.raw.langner_hall, R.raw.alumni_plaza};
+
+    // Database Creation and Table Refs
+    static final String DATABASE_NAME = "tluCampusTour.db";
+    static final String TABLE_TOUR_STOPS = "tourStops";
+    static final String TABLE_RESOURCES = "resources";
+    static final String TABLE_BUILDING_INFO = "buildingInfo";
     static final int DATABASE_VERSION = 1;
-    static final String COLUMN_ID = "_id";
+
+    // Database Columns
+    static final String COLUMN_TOUR_STOP_ID = "tourStopID";
+    static final String COLUMN_BUILDING_ID = "buildingID";
     static final String COLUMN_NAME = "name";
-    static final String COLUMN_LATITUDE = "latitude";
-    static final String COLUMN_LONGITUDE = "longitude";
+    static final String COLUMN_CENTER_LATITUDE = "centerLatitude";
+    static final String COLUMN_CENTER_LONGITUDE = "centerLongitude";
     static final String COLUMN_RADIUS = "radius";
-    static final String COLUMN_INFO_TEXT = "infotextID";
+    static final String COLUMN_IS_BUILDING = "isBuilding";
+    static final String COLUMN_ENTRY_LATITUDE = "entryLatitude";
+    static final String COLUMN_ENTRY_LONGITUDE = "entryLongitude";
+    static final String COLUMN_HANDICAP_LATITUDE = "handicapLatitude";
+    static final String COLUMN_HANDICAP_LONGITUDE = "handicapLongitude";
     static final String COLUMN_IMAGE = "imageID";
-    static final String COLUMN_AUDIO_FILE = "audiofileID";
-    static final String[] TOUR_STOP_COLUMNS = {COLUMN_ID, COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-            COLUMN_RADIUS, COLUMN_INFO_TEXT, COLUMN_IMAGE, COLUMN_AUDIO_FILE};
-    static final String TABLE_CREATE =
+    static final String COLUMN_INFO_TEXT = "infoTextID";
+    static final String COLUMN_AUDIO_FILE = "audioFileID";
+    static final String[] TOUR_STOP_COLUMNS = {COLUMN_TOUR_STOP_ID, COLUMN_NAME, COLUMN_CENTER_LATITUDE, COLUMN_CENTER_LONGITUDE,
+            COLUMN_RADIUS, COLUMN_IS_BUILDING, COLUMN_BUILDING_ID};
+    static final String[] BUILDING_INFO_COLUMNS = {COLUMN_BUILDING_ID, COLUMN_NAME, COLUMN_ENTRY_LATITUDE, COLUMN_ENTRY_LONGITUDE,
+            COLUMN_HANDICAP_LATITUDE, COLUMN_HANDICAP_LONGITUDE};
+    static final String[] RESOURCES_COLUMNS = {COLUMN_TOUR_STOP_ID, COLUMN_NAME, COLUMN_IMAGE, COLUMN_INFO_TEXT, COLUMN_AUDIO_FILE};
+
+    // Table Create Queries
+    static final String TOUR_STOP_TABLE_CREATE =
             "CREATE TABLE " + TABLE_TOUR_STOPS + " (" +
-                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_NAME + " TEXT, " +
-                    COLUMN_LATITUDE + " REAL, " +
-                    COLUMN_LONGITUDE + " REAL, " +
+                    COLUMN_TOUR_STOP_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_NAME + " INTEGER, " +
+                    COLUMN_CENTER_LATITUDE + " REAL, " +
+                    COLUMN_CENTER_LONGITUDE + " REAL, " +
                     COLUMN_RADIUS + " REAL, " +
-                    COLUMN_INFO_TEXT + " INTEGER, " +
+                    COLUMN_IS_BUILDING + " INTEGER, " +
+                    COLUMN_BUILDING_ID + " INTEGER" + ")";
+    static final String BUILDING_INFO_TABLE_CREATE =
+            "CREATE TABLE " + TABLE_BUILDING_INFO + " (" +
+                    COLUMN_BUILDING_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_NAME + " INTEGER, " +
+                    COLUMN_ENTRY_LATITUDE + " REAL, " +
+                    COLUMN_ENTRY_LONGITUDE + " REAL, " +
+                    COLUMN_HANDICAP_LATITUDE + " REAL, " +
+                    COLUMN_HANDICAP_LONGITUDE + " REAL" + ")";
+    static final String RESOURCES_TABLE_CREATE =
+            "CREATE TABLE " + TABLE_RESOURCES + " (" +
+                    COLUMN_TOUR_STOP_ID + " INTEGER, " +
+                    COLUMN_NAME + " INTEGER, " +
                     COLUMN_IMAGE + " INTEGER, " +
+                    COLUMN_INFO_TEXT + " INTEGER, " +
                     COLUMN_AUDIO_FILE + " INTEGER" + ")";
-    static final int ID_COL_POSITION = 0;
+
+    // Column Position Refs for Queries
+    static final int TOUR_STOP_ID_COL_POSITION = 0;
     static final int NAME_COL_POSITION = 1;
-    static final int LAT_COL_POSITION = 2;
-    static final int LONG_COL_POSITION = 3;
+    static final int CENTER_LAT_COL_POSITION = 2;
+    static final int CENTER_LONG_COL_POSITION = 3;
     static final int RADIUS_COL_POSITION = 4;
-    static final int INFO_COL_POSITION = 5;
-    static final int IMG_COL_POSITION = 6;
-    static final int AUDIO_COL_POSITION = 7;
+    static final int IS_BUILDING_COL_POSITION = 5;
+    static final int TOUR_STOP_BUILDING_ID_COL_POSITION = 6;
+
+    static final int BUILDING_ID_COL_POSITION = 0;
+    static final int ENTRY_LAT_COL_POSITION = 2;
+    static final int ENTRY_LON_COL_POSITION = 3;
+    static final int HANDICAP_LAT_COL_POSITION = 4;
+    static final int HANDICAP_LON_COL_POSITION = 5;
+
+    static final int IMG_COL_POSITION = 2;
+    static final int TXT_COL_POSITION = 3;
+    static final int AUDIO_COL_POSITION = 4;
     static final int NUM_TOUR_STOPS = 20;
+    static final int NUM_BUILDINGS = 15;
 
     // Content Provider Constants
     static final String AUTHORITY = "com.example.joseph.tlucampustour.tourcontentprovider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_TOUR_STOPS);
     static final int TABLE_REF = 1;
     static final int ID_REF = 2;
+
+    // Passing Data Between Activities Constants
+    static final String SELECTED_STOP_EXTRA = "Selected Stop";
+    static final String TOUR_STOP_ARRAY_EXTRA = "Tour Stop Array";
+    static final String MAP_OPTIONS_RESULT = "Map View";
+    static final String TRANSPORTATION_MODE_RESULT = "Directions Type";
+    static final int SATELLITE_MAP_CHOICE = 1;
+    static final int NORMAL_MAP_CHOICE = 2;
+    static final String LANGUAGE_PREF_RESULT = "Language Pref";
+    static final String ACCESS_PREF_RESULT = "Accessibility Pref";
+    static final String PREV_LANGUAGE_RESULT = "Previous Language Pref";
+    static final int ENGLISH_CHOICE = 1;
+    static final int SPANISH_CHOICE = 2;
 
     // Google Location Service Constants
     static final int EDITOR_REQUEST_CODE = 1001;
@@ -60,9 +157,5 @@ abstract class Constants {
     static final LatLng TLUPoint = new LatLng(TLU_CAMPUS_LAT, TLU_CAMPUS_LON);
     static final int TLU_CAMPUS_RADIUS = 600;
     static final float DEFAULT_CAMERA_ZOOM = 15.0f;
-    static final int UPDATE_LOCATION_DISTANCE = 30;
-    static final String MAP_OPTIONS_RESULT = "Map View";
-    static final int MAP_OPTIONS_REQUEST_CODE = 0;
-    static final int SATELLITE_MAP_CHOICE = 1;
-    static final int NORMAL_MAP_CHOICE = 2;
+    static final int UPDATE_LOCATION_DISTANCE = 20;
 }

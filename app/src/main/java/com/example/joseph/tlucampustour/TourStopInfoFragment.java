@@ -33,6 +33,7 @@ public class TourStopInfoFragment extends Fragment {
     private AudioPlayer myAudioPlayer;
     private boolean isAudioPlaying;
     private boolean isAudioPaused;
+    private boolean audioControlsInit;
 
 
     @Override
@@ -85,9 +86,8 @@ public class TourStopInfoFragment extends Fragment {
         // Initialize Audio Player
         myAudioPlayer = new AudioPlayer(audioID);
         NarrationCompletionListener myCompletionListener = new NarrationCompletionListener();
-        myAudioPlayer.setOnCompletionListener(myCompletionListener);
-
-
+        myAudioPlayer.setAudioCompletionListener(myCompletionListener);
+        audioControlsInit = true;
 
         return myView;
     }
@@ -103,7 +103,7 @@ public class TourStopInfoFragment extends Fragment {
     public void onStop()
     {
         super.onStop();
-        if (myAudioPlayer.isPlaying())
+        if (isAudioPlaying || isAudioPaused)
         {
             myAudioPlayer.stop();
         }
@@ -113,7 +113,10 @@ public class TourStopInfoFragment extends Fragment {
     public void onDestroyView()
     {
         super.onDestroyView();
-        myAudioPlayer.release();
+        if (myAudioPlayer != null)
+        {
+            myAudioPlayer.release();
+        }
     }
 
     private void playAudio()
@@ -189,6 +192,7 @@ public class TourStopInfoFragment extends Fragment {
 
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
+
             audioFinished();
         }
     }
@@ -197,7 +201,11 @@ public class TourStopInfoFragment extends Fragment {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-            myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            // Only set volume after initialization to prevent volume from resetting to 0 on init
+            if (audioControlsInit)
+            {
+                myAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            }
         }
 
         @Override

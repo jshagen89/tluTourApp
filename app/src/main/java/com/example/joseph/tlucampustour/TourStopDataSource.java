@@ -1,9 +1,12 @@
 package com.example.joseph.tlucampustour;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -15,8 +18,8 @@ import static com.example.joseph.tlucampustour.Constants.*;
 
 public class TourStopDataSource {
 
-    SQLiteOpenHelper dbOpenHelper;
-    SQLiteDatabase db;
+    private SQLiteOpenHelper dbOpenHelper;
+    private SQLiteDatabase db;
 
     public TourStopDataSource(Context context)
     {
@@ -28,29 +31,83 @@ public class TourStopDataSource {
         db = dbOpenHelper.getWritableDatabase();
     }
 
-    public ArrayList<TourStop> getAllTourStops()
+    public ArrayList<TourStop> getAllTourStops(Context context)
     {
+        // Determine which type of entries the user prefers to use
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean useHandicapEntries = prefs.getBoolean(ACCESS_PREF_RESULT, false);
+        int entryLatColumnPos = ENTRY_LAT_COL_POSITION;
+        int entryLonColumnPos = ENTRY_LON_COL_POSITION;
+        if (useHandicapEntries)
+        {
+            entryLatColumnPos = HANDICAP_LAT_COL_POSITION;
+            entryLonColumnPos = HANDICAP_LON_COL_POSITION;
+        }
+
         ArrayList<TourStop> allStops = new ArrayList<>(NUM_TOUR_STOPS);
+        int tourStopID;
+        int nameTextID;
         String name;
-        double lat;
-        double lon;
+        double Clat;
+        double Clon;
+        double Elat;
+        double Elon;
         double radius;
         int infoID;
         int imgID;
         int audioID;
+        int isBuild;
+        int buildingID;
         Cursor myCursor = db.query(TABLE_TOUR_STOPS, TOUR_STOP_COLUMNS, null, null, null, null, null);
         if (myCursor.getCount() > 0)
         {
             while (myCursor.moveToNext())
             {
-                name = myCursor.getString(NAME_COL_POSITION);
-                lat = myCursor.getDouble(LAT_COL_POSITION);
-                lon = myCursor.getDouble(LONG_COL_POSITION);
+                tourStopID = myCursor.getInt(TOUR_STOP_ID_COL_POSITION);
+                nameTextID = myCursor.getInt(NAME_COL_POSITION);
+                name = context.getResources().getString(nameTextID);
+                Clat = myCursor.getDouble(CENTER_LAT_COL_POSITION);
+                Clon = myCursor.getDouble(CENTER_LONG_COL_POSITION);
+                Elat = Clat;
+                Elon = Clon;
                 radius = myCursor.getDouble(RADIUS_COL_POSITION);
-                infoID = myCursor.getInt(INFO_COL_POSITION);
-                imgID = myCursor.getInt(IMG_COL_POSITION);
-                audioID = myCursor.getInt(AUDIO_COL_POSITION);
-                TourStop newStop = new TourStop(name,lat,lon,radius,infoID,imgID,audioID);
+                isBuild = myCursor.getInt(IS_BUILDING_COL_POSITION);
+
+                // have to initialize these to 0 for compiler
+                imgID = 0;
+                infoID = 0;
+                audioID = 0;
+
+                // get building info for all tour stops that are buildings
+                if (isBuild == 1)
+                {
+                    buildingID = myCursor.getInt(TOUR_STOP_BUILDING_ID_COL_POSITION);
+                    String buildingWhereClause = COLUMN_BUILDING_ID + " = ? LIMIT 1";
+                    String[] buildingValues = {Integer.toString(buildingID)};
+                    Cursor buildingCursor = db.query(TABLE_BUILDING_INFO, BUILDING_INFO_COLUMNS, buildingWhereClause, buildingValues, null, null, null);
+                    if (buildingCursor.getCount() > 0)
+                    {
+                        buildingCursor.moveToFirst();
+                        Elat = buildingCursor.getDouble(entryLatColumnPos);
+                        Elon = buildingCursor.getDouble(entryLonColumnPos);
+                    }
+                    buildingCursor.close();
+                }
+
+                // Get info txt and audio resource files for each tour stop
+                String resWhereClause = COLUMN_TOUR_STOP_ID + " = ? LIMIT 1";
+                String[] resValues = {Integer.toString(tourStopID)};
+                Cursor resourceCursor = db.query(TABLE_RESOURCES, RESOURCES_COLUMNS, resWhereClause, resValues, null, null, null);
+                if (resourceCursor.getCount() > 0)
+                {
+                    resourceCursor.moveToFirst();
+                    imgID = resourceCursor.getInt(IMG_COL_POSITION);
+                    infoID = resourceCursor.getInt(TXT_COL_POSITION);
+                    audioID = resourceCursor.getInt(AUDIO_COL_POSITION);
+                }
+                resourceCursor.close();
+
+                TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,radius,infoID,imgID,audioID, isBuild);
                 allStops.add(newStop);
             }
             myCursor.close();

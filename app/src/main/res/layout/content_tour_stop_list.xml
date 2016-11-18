@@ -51,7 +51,6 @@
         android:id="@+id/endTourButton"
         android:background="@drawable/end_tour_button_border"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:onClick="endTour"/>
 

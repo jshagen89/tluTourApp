@@ -14,46 +14,49 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mapTypeContainer"
+        android:id="@+id/languageOptions"
         android:layout_marginBottom="15dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/mapTypeIcon"
+            android:id="@+id/languageIcon"
             android:layout_marginStart="10dp"
-            android:src="@drawable/map_white_small"/>
+            android:src="@drawable/chat_bubble_white_small" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mapViewText"
-            android:layout_toEndOf="@+id/mapTypeIcon"
+            android:layout_toEndOf="@+id/languageIcon"
+            android:id="@+id/languageText"
+            android:layout_marginTop="5dp"
             android:layout_margin="5dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:text="@string/map_view_options"/>
+            android:text="@string/language_options"/>
 
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
+        <RadioGroup
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mapViewText"
-            android:layout_marginStart="10dp"
-            android:id="@+id/mapViewGroup"
+            android:id="@+id/languageChoiceGroup"
+            android:layout_below="@+id/languageText"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical">
-            <RadioButton android:id="@+id/normalViewOption"
+            <RadioButton android:id="@+id/englishOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:buttonTint="@color/colorPrimary"
-                android:text="@string/normal_option" />
-            <RadioButton android:id="@+id/satelliteViewOption"
+                android:text="@string/english_option" />
+            <RadioButton android:id="@+id/spanishOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:buttonTint="@color/colorPrimary"
-                android:text="@string/satellite_option" />
+                android:text="@string/spanish_option" />
+
         </RadioGroup>
+
     </RelativeLayout>
 
     <ImageView  android:layout_width="fill_parent"
@@ -65,45 +68,34 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/transportModeContainer">
+        android:id="@+id/accessibilityOptionsContainer">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/transportModeIcon"
+            android:id="@+id/accessibleIcon"
             android:layout_marginStart="10dp"
-            android:src="@drawable/walking_white_small"/>
+            android:src="@drawable/accessible_white_small" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/transportModeText"
-            android:layout_toEndOf="@+id/transportModeIcon"
+            android:id="@+id/accessibilityText"
+            android:layout_toEndOf="@+id/accessibleIcon"
             android:layout_margin="5dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:text="@string/transportation_options"/>
-
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
+            android:text="@string/accessibility_options"/>
+        <CheckBox
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/transportModeText"
+            android:id="@+id/handicapOption"
+            android:layout_below="@+id/accessibilityText"
             android:layout_marginStart="10dp"
-            android:id="@+id/transportModeGroup"
-            android:orientation="vertical">
-            <RadioButton android:id="@+id/walkingOption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:buttonTint="@color/colorPrimary"
-                android:text="@string/walking_option" />
-            <RadioButton android:id="@+id/drivingOption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:buttonTint="@color/colorPrimary"
-                android:text="@string/driving_option" />
-        </RadioGroup>
+            android:buttonTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="@string/use_handicap_entrances"/>
+
     </RelativeLayout>
 
 </LinearLayout>

@@ -15,12 +15,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.*;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -49,7 +48,7 @@ public class TourStopList extends AppCompatActivity
         }
 
         setContentView(R.layout.activity_tour_stop_list);
-        setTitle("Tour Stops");
+        setTitle(getString(R.string.tour_stops_list_title));
 
         // disable back button...user should end tour to go back to beginning screen
         if (getSupportActionBar() != null)
@@ -77,7 +76,7 @@ public class TourStopList extends AppCompatActivity
     {
         TourStopDataSource myDataSource = new TourStopDataSource(this);
         myDataSource.open();
-        allTourStops = myDataSource.getAllTourStops();
+        allTourStops = myDataSource.getAllTourStops(this);
         myDataSource.close();
     }
 
@@ -205,12 +204,13 @@ public class TourStopList extends AppCompatActivity
 
         for (TourStop tourStop : allTourStops)
         {
-            Location.distanceBetween(myLat, myLon, tourStop.getLatitude(), tourStop.getLongitude(), distance);
+            Location.distanceBetween(myLat, myLon, tourStop.getCenterLatitude(), tourStop.getCenterLongitude(), distance);
             if (distance[0] < tourStop.getRadius() && !infoDisplayed && !tourStop.hasBeenPlayed())
             {
                 Intent myIntent = new Intent(TourStopList.this, TourStopInfo.class);
                 tourStop.setPlayed(true);
                 myIntent.putExtra("TourStop", tourStop);
+                infoDisplayed = true;
                 startActivityForResult(myIntent, RESULT_OK);
             }
         }
@@ -224,8 +224,8 @@ public class TourStopList extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i("Location", "Connection failed: ConnectionResult.getErrorCode() = "
-                + connectionResult.getErrorCode());
+        Toast toast = Toast.makeText(this, R.string.location_conn_error, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     /* ***************************** LOCATION METHODS END HERE ****************************** */
@@ -240,7 +240,9 @@ public class TourStopList extends AppCompatActivity
             TourArrayAdapter myAdapter = (TourArrayAdapter) locationListLV.getAdapter();
             TourStop selectedStop = myAdapter.getTourStop(i);
             Intent myIntent = new Intent(TourStopList.this, Directions.class);
-            myIntent.putExtra("Selected Stop", selectedStop);
+            myIntent.putExtra(SELECTED_STOP_EXTRA, selectedStop);
+            myIntent.putParcelableArrayListExtra(TOUR_STOP_ARRAY_EXTRA, allTourStops);
+            infoDisplayed = true;
             startActivityForResult(myIntent, RESULT_OK);
         }
     }
