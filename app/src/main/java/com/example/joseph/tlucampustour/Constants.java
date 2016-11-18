@@ -23,12 +23,27 @@ abstract class Constants {
             -97.99095, -97.98376, -97.98481, -97.98512, -97.98605, -97.98715, -97.98376, -97.98339, -97.98297, -97.9836, -97.98262,
             -97.98161, -97.98145, -97.98203};
     static final int[] TOUR_STOP_RADII = {20, 45, 30, 40, 55, 30, 60, 30, 40, 45, 50, 50, 60, 65, 35, 40, 40, 50, 30, 20};
-    static final int[] TOUR_STOP_IMAGE_IDS = {R.drawable.martin_luther_statue, R.drawable.att_science, R.drawable.emma_frey,
-            R.drawable.tschoepe, R.drawable.baldus_clifton_trinity_housing, R.drawable.krost_health_sciences, R.drawable.weston_ranch,
-            R.drawable.chapel, R.drawable.campus_ministry, R.drawable.hein_dining_hall, R.drawable.centennial_hall_courtyard,
-            R.drawable.jackson_auditorium, R.drawable.sports_complex_athletic_training, R.drawable.fitness_center,
-            R.drawable.graduation_walk, R.drawable.asc, R.drawable.blumberg_library, R.drawable.schuech_fine_arts,
-            R.drawable.langner_hall, R.drawable.alumni_plaza};
+    static final int[][] TOUR_STOP_IMAGE_IDS = {
+            {R.drawable.martin_luther_statue,R.drawable.martin_luther_statue,R.drawable.martin_luther_statue,R.drawable.martin_luther_statue},
+            {R.drawable.att_science},
+            {R.drawable.emma_frey},
+            {R.drawable.tschoepe},
+            {R.drawable.baldus_clifton_trinity_housing},
+            {R.drawable.krost_health_sciences},
+            {R.drawable.weston_ranch},
+            {R.drawable.chapel},
+            {R.drawable.campus_ministry},
+            {R.drawable.hein_dining_hall},
+            {R.drawable.centennial_hall_courtyard},
+            {R.drawable.jackson_auditorium},
+            {R.drawable.sports_complex_athletic_training},
+            {R.drawable.fitness_center},
+            {R.drawable.graduation_walk},
+            {R.drawable.asc, R.drawable.blumberg_library},
+            {R.drawable.schuech_fine_arts},
+            {R.drawable.langner_hall},
+            {R.drawable.alumni_plaza}
+        };
     static final int[] TOUR_STOP_IS_BUILDING = {0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0};
     static final int[] BUILDING_NAMES = {R.string.att_moody, R.string.emma_frey, R.string.tschoepe, R.string.bald_clif_trin_housing,
             R.string.krost, R.string.chapel, R.string.campus_ministry, R.string.hein_dining, R.string.centennial,
@@ -57,6 +72,7 @@ abstract class Constants {
     static final String DATABASE_NAME = "tluCampusTour.db";
     static final String TABLE_TOUR_STOPS = "tourStops";
     static final String TABLE_RESOURCES = "resources";
+    static final String TABLE_IMAGES = "images";
     static final String TABLE_BUILDING_INFO = "buildingInfo";
     static final int DATABASE_VERSION = 1;
 
@@ -79,7 +95,9 @@ abstract class Constants {
             COLUMN_RADIUS, COLUMN_IS_BUILDING, COLUMN_BUILDING_ID};
     static final String[] BUILDING_INFO_COLUMNS = {COLUMN_BUILDING_ID, COLUMN_NAME, COLUMN_ENTRY_LATITUDE, COLUMN_ENTRY_LONGITUDE,
             COLUMN_HANDICAP_LATITUDE, COLUMN_HANDICAP_LONGITUDE};
-    static final String[] RESOURCES_COLUMNS = {COLUMN_TOUR_STOP_ID, COLUMN_NAME, COLUMN_IMAGE, COLUMN_INFO_TEXT, COLUMN_AUDIO_FILE};
+    static final String[] RESOURCES_COLUMNS = {COLUMN_TOUR_STOP_ID, COLUMN_NAME, COLUMN_INFO_TEXT, COLUMN_AUDIO_FILE};
+    static final String[] IMAGES_COLUMNS = {COLUMN_TOUR_STOP_ID, COLUMN_IMAGE};
+
 
     // Table Create Queries
     static final String TOUR_STOP_TABLE_CREATE =
@@ -103,9 +121,12 @@ abstract class Constants {
             "CREATE TABLE " + TABLE_RESOURCES + " (" +
                     COLUMN_TOUR_STOP_ID + " INTEGER, " +
                     COLUMN_NAME + " INTEGER, " +
-                    COLUMN_IMAGE + " INTEGER, " +
                     COLUMN_INFO_TEXT + " INTEGER, " +
                     COLUMN_AUDIO_FILE + " INTEGER" + ")";
+    static final String IMAGES_TABLE_CREATE =
+            "CREATE TABLE " + TABLE_IMAGES + " (" +
+                    COLUMN_TOUR_STOP_ID + " INTEGER, " +
+                    COLUMN_IMAGE + " INTEGER" + ")";
 
     // Column Position Refs for Queries
     static final int TOUR_STOP_ID_COL_POSITION = 0;
@@ -122,11 +143,13 @@ abstract class Constants {
     static final int HANDICAP_LAT_COL_POSITION = 4;
     static final int HANDICAP_LON_COL_POSITION = 5;
 
-    static final int IMG_COL_POSITION = 2;
-    static final int TXT_COL_POSITION = 3;
-    static final int AUDIO_COL_POSITION = 4;
+    static final int TXT_COL_POSITION = 2;
+    static final int AUDIO_COL_POSITION = 3;
     static final int NUM_TOUR_STOPS = 20;
     static final int NUM_BUILDINGS = 15;
+    static final int MAX_NUM_IMAGES = 6;
+
+    static final int IMG_COL_POSITION = 1;
 
     // Content Provider Constants
     static final String AUTHORITY = "com.example.joseph.tlucampustour.tourcontentprovider";

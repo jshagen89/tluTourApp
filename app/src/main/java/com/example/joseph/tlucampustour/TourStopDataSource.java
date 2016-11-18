@@ -54,7 +54,7 @@ public class TourStopDataSource {
         double Elon;
         double radius;
         int infoID;
-        int imgID;
+        int[] imgIDs;
         int audioID;
         int isBuild;
         int buildingID;
@@ -74,7 +74,7 @@ public class TourStopDataSource {
                 isBuild = myCursor.getInt(IS_BUILDING_COL_POSITION);
 
                 // have to initialize these to 0 for compiler
-                imgID = 0;
+                imgIDs = new int[MAX_NUM_IMAGES];
                 infoID = 0;
                 audioID = 0;
 
@@ -101,13 +101,23 @@ public class TourStopDataSource {
                 if (resourceCursor.getCount() > 0)
                 {
                     resourceCursor.moveToFirst();
-                    imgID = resourceCursor.getInt(IMG_COL_POSITION);
                     infoID = resourceCursor.getInt(TXT_COL_POSITION);
                     audioID = resourceCursor.getInt(AUDIO_COL_POSITION);
                 }
                 resourceCursor.close();
 
-                TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,radius,infoID,imgID,audioID, isBuild);
+                String imgWhereClause = COLUMN_TOUR_STOP_ID + " = ?";
+                String[] imgValues = {Integer.toString(tourStopID)};
+                Cursor imagesCursor = db.query(TABLE_IMAGES, IMAGES_COLUMNS, imgWhereClause, imgValues, null, null, null);
+                if (imagesCursor.getCount() > 0)
+                {
+                    for (int i = 0; imagesCursor.moveToNext(); i++)
+                    {
+                        imgIDs[i] = imagesCursor.getInt(IMG_COL_POSITION);
+                    }
+                }
+
+                TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,radius,infoID,imgIDs,audioID, isBuild);
                 allStops.add(newStop);
             }
             myCursor.close();

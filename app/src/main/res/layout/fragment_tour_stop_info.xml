@@ -22,12 +22,21 @@
         android:id="@+id/imageFrame"
         android:background="@color/colorPrimaryDark" >
 
-        <ImageView
-            android:layout_width="match_parent"
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/tourStopImg"
-            android:adjustViewBounds="true"
-            android:src="@drawable/tlu_campus_banner"/>
+            android:id="@+id/img_scroll"
+            android:layout_gravity="center"
+            android:src="@drawable/tlu_campus_banner">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/img_layout"
+                android:orientation="horizontal"
+                android:background="@android:color/black">
+            </LinearLayout>
+        </HorizontalScrollView>
     </FrameLayout>
 
     <FrameLayout

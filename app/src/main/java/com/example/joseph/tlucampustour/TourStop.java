@@ -15,12 +15,12 @@ public class TourStop implements Parcelable{
     private double entryLongitude;
     private double radius;
     private int infoTextID;
-    private int imageID;
+    private int[] imageIDs;
     private int audioID;
     private boolean isBuilding;
     private boolean beenPlayed;
 
-    public TourStop(String name, double Clat, double Clon, double Elat, double Elon, double rad, int infoText, int img, int audio, int isBuild)
+    public TourStop(String name, double Clat, double Clon, double Elat, double Elon, double rad, int infoText, int[] imgs, int audio, int isBuild)
 
     {
         this.name = name;
@@ -30,7 +30,7 @@ public class TourStop implements Parcelable{
         this.entryLongitude = Elon;
         this.radius = rad;
         this.infoTextID = infoText;
-        this.imageID = img;
+        this.imageIDs = imgs;
         this.audioID = audio;
         if (isBuild == 1)
             isBuilding = true;
@@ -74,9 +74,9 @@ public class TourStop implements Parcelable{
         return this.infoTextID;
     }
 
-    public int getImage()
+    public int[] getImages()
     {
-        return this.imageID;
+        return this.imageIDs;
     }
 
     public int getAudioFile()
@@ -121,7 +121,7 @@ public class TourStop implements Parcelable{
         parcel.writeDouble(entryLongitude);
         parcel.writeDouble(radius);
         parcel.writeInt(infoTextID);
-        parcel.writeInt(imageID);
+        parcel.writeIntArray(imageIDs);
         parcel.writeInt(audioID);
         parcel.writeByte((byte) (isBuilding ? 1 : 0));
         parcel.writeByte((byte) (beenPlayed ? 1 : 0));
@@ -147,7 +147,7 @@ public class TourStop implements Parcelable{
         entryLongitude = in.readDouble();
         radius = in.readDouble();
         infoTextID = in.readInt();
-        imageID = in.readInt();
+        imageIDs = in.createIntArray();
         audioID = in.readInt();
         isBuilding = in.readByte() != 0;
         beenPlayed = in.readByte() != 0;

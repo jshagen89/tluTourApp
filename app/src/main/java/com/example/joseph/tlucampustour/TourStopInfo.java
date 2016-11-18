@@ -33,7 +33,7 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
     private String currName;
     private int infoTextID;
     private int audioID;
-    private int imgID;
+    private int[] imgIDs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class TourStopInfo extends AppCompatActivity implements GoogleApiClient.C
         {
             currName = currStop.getName();
             infoTextID = currStop.getInfoTextID();
-            imgID = currStop.getImage();
+            imgIDs = currStop.getImages();
             audioID = currStop.getAudioFile();
         }
 

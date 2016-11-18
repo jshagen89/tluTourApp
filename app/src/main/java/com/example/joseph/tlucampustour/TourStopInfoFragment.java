@@ -1,18 +1,16 @@
 package com.example.joseph.tlucampustour;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -25,7 +23,7 @@ public class TourStopInfoFragment extends Fragment {
     private TourStop currStop;
     private String currName;
     private int infoTextID;
-    private int imgID;
+    private int[] imgIDs;
     private int audioID;
     private ImageButton playPauseButton;
     private SeekBar volumeControl;
@@ -46,7 +44,7 @@ public class TourStopInfoFragment extends Fragment {
             currStop = arguments.getParcelable("TourStop");
             currName = currStop.getName();
             infoTextID = currStop.getInfoTextID();
-            imgID = currStop.getImage();
+            imgIDs = currStop.getImages();
             audioID = currStop.getAudioFile();
         }
     }
@@ -61,8 +59,20 @@ public class TourStopInfoFragment extends Fragment {
         nameTV.setText(currName);
         TextView infoTV = (TextView) myView.findViewById(R.id.tourStopInfo);
         infoTV.setText(infoTextID);
-        ImageView tourStopIV = (ImageView) myView.findViewById(R.id.tourStopImg);
-        tourStopIV.setImageResource(imgID);
+        LinearLayout tourStopImgLayout = (LinearLayout) myView.findViewById(R.id.img_layout);
+
+        // NEED TO LOOP THROUGH IMAGES HERE FOR IMAGE GALLERY ***********************************
+        for (int i = 0; i < imgIDs.length; i++)
+        {
+            ImageView imgView = new ImageView(getActivity());
+            imgView.setId(i);
+            imgView.setImageResource(imgIDs[i]);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(5,0,5,0);
+            imgView.setLayoutParams(params);
+            imgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            tourStopImgLayout.addView(imgView);
+        }
 
         // Initialize audio controls
         playPauseButton = (ImageButton) myView.findViewById(R.id.playPauseButton);

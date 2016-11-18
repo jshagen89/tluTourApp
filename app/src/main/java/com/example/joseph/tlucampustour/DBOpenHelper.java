@@ -25,11 +25,13 @@ class DBOpenHelper extends SQLiteOpenHelper
         db.execSQL(TOUR_STOP_TABLE_CREATE);
         db.execSQL(BUILDING_INFO_TABLE_CREATE);
         db.execSQL(RESOURCES_TABLE_CREATE);
+        db.execSQL(IMAGES_TABLE_CREATE);
 
         // Populate all db tables
         populateTourStopTable(db);
         populateBuildingInfoTable(db);
         populateTxtAndAudioResources(db);
+        populateImages(db);
     }
 
     @Override
@@ -37,6 +39,7 @@ class DBOpenHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TOUR_STOPS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BUILDING_INFO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESOURCES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES);
         onCreate(db);
     }
 
@@ -92,10 +95,24 @@ class DBOpenHelper extends SQLiteOpenHelper
         {
             resourcesValues.put(COLUMN_TOUR_STOP_ID, i + 1);
             resourcesValues.put(COLUMN_NAME, TOUR_STOP_NAMES[i]);
-            resourcesValues.put(COLUMN_IMAGE, TOUR_STOP_IMAGE_IDS[i]);
             resourcesValues.put(COLUMN_INFO_TEXT, TOUR_STOP_TXT_IDS[i]);
             resourcesValues.put(COLUMN_AUDIO_FILE, TOUR_STOP_AUDIO_IDS[i]);
             db.insert(TABLE_RESOURCES, null, resourcesValues);
+        }
+    }
+
+    // Add all images for each tour stop to db table
+    private void populateImages(SQLiteDatabase db)
+    {
+        ContentValues imagesVales = new ContentValues();
+        for (int i = 0; i < TOUR_STOP_IMAGE_IDS.length; i++)
+        {
+            imagesVales.put(COLUMN_TOUR_STOP_ID, i + 1);
+            for (int j = 0; j < TOUR_STOP_IMAGE_IDS[i].length; j++)
+            {
+                imagesVales.put(COLUMN_IMAGE, TOUR_STOP_IMAGE_IDS[i][j]);
+                db.insert(TABLE_IMAGES, null, imagesVales);
+            }
         }
     }
 }
