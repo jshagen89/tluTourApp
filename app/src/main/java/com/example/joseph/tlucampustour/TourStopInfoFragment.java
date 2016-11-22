@@ -1,6 +1,7 @@
 package com.example.joseph.tlucampustour;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -8,11 +9,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by Joseph on 10/7/2016.
@@ -26,6 +30,11 @@ public class TourStopInfoFragment extends Fragment {
     private int[] imgIDs;
     private int audioID;
     private ImageButton playPauseButton;
+    private ImageView imgView;
+    private ImageButton nextImg;
+    private ImageButton prevImg;
+    private int currImgNum;
+    private TextView imgNum;
     private SeekBar volumeControl;
     private AudioManager myAudioManager;
     private AudioPlayer myAudioPlayer;
@@ -59,20 +68,21 @@ public class TourStopInfoFragment extends Fragment {
         nameTV.setText(currName);
         TextView infoTV = (TextView) myView.findViewById(R.id.tourStopInfo);
         infoTV.setText(infoTextID);
-        LinearLayout tourStopImgLayout = (LinearLayout) myView.findViewById(R.id.img_layout);
+
+        // Initialize Img components
+        imgView = (ImageView) myView.findViewById(R.id.tourStopImg);
+        imgView.setImageResource(imgIDs[0]);
+        ChangeImageListener myImgControl = new ChangeImageListener();
+        nextImg = (ImageButton) myView.findViewById(R.id.nextImg);
+        prevImg = (ImageButton) myView.findViewById(R.id.prevImg);
+        nextImg.setOnClickListener(myImgControl);
+        prevImg.setOnClickListener(myImgControl);
+        imgNum = (TextView) myView.findViewById(R.id.imgNum);
+        currImgNum = 0;
+        imgNum.setText("  " + (currImgNum+1) + " / " + imgIDs.length + "  ");
 
         // NEED TO LOOP THROUGH IMAGES HERE FOR IMAGE GALLERY ***********************************
-        for (int i = 0; i < imgIDs.length; i++)
-        {
-            ImageView imgView = new ImageView(getActivity());
-            imgView.setId(i);
-            imgView.setImageResource(imgIDs[i]);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(5,0,5,0);
-            imgView.setLayoutParams(params);
-            imgView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            tourStopImgLayout.addView(imgView);
-        }
+
 
         // Initialize audio controls
         playPauseButton = (ImageButton) myView.findViewById(R.id.playPauseButton);
@@ -158,6 +168,38 @@ public class TourStopInfoFragment extends Fragment {
         playPauseButton.setImageResource(R.drawable.ic_play_arrow_black_48dp);
         myAudioPlayer.stop();
         isAudioPlaying = false;
+    }
+
+    // Used by prev and next img buttons to change displayed image
+    private class ChangeImageListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view)
+        {
+            if (view.getId() == nextImg.getId())
+            {
+                if (currImgNum < imgIDs.length - 1)
+                {
+                    currImgNum++;
+                }
+                else
+                {
+                    currImgNum = 0;
+                }
+            }
+            else
+            {
+                if (currImgNum > 0)
+                {
+                    currImgNum--;
+                }
+                else
+                {
+                    currImgNum = imgIDs.length - 1;
+                }
+            }
+            imgView.setImageResource(imgIDs[currImgNum]);
+            imgNum.setText("  " + (currImgNum+1) + " / " + imgIDs.length + "  ");
+        }
     }
 
     private class PlayPauseAudioListener implements View.OnClickListener {

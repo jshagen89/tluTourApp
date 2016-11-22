@@ -18,31 +18,53 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:padding="3dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/imageFrame"
         android:background="@color/colorPrimaryDark" >
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/img_scroll"
-            android:layout_gravity="center"
-            android:src="@drawable/tlu_campus_banner">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/img_layout"
-                android:orientation="horizontal"
-                android:background="@android:color/black">
-            </LinearLayout>
-        </HorizontalScrollView>
+            android:id="@+id/tourStopImg"
+            android:adjustViewBounds="true"
+            android:src="@drawable/tlu_campus_banner"/>
     </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgControls"
+        android:orientation="horizontal"
+        android:layout_below="@+id/imageFrame"
+        android:layout_centerHorizontal="true">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/imgNum"
+            android:id="@+id/prevImg"
+            android:src="@drawable/arrow_left_small_white"
+            android:background="@android:color/transparent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgNum"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:layout_centerHorizontal="true"
+            android:text="  1/4  "/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/imgNum"
+            android:id="@+id/nextImg"
+            android:src="@drawable/arrow_right_small_white"
+            android:background="@android:color/transparent"/>
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageFrame"
+        android:layout_below="@+id/imgControls"
         android:id="@+id/nameFrame"
         android:layout_marginBottom="10dp" >
 

@@ -147,7 +147,7 @@ abstract class Constants {
     static final int AUDIO_COL_POSITION = 3;
     static final int NUM_TOUR_STOPS = 20;
     static final int NUM_BUILDINGS = 15;
-    static final int MAX_NUM_IMAGES = 6;
+    static final int MAX_NUM_IMAGES = 4;
 
     static final int IMG_COL_POSITION = 1;
 
