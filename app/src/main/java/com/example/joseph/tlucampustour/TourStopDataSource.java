@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -54,7 +53,7 @@ public class TourStopDataSource {
         double Elon;
         double radius;
         int infoID;
-        int[] imgIDs;
+        ArrayList<Integer> imgIDs = new ArrayList<>(MAX_NUM_IMAGES);
         int audioID;
         int isBuild;
         int buildingID;
@@ -74,7 +73,6 @@ public class TourStopDataSource {
                 isBuild = myCursor.getInt(IS_BUILDING_COL_POSITION);
 
                 // have to initialize these to 0 for compiler
-                imgIDs = new int[MAX_NUM_IMAGES];
                 infoID = 0;
                 audioID = 0;
 
@@ -111,14 +109,18 @@ public class TourStopDataSource {
                 Cursor imagesCursor = db.query(TABLE_IMAGES, IMAGES_COLUMNS, imgWhereClause, imgValues, null, null, null);
                 if (imagesCursor.getCount() > 0)
                 {
-                    for (int i = 0; imagesCursor.moveToNext(); i++)
+                    for (; imagesCursor.moveToNext(); )
                     {
-                        imgIDs[i] = imagesCursor.getInt(IMG_COL_POSITION);
+                        imgIDs.add(imagesCursor.getInt(IMG_COL_POSITION));
                     }
                 }
-
-                TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,radius,infoID,imgIDs,audioID, isBuild);
+                imgIDs.trimToSize();
+                int[] imgArr = new int[imgIDs.size()];
+                for (int i = 0; i < imgArr.length; i++)
+                    imgArr[i] = imgIDs.get(i);
+                TourStop newStop = new TourStop(name,Clat,Clon,Elat,Elon,radius,infoID,imgArr,audioID, isBuild);
                 allStops.add(newStop);
+                imgIDs.clear();
             }
             myCursor.close();
         }

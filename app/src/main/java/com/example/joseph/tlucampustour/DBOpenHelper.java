@@ -107,9 +107,9 @@ class DBOpenHelper extends SQLiteOpenHelper
         ContentValues imagesVales = new ContentValues();
         for (int i = 0; i < TOUR_STOP_IMAGE_IDS.length; i++)
         {
-            imagesVales.put(COLUMN_TOUR_STOP_ID, i + 1);
             for (int j = 0; j < TOUR_STOP_IMAGE_IDS[i].length; j++)
             {
+                imagesVales.put(COLUMN_TOUR_STOP_ID, i + 1);
                 imagesVales.put(COLUMN_IMAGE, TOUR_STOP_IMAGE_IDS[i][j]);
                 db.insert(TABLE_IMAGES, null, imagesVales);
             }

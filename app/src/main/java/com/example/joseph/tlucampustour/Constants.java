@@ -24,10 +24,10 @@ abstract class Constants {
             -97.98161, -97.98145, -97.98203};
     static final int[] TOUR_STOP_RADII = {20, 45, 30, 40, 55, 30, 60, 30, 40, 45, 50, 50, 60, 65, 35, 40, 40, 50, 30, 20};
     static final int[][] TOUR_STOP_IMAGE_IDS = {
-            {R.drawable.martin_luther_statue,R.drawable.martin_luther_statue,R.drawable.martin_luther_statue,R.drawable.martin_luther_statue},
-            {R.drawable.att_science},
-            {R.drawable.emma_frey},
-            {R.drawable.tschoepe},
+            {R.drawable.martin_luther_statue1,R.drawable.martin_luther_statue2,R.drawable.martin_luther_statue3,R.drawable.martin_luther_statue4},
+            {R.drawable.att_science1,R.drawable.att_science2,R.drawable.att_science3,R.drawable.att_science4},
+            {R.drawable.emma_frey1,R.drawable.emma_frey2,R.drawable.emma_frey3,R.drawable.emma_frey4},
+            {R.drawable.tschoepe1,R.drawable.tschoepe2,R.drawable.tschoepe3,R.drawable.tschoepe4},
             {R.drawable.baldus_clifton_trinity_housing},
             {R.drawable.krost_health_sciences},
             {R.drawable.weston_ranch},
@@ -39,9 +39,10 @@ abstract class Constants {
             {R.drawable.sports_complex_athletic_training},
             {R.drawable.fitness_center},
             {R.drawable.graduation_walk},
-            {R.drawable.asc, R.drawable.blumberg_library},
+            {R.drawable.asc},
+            {R.drawable.blumberg_library},
             {R.drawable.schuech_fine_arts},
-            {R.drawable.langner_hall},
+            {R.drawable.langner1,R.drawable.langner2,R.drawable.langner3,R.drawable.langner4},
             {R.drawable.alumni_plaza}
         };
     static final int[] TOUR_STOP_IS_BUILDING = {0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0};
